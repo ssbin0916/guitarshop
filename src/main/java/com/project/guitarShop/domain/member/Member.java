@@ -1,15 +1,18 @@
 package com.project.guitarShop.domain.member;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
+@RequiredArgsConstructor
 public class Member {
 
     private Long id;
 
     @NotEmpty
-    private String memberId;
+    private String loginId;
     @NotEmpty
     private String password;
     @NotEmpty
@@ -19,6 +22,7 @@ public class Member {
     @NotEmpty
     private String gender;
     @NotEmpty
+    @Email
     private String email;
     @NotEmpty
     private String phone;
