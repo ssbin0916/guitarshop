@@ -1,0 +1,40 @@
+/*brand css here*/
+.brand_area {
+	padding: 70px 0;
+    @media #{$large-mobile}{
+        padding: 60px 0;
+    }
+}
+.brand_container{
+    padding: 25px 0 23px;
+    border: 1px solid #efefef;
+    border-radius: 7px;
+    & .single_brand{
+        & img{
+            width: inherit;
+            margin: 0 auto;
+        }
+    }
+}
+
+.single_brand{
+    & a{
+        & img{
+            opacity: 0.5;
+            transition: .3s;
+        }
+    }
+    &:hover{
+        & a{
+            & img{
+                opacity: 1;
+            }
+        }
+    }
+}
+
+
+
+
+
+

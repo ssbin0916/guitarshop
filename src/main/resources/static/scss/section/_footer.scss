@@ -1,0 +1,250 @@
+/*  07. footer area css here */
+.footer_top{
+    padding-bottom: 64px;
+    @media #{$tablet-device}{
+        padding-bottom: 31px;
+    }
+    @media #{$large-mobile}{
+        padding-bottom: 8px;
+    }
+}
+.widgets_container{
+    @media #{$tablet-device}{
+        margin-bottom: 31px;
+    }
+    @media #{$large-mobile}{
+        margin-bottom: 50px;
+    }
+    @media #{$small-mobile2}{
+        text-align: center;
+    }
+    &.widget_menu{
+        @media #{$large-mobile}{
+            margin-bottom: 48px;
+        }
+    }
+    & h3{
+        font-size: 17px;
+        line-height: 18px;
+        margin-bottom: 20px;
+        text-transform: capitalize;
+        font-weight: 500;
+        @media #{$tablet-device}{
+            margin-bottom: 16px;
+        }
+        @media #{$large-mobile}{
+            margin-bottom: 10px;
+        }
+    }
+    &.contact_us{
+        & > p{
+            font-size: 14px;
+            line-height:22px;
+            margin-bottom: 6px;
+            &:last-child{
+                margin-bottom: 0;
+            }
+            &.footer_desc{
+                margin-bottom: 22px;
+                @media #{$tablet-device}{
+                   margin-bottom: 16px;
+                }
+                @media #{$large-mobile}{
+                   margin-bottom: 10px;
+                }
+            }
+            @media #{$large-mobile}{
+               font-size: 13px;
+            }
+            & span{
+                font-weight: 600;
+            }
+            & a{
+                &:hover{
+                    color: $secondary_color;
+                }
+            }
+        } 
+    }
+  
+}
+.footer_logo{
+    margin-bottom: 24px;
+    @media #{$tablet-device}{
+        margin-bottom: 18px;
+    }
+    @media #{$large-mobile}{
+       margin-bottom: 18px;
+    }
+}
+
+
+
+.footer_menu{
+    & ul{
+        & li{
+            & a{
+                display: block;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 30px;
+                &:hover{
+                    color: $secondary_color;
+                }
+                @media #{$tablet-device}{
+                    line-height: 26px;
+                }
+                @media #{$large-mobile}{
+                    line-height: 25px;
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+}
+.widget_newsletter{
+    & p{
+        font-size: 14px;
+        line-height: 22px;
+        padding-right: 100px;
+        margin-bottom: 22px;
+        @media #{$tablet-device}{
+            padding-right: 48px;
+        }
+        @media #{$large-mobile}{
+            padding-right: 0;
+            margin-bottom: 18px;
+        }
+    }
+}
+.copyright_area{
+    @media #{$large-mobile}{
+       text-align: center;
+        margin-bottom: 17px;
+    }
+    & p{
+        text-transform: capitalize;
+        line-height: 25px;
+        font-size:14px;
+        color: #fff;
+        @media #{$large-mobile}{
+            letter-spacing: 0;
+            font-size: 13px;
+            line-height: 20px;
+        }
+        & a{
+            &:hover{
+                color: $fonts_color;
+            }
+        }
+    }
+}
+
+.footer_payment{
+    text-align: right;
+    @media #{$large-mobile}{
+        text-align: center;
+    }
+    & ul{
+        & li{
+            display: inline-block;
+            margin-right: 6px;
+            &:last-child{
+                margin-right: 0;
+            }
+            & a{
+                & img{
+                    border-radius: 3px;
+                }
+            }
+        }
+    }
+}
+
+.footer_bottom{
+    padding: 29px 0;
+    background: $secondary_color;
+    @media #{$large-mobile}{
+       padding: 24px 0 25px;
+    }
+}
+
+
+/*home two css here*/
+.color_two{
+    & .widgets_container.contact_us > p a:hover{
+        color: $secondary_color2;
+    }
+    & .footer_menu ul li a:hover{
+        color: $secondary_color2;
+    }
+    & .subscribe_form form button{
+        background: $secondary_color2;
+        &:hover{
+            background: $fonts_color;
+        }
+    }
+    & .footer_bottom{
+        background: $secondary_color2;
+    }
+}
+
+
+/*home three css here*/
+.color_three{
+    & .widgets_container.contact_us > p a:hover{
+        color: $secondary_color3;
+    }
+    & .footer_menu ul li a:hover{
+        color: $secondary_color3;
+    }
+    & .subscribe_form form button{
+        background: $secondary_color3;
+        &:hover{
+            background: $fonts_color;
+        }
+    }
+    & .footer_bottom{
+        background: $secondary_color3;
+    }
+}
+
+
+
+/*home four css here*/
+.color_four{
+    & .widgets_container.contact_us > p a:hover{
+        color: $secondary_color4;
+    }
+    & .footer_menu ul li a:hover{
+        color: $secondary_color4;
+    }
+    & .subscribe_form form button{
+        background: $secondary_color4;
+        &:hover{
+            background: $fonts_color;
+        }
+    }
+    & .footer_bottom{
+        background: $secondary_color4;
+    }
+}
+
+
+.footer_border{
+    & .footer_top{
+        border-top: 1px solid $grey_color;
+        padding-top: 70px;
+        @media #{$large-mobile}{
+           padding-top: 60px;
+        }
+    }
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,232 @@
+/* 05. blog area css here */
+.blog_section {
+	background: #f4f4f4;
+    padding: 63px 0 70px;
+    margin-bottom: 65px;
+    @media #{$large-mobile}{
+        padding: 53px 0 60px;
+        margin-bottom: 54px;
+    }
+}
+.blog_carousel{
+    &:hover{
+        & .owl-nav{
+            & div{
+                opacity: 1;
+                visibility: visible;
+                left: -30px;
+                @media #{$mini-laptop-device}{
+                   left: -10px;
+                }
+                @media #{$desktop-device}{
+                   left: 0;
+                }
+                 @media #{$tablet-device}{
+                   left: 0;
+                }
+                 @media #{$large-mobile}{
+                   left: 0;
+                }
+                &.owl-next{
+                    right: -30px;
+                    @media #{$mini-laptop-device}{
+                       right: -10px;
+                    }
+                    @media #{$desktop-device}{
+                       right: 0;
+                    }
+                     @media #{$tablet-device}{
+                       right: 0;
+                    }
+                     @media #{$large-mobile}{
+                      right: 0;
+                    }
+                }
+            }
+        }
+    }
+    & .owl-nav{
+        &.disabled{
+            display: block;
+        }
+        & div{
+            position: absolute;
+            top: 50%;
+            transform: translatey(-50%);
+            font-size: 36px;
+            left: 0;
+            transition: .3s;
+            opacity:0;
+            visibility: hidden;
+            &:hover{
+                color: $secondary_color;
+            }
+            &.owl-next{
+                right: 0;
+                left: auto;
+            }
+        }
+    }
+    
+    & .col-lg-3{
+        flex: 0 0 100%;
+        width: 100%;
+    }
+}
+
+.blog_content {
+	padding: 23px 20px 20px;
+    background:#fff;
+    & h4{
+        font-size: 17px;
+        text-transform: capitalize;
+        line-height: 18px;
+        margin-bottom: 5px;
+        font-weight: 500;
+        @media #{$desktop-device}{
+            font-size: 16px;
+        }
+        @media #{$tablet-device}{
+            font-size: 16px;
+            line-height: 23px;
+        }
+        @media #{$large-mobile}{
+           font-size: 15px;
+        }
+        & a{
+            &:hover{
+                color: $secondary_color;
+            }
+        }
+    }
+}
+.articles_date {
+    margin-bottom: 9px;
+    & p{
+        font-size: 14px;
+        line-height: 15px;
+        & a{
+            &:hover{
+                color: $secondary_color;
+            }
+        }
+    }
+}
+
+.blog_footer{
+    margin-top: 17px;
+    & > a{
+       font-size: 14px;
+        line-height: 24px;
+        display:inline-block;
+        text-transform: uppercase;
+        position: relative;
+        &:hover{
+            color: $secondary_color;
+        }
+        &::before{
+            position: absolute;
+            font-family: "Ionicons";
+            content: "\f362";
+            color: $secondary_color;
+            right: -23px;
+            font-size: 18px;
+            z-index: 9;
+            top: 0px;
+        }
+    }
+}
+
+
+/*home two css here*/
+.blog_section2{
+    background: inherit;
+    padding: 0;
+    & .blog_content{
+        padding: 23px 20px 0 0;
+    }
+}
+
+
+.color_two{
+    & .articles_date{
+        & p{
+            & a{
+                &:hover{
+                    color: $secondary_color2;
+                }
+            }
+        }
+    }
+    & .blog_content h4 a:hover{
+        color: $secondary_color2;
+    }
+    & .blog_footer{
+        & a{
+            &:hover{
+                 color: $secondary_color2;
+            }
+            &::before{
+                color: $secondary_color2;
+            }
+        }
+    }
+    & .owl-nav div:hover{
+        color: $secondary_color2;
+    }
+}
+
+
+
+
+/*home three css here*/
+.blog_s_three{
+    background: inherit;
+    padding: 0;
+    & .blog_content{
+        padding: 23px 20px 0 0;
+    }
+}
+
+
+.color_three{
+    & .articles_date{
+        & p{
+            & a{
+                &:hover{
+                    color: $secondary_color3;
+                }
+            }
+        }
+    }
+    & .blog_content h4 a:hover{
+        color: $secondary_color3;
+    }
+    & .blog_footer{
+        & a{
+            &:hover{
+                 color: $secondary_color3;
+            }
+            &::before{
+                color: $secondary_color3;
+            }
+        }
+    }
+    & .owl-nav div:hover{
+        color: $secondary_color3;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

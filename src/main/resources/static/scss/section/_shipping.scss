@@ -1,0 +1,95 @@
+/* 21. shipping css here */
+.shipping_area {
+	padding: 68px 0 60px;
+    @media #{$tablet-device}{
+       padding: 68px 0 37px;
+    }
+    @media #{$large-mobile}{
+        padding: 58px 0 24px;
+    }
+}
+
+.single_shipping{
+    display: flex;
+    @media #{$tablet-device}{
+       margin-bottom: 22px;
+    }
+    @media #{$large-mobile}{
+       margin-bottom: 25px;
+    }
+}
+.shipping_icone{
+    margin-right: 11px;
+    @media #{$desktop-device}{
+       margin-right: 9px;
+    }
+     @media #{$tablet-device}{
+       margin-right: 10px;
+    }
+    @media #{$large-mobile}{
+       margin-right: 8px;
+    }
+    & img{
+        max-width: 40px;
+        @media #{$desktop-device}{
+           max-width: 33px;
+        }
+        @media #{$large-mobile}{
+           max-width: 35px;
+        }
+    }
+}
+.shipping_content{
+    & h3{
+        font-size: 16px;
+        line-height: 16px;
+        text-transform: uppercase;
+        font-weight: 400;
+        margin-bottom: 11px;
+        @media #{$desktop-device}{
+            font-size: 14px;
+            margin-bottom: 9px;
+        }
+        @media #{$tablet-device}{
+            font-size: 15px;
+            line-height: 16px;
+            margin-bottom: 7px;
+        }
+        @media #{$large-mobile}{
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+    }
+    & p{
+        font-size: 13px;
+        line-height: 19px;
+        @media #{$desktop-device}{
+           font-size: 13px;
+        }
+        @media #{$large-mobile}{
+           font-size: 13px;
+        }
+    }
+}
+
+/*home two css here*/
+.shipping_two{
+    padding: 31px 0 90px;
+    @media #{$tablet-device}{
+       padding: 13px 0 71px;
+    }
+    @media #{$large-mobile}{
+       padding: 22px 0 55px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
