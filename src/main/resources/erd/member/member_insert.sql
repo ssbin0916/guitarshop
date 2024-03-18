@@ -1,0 +1,2 @@
+INSERT INTO member (id, login_id, password, name, age, phone, email, birth_date, address, gender, role)
+VALUES (member_id_SEQ.NEXTVAL, 'testId', 'testPass', 'testName', 11, '111-1111-1111', 'testEmail', TO_DATE('1111-11-11', 'YYYY-MM-DD'), 'testAddress', 'male', 'MEMBER');
