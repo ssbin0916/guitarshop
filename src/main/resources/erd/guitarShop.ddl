@@ -14,6 +14,7 @@ CREATE TABLE member (
     email VARCHAR2(255) NOT NULL,
     birth_date VARCHAR2(255) NOT NULL,
     gender VARCHAR2(100) NOT NULL,
+    address VARCHAR2(255) NOT NYLL,
     role VARCHAR2(100) NOT NULL
 );
 
