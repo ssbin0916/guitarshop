@@ -1,6 +1,6 @@
 package com.project.guitarShop.domain.member;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,10 +8,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class MemberService {
 
     private final MemberMapper memberMapper;
+
+    @Autowired
+    public MemberService(MemberMapper memberMapper) throws Exception {
+        this.memberMapper = memberMapper;
+    }
 
     @Transactional(readOnly = true)
     public List<Member> findAll() {
@@ -35,6 +39,6 @@ public class MemberService {
 
     @Transactional
     public void delete(Long id) {
-        memberMapper.deleteById(id);
+        memberMapper.delete(id);
     }
 }
