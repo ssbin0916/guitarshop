@@ -14,20 +14,20 @@ public interface MemberMapper {
     @Select("SELECT * FROM member WHERE id = #{id}")
     Member findById(Long id);
 
-    @Select("SELECT * FROM member WHERE member_id = #{memberId}")
+    @Select("SELECT * FROM member WHERE login_id = #{loginId}")
     Optional<Member> findByMemberId(String memberId);
 
-    @Insert("INSERT INTO member(member_id, password, name, age, gender, email, phone, address, role) " +
-            "VALUES(#{memberId}, #{password}, #{name}, #{age}, #{gender}, #{email}, #{phone}, #{address}, #{role})")
+    @Insert("INSERT INTO member (id, login_id, password, name, age, phone, email, birth_date, address, gender, role) " +
+            "VALUES (member_id_SEQ.NEXTVAL, #{loginId}, #{password}, #{name}, #{age}, #{phone}, #{email}, #{birthDate}, #{address}, #{gender}, #{role})")
     void save(Member member);
 
-    @Update("UPDATE member SET member_id = #{memberId}, password = #{password}, name = #{name}, " +
-            "age = #{age}, gender = #{gender}, email = #{email}, phone = #{phone}, " +
-            "address = #{address}, role = #{role} WHERE id = #{id}")
+    @Update("UPDATE member SET login_id = #{loginId}, password = #{password}, name = #{name}, " +
+            "age = #{age}, phone = #{phone}, email = #{email}, birth_date = #{birthDate}, " +
+            "address = #{address}, gender = #{gender}, role = #{role} WHERE id = #{id}")
     void update(Member member);
 
     @Delete("DELETE FROM member WHERE id = #{id}")
-    default void deleteById(Long id) {
+    default void delete(Long id) {
 
     }
 }
