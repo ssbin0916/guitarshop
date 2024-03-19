@@ -24,6 +24,10 @@
     </environments>
     <mappers>
         <mapper class="com.project.guitarShop.domain.member.MemberMapper"/>
+        <mapper class="com.project.guitarShop.domain.product.ProductMapper"/>
+        <mapper class="com.project.guitarShop.domain.orders.OrderMapper"/>
+        <mapper class="com.project.guitarShop.domain.orderItems.OrderItemMapper"/>
+        <mapper class="com.project.guitarShop.domain.cart.CartMapper"/>
     </mappers>
 </configuration>
 
