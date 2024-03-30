@@ -1,4 +1,4 @@
-package com.project.guitarShop.domain.orderItems;
+package com.project.guitarShop.domain.orderItem;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

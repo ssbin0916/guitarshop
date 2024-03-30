@@ -1,4 +1,4 @@
-package com.project.guitarShop.domain.orderItems;
+package com.project.guitarShop.domain.orderItem;
 
 import org.apache.ibatis.annotations.*;
 

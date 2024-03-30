@@ -1,6 +1,6 @@
 package com.project.guitarShop.web.orders;
 
-import com.project.guitarShop.domain.orderItems.OrderItem;
+import com.project.guitarShop.domain.orderItem.OrderItem;
 import com.project.guitarShop.domain.orders.Order;
 import com.project.guitarShop.domain.orders.OrderService;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.project.guitarShop.domain.orders;
 
-import com.project.guitarShop.domain.orderItems.OrderItem;
+import com.project.guitarShop.domain.orderItem.OrderItem;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

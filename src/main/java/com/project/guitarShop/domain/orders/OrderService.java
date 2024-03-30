@@ -1,7 +1,7 @@
 package com.project.guitarShop.domain.orders;
 
-import com.project.guitarShop.domain.orderItems.OrderItem;
-import com.project.guitarShop.domain.orderItems.OrderItemMapper;
+import com.project.guitarShop.domain.orderItem.OrderItem;
+import com.project.guitarShop.domain.orderItem.OrderItemMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
