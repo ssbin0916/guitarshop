@@ -22,6 +22,11 @@ public class ProductService {
         return productMapper.findById(id);
     }
 
+    @Transactional(readOnly = true)
+    public Product findByName(String name) {
+        return productMapper.findByName(name);
+    }
+
     @Transactional
     public void save(Product product) {
         productMapper.save(product);

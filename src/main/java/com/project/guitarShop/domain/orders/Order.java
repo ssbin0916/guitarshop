@@ -1,6 +1,7 @@
 package com.project.guitarShop.domain.orders;
 
-import com.project.guitarShop.domain.orderItem.OrderItem;
+import com.project.guitarShop.domain.orderItems.OrderItem;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -18,8 +19,17 @@ public class Order {
 
     @NotNull
     private Long memberId;
+    @NotNull
     @Min(value = 0)
-    private Integer totalPrice;
+    private Integer price;
+    @NotNull
+    private String name;
+    @NotNull
+    private String phone;
+    @NotNull
+    @Email
+    private String email;
+    private String image;
     @NotNull
     private String address;
 

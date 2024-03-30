@@ -7,11 +7,14 @@ import java.util.List;
 @Mapper
 public interface CartMapper {
 
+    @Select("SELECT * FROM cart WHERE id = #{id}")
+    Cart findById(Long id);
+
     @Select("SELECT * FROM cart WHERE memberId = #{memberId}")
     List<Cart> findByMemberId(Long MemberId);
 
     @Insert("INSERT INTO cart(memberId, productId, quantity) VALUES(#{memberId}, #{productId}, #{quantity})")
-    void save(Cart cart);
+    void insert(Cart cart);
 
     @Update("UPDATE cart SET quantity = #{quantity} WHERE id = #{id}")
     void updateQuantity(Cart cart);

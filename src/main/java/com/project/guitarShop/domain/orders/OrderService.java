@@ -1,7 +1,7 @@
 package com.project.guitarShop.domain.orders;
 
-import com.project.guitarShop.domain.orderItem.OrderItem;
-import com.project.guitarShop.domain.orderItem.OrderItemMapper;
+import com.project.guitarShop.domain.orderItems.OrderItem;
+import com.project.guitarShop.domain.orderItems.OrderItemMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,7 @@ public class OrderService {
 
     @Transactional
     public Order saveOrderWithItems(Order order, List<OrderItem> orderItems) {
-        orderMapper.save(order);
+        orderMapper.insert(order);
         orderItems.forEach(item -> {
             item.setOrderId(order.getId());
             orderItemMapper.save(item);
@@ -40,7 +40,7 @@ public class OrderService {
 
     @Transactional
     public Order save(Order order) {
-        orderMapper.save(order);
+        orderMapper.insert(order);
         return order;
     }
 

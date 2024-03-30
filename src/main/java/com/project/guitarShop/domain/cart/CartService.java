@@ -13,13 +13,18 @@ public class CartService {
     private final CartMapper cartMapper;
 
     @Transactional(readOnly = true)
+    public Cart findById(Long id) {
+        return cartMapper.findById(id);
+    }
+
+    @Transactional(readOnly = true)
     public List<Cart> findByMemberId(Long memberId) {
         return cartMapper.findByMemberId(memberId);
     }
 
     @Transactional
     public void save(Cart cart) {
-        cartMapper.save(cart);
+        cartMapper.insert(cart);
     }
 
     @Transactional

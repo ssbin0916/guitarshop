@@ -27,9 +27,16 @@ public class MemberService {
         return Optional.ofNullable(memberMapper.findById(id));
     }
 
+    @Transactional(readOnly = true)
+    public Optional<Member> findByLoginId(String loginId) {
+        return findAll().stream()
+                .filter(m -> m.getLoginId().equals(loginId))
+                .findFirst();
+    }
+
     @Transactional
     public void save(Member member) {
-        memberMapper.save(member);
+        memberMapper.insert(member);
     }
 
     @Transactional

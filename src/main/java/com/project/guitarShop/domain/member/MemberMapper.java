@@ -15,11 +15,11 @@ public interface MemberMapper {
     Member findById(Long id);
 
     @Select("SELECT * FROM member WHERE login_id = #{loginId}")
-    Optional<Member> findByMemberId(String memberId);
+    Optional<Member> findByLoginId(String loginId);
 
     @Insert("INSERT INTO member (id, login_id, password, name, age, phone, email, birth_date, address, gender, role) " +
             "VALUES (member_id_SEQ.NEXTVAL, #{loginId}, #{password}, #{name}, #{age}, #{phone}, #{email}, #{birthDate}, #{address}, #{gender}, #{role})")
-    void save(Member member);
+    void insert(Member member);
 
     @Update("UPDATE member SET login_id = #{loginId}, password = #{password}, name = #{name}, " +
             "age = #{age}, phone = #{phone}, email = #{email}, birth_date = #{birthDate}, " +

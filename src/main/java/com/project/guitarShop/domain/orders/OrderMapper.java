@@ -13,12 +13,11 @@ public interface OrderMapper {
     @Select("SELECT * FROM orders WHERE memberId = #{memberId}")
     List<Order> findByMemberId(Long memberId);
 
-    @Insert("INSERT INTO orders(memberId, totalPrice, address, orderDate) " +
-            "VALUES(#{memberId}, #{totalPrice}, #{address}, #{orderDate})")
-    @Options(useGeneratedKeys = true, keyProperty = "id")
-    void save(Order order);
+    @Insert("INSERT INTO orders(id, memberId, price, name, phone, email, email, address, orderDate) " +
+            "VALUES(orders_id_SEQ.NEXTVAL, #{memberId}, #{price}, #{name}, #{phone}, #{email}, #{address}, #{orderDate})")
+    void insert(Order order);
 
-    @Update("UPDATE orders SET totalPrice = #{totalPrice}, address = #{address}, orderDate = #{orderDate} " +
+    @Update("UPDATE orders SET price = #{price}, address = #{address}, orderDate = #{orderDate} " +
             "WHERE id = #{id}")
     void update(Order order);
 

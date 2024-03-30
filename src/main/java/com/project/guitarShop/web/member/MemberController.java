@@ -29,7 +29,7 @@ public class MemberController {
             return "members/saveMemberForm";
         }
 
-        memberMapper.save(member);
+        memberMapper.insert(member);
         return "redirect:/";
     }
 }

@@ -13,9 +13,11 @@ public interface ProductMapper {
     @Select("SELECT * FROM product WHERE id = #{id}")
     Product findById(Long id);
 
-    @Insert("INSERT INTO product(name, price, image, count, category) " +
-            "VALUES(#{name}, #{price}, #{image}, #{count}, #{category})")
-    @Options(useGeneratedKeys = true, keyProperty = "id")
+    @Select("SELECT * FROM product WHERE name = #{name}")
+    Product findByName(String name);
+
+    @Insert("INSERT INTO product(id, name, price, image, count, category) " +
+            "VALUES(product_id_SEQ.NEXTVAL, #{name}, #{price}, #{image}, #{count}, #{category})")
     void save(Product product);
 
     @Update("UPDATE product SET name = #{name}, price = #{price}, image = #{image}, " +

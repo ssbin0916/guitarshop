@@ -13,8 +13,8 @@ public class LoginService {
     private final MemberMapper memberMapper;
 
     @Transactional(readOnly = true)
-    public Member login(String memberId, String password) {
-        return memberMapper.findByMemberId(memberId)
+    public Member login(String loginId, String password) {
+        return memberMapper.findByLoginId(loginId)
                 .filter(m -> m.getPassword().equals(password))
                 .orElse(null);
     }

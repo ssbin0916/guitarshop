@@ -2,12 +2,8 @@ package com.project.guitarShop.domain.member;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Optional;
 
 import static com.project.guitarShop.domain.member.Role.MEMBER;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 class MemberServiceTest {
@@ -34,6 +30,7 @@ class MemberServiceTest {
         memberService.findById(id);
 
         //then
+        verify(memberMapper, times(1)).findById(id);
     }
 
     @Test
@@ -56,5 +53,14 @@ class MemberServiceTest {
 
     @Test
     void delete() {
+        Member member = new Member(1L, "username", "password", "Name", 30, "Male", "email@example.com", "1990-01-01", "9876543210", "Address", MEMBER);
+
+        Long id = 1L;
+
+        memberService.delete(id);
+
+        verify(memberMapper, times(1)).delete(id);
+
+
     }
 }
