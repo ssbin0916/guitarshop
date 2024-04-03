@@ -1,4 +1,4 @@
-package com.project.guitarShop.web;
+package com.project.guitarShop;
 
 public class SessionConst {
 

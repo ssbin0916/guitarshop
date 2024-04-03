@@ -1,7 +1,8 @@
-package com.project.guitarShop.web;
+package com.project.guitarShop.controller;
 
+import com.project.guitarShop.SessionConst;
 import com.project.guitarShop.domain.member.Member;
-import com.project.guitarShop.domain.member.MemberMapper;
+import com.project.guitarShop.repository.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +19,7 @@ public class HomeController {
     public String homeLogin(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
 
         if (loginMember == null) {
-            return "home";
+            return "index";
         }
 
         model.addAttribute("member", loginMember);

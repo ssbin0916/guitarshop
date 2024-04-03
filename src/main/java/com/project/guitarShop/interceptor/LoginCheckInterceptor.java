@@ -1,6 +1,6 @@
-package com.project.guitarShop.web.interceptor;
+package com.project.guitarShop.interceptor;
 
-import com.project.guitarShop.web.SessionConst;
+import com.project.guitarShop.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
