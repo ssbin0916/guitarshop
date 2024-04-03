@@ -1,5 +1,6 @@
 package com.project.guitarShop.domain.member;
 
+import com.project.guitarShop.domain.Order;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -7,6 +8,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Range;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Builder
@@ -62,4 +66,10 @@ public class Member {
 
     @NotEmpty
     private Role role;
+
+    private List<Order> orders = new ArrayList<>();
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
 }

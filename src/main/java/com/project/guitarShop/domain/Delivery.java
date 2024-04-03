@@ -10,7 +10,11 @@ public class Delivery {
 
     private Order order;
 
-    private Member member;
+    private Member address;
 
+    private DeliveryStatus status;
 
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 }
