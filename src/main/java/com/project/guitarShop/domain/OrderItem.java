@@ -1,4 +1,4 @@
-package com.project.guitarShop.domain.cart;
+package com.project.guitarShop.domain;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -7,12 +7,12 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-public class Cart {
+public class OrderItem {
 
     private Long id;
 
     @NotNull
-    private Long memberId;
+    private Long orderId;
     @NotNull
     private Long productId;
     @NotNull

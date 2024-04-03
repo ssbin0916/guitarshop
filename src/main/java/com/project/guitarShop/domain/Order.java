@@ -1,18 +1,16 @@
-package com.project.guitarShop.domain.orders;
+package com.project.guitarShop.domain;
 
-import com.project.guitarShop.domain.orderItem.OrderItem;
+import com.project.guitarShop.domain.OrderItem;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@RequiredArgsConstructor
+@Getter
 public class Order {
 
     private Long id;

@@ -1,12 +1,11 @@
 package com.project.guitarShop.domain.product;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
-@Data
-@RequiredArgsConstructor
+@Getter
+@Builder
 public class Product {
 
     private Long id;
@@ -14,15 +13,18 @@ public class Product {
     @NotEmpty
     private String name;
 
-    @NotNull
+    @NotEmpty
     private Integer price;
 
+    @NotEmpty
     private String image;
 
-    @NotNull
+    @NotEmpty
     private String count;
 
-    @NotNull
+    @NotEmpty
     private Category category;
 
+    @NotEmpty
+    private Brand brand;
 }

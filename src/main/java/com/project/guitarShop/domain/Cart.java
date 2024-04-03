@@ -1,21 +1,24 @@
-package com.project.guitarShop.domain.orderItem;
+package com.project.guitarShop.domain;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@Data
-@RequiredArgsConstructor
-public class OrderItem {
+@Getter
+public class Cart {
 
     private Long id;
 
-    @NotNull
-    private Long orderId;
-    @NotNull
+    @NotBlank
+    private Long memberId;
+
+    @NotBlank
     private Long productId;
-    @NotNull
+
+    @NotBlank
     @Min(value = 1)
     private Integer quantity;
 }
