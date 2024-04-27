@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/./guitarshop
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+
+#spring:
+#  datasource:
+#    url: jdbc:h2:mem:test
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+#
+#    h2:                         #h2 메모리 모드로 쓸경우 추가
+#    console:
+#      enabled: true
