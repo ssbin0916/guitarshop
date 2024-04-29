@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.guitarShop.mapper.MemberMapper">
+
+    <resultMap id="memberResultMap" type="com.project.guitarShop.domain.member.Member">
+        <id property="id" column="id"/>
+        <result property="loginId" column="login_id"/>
+        <result property="password" column="password"/>
+        <result property="confirmPassword" column="confirm_password"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="address" column="address"/>
+        <result property="rrn" column="rrn"/>
+        <result property="gender" column="gender"/>
+        <result property="role" column="role"/>
+    </resultMap>
+
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO member (login_id, password, confirm_password, name, phone, email, address, rrn, gender, role)
+        VALUES (#{loginId}, #{password}, #{confirmPassword}, #{name}, #{phone}, #{email}, #{address}, #{rrn}, #{gender}, #{role})
+    </insert>
+
+    <update id="update">
+        UPDATE member
+        SET login_id = #{loginId}, password = #{password}, confirm_password = #{confirmPassword}, name = #{name}, phone = #{phone},
+        email = #{email}, address = #{address}, gender = #{gender}, role = #{role}}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM member WHERE id = #{id}
+    </delete>
+
+    <select id="findById">
+        SELECT * FROM member WHERE id = #{id}
+    </select>
+
+    <select id="findAll">
+        SELECT * FROM member
+    </select>
+
+    <select id="findByLoginId">
+        SELECT * FROM member WHERE login_id = #{loginId}
+    </select>
+
+    <select id="findByName">
+        SELECT * FROM member WHERE name = #{name}
+    </select>
+
+</mapper>
