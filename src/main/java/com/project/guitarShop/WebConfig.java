@@ -1,5 +1,8 @@
 package com.project.guitarShop;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,5 +31,13 @@ public class WebConfig implements WebMvcConfigurer {
                         .anyRequest().authenticated()
                 );
         return httpSecurity.build();
+    }
+
+    @PersistenceContext
+    private EntityManager em;
+
+    @Bean
+    public JPAQueryFactory queryFactory() {
+        return new JPAQueryFactory(em);
     }
 }
