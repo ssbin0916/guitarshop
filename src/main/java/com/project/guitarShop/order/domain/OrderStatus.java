@@ -1,4 +1,4 @@
-package com.project.guitarShop.domain;
+package com.project.guitarShop.order.domain;
 
 import lombok.Getter;
 

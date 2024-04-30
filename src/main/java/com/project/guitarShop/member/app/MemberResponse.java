@@ -1,6 +1,6 @@
 package com.project.guitarShop.member.app;
 
-import com.project.guitarShop.domain.address.Address;
+import com.project.guitarShop.address.domain.Address;
 import lombok.Builder;
 import lombok.Getter;
 

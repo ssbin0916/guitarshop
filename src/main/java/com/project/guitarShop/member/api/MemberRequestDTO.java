@@ -1,7 +1,7 @@
 package com.project.guitarShop.member.api;
 
-import com.project.guitarShop.domain.address.Address;
-import com.project.guitarShop.domain.order.Order;
+import com.project.guitarShop.address.domain.Address;
+import com.project.guitarShop.order.domain.Order;
 import lombok.Builder;
 
 import java.util.List;

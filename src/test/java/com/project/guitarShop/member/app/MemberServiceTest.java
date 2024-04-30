@@ -1,6 +1,6 @@
 package com.project.guitarShop.member.app;
 
-import com.project.guitarShop.domain.address.Address;
+import com.project.guitarShop.address.domain.Address;
 import com.project.guitarShop.exception.ExistMemberException;
 import com.project.guitarShop.exception.NotFoundMemberException;
 import com.project.guitarShop.exception.ValidatePasswordException;
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;

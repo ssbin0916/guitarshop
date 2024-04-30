@@ -1,7 +1,7 @@
 package com.project.guitarShop.member.domain;
 
-import com.project.guitarShop.domain.address.Address;
-import com.project.guitarShop.domain.order.Order;
+import com.project.guitarShop.address.domain.Address;
+import com.project.guitarShop.order.domain.Order;
 import com.project.guitarShop.member.app.MemberRequest;
 import jakarta.persistence.*;
 import lombok.*;
