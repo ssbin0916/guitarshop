@@ -6,7 +6,7 @@ public interface MemberService {
 
     MemberResponse updateInfo(Long id, MemberResponse memberResponse);
 
-    MemberResponse updatePassword(Long id, MemberResponse memberResponseㅈ);
+    MemberResponse updatePassword(Long id, MemberResponse memberResponse);
 
     MemberResponse login(String loginId, String password);
 
