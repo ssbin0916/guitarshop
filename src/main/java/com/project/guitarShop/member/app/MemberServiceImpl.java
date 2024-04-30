@@ -25,7 +25,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public MemberResponse join(MemberRequest memberRequest) {
 
-        validateMember(memberRequest);
+        validateExistLoginId(memberRequest);
         validateConfirmPassword(memberRequest.password(), memberRequest.confirmPassword());
 
         Member member = Member.toDomain(memberRequest);
@@ -109,7 +109,7 @@ public class MemberServiceImpl implements MemberService {
     private void validateExistLoginId(MemberRequest memberRequest) {
         List<MemberResponse> findMembers = memberRepository.findListByLoginId(memberRequest.loginId());
         if (!findMembers.isEmpty()) {
-            throw new ExistMemberException("이미 존재하는 아이디입니다.");
+            throw new ExistMemberException("이미 존재하는 아이정입니다.");
         }
     }
 
