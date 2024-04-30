@@ -51,7 +51,9 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findById(id).orElseThrow(NotFoundMemberException::new);
 
         if (memberResponse.getPhone() != null || memberResponse.getEmail() != null || memberResponse.getAddress() != null) {
-            member.updateInfo(memberResponse.getPhone(), memberResponse.getEmail(), memberResponse.getAddress());
+            memberResponse.getPhone();
+            memberResponse.getEmail();
+            memberResponse.getAddress();
         }
 
         memberRepository.save(member);
@@ -70,7 +72,8 @@ public class MemberServiceImpl implements MemberService {
 
         validateConfirmPassword(memberResponse.getPassword(), memberResponse.getConfirmPassword());
 
-        member.updatePassword(memberResponse.getPassword(), memberResponse.getConfirmPassword());
+        memberResponse.getPassword();
+        memberResponse.getConfirmPassword();
 
         memberRepository.save(member);
 
@@ -103,10 +106,10 @@ public class MemberServiceImpl implements MemberService {
         return null;
     }
 
-    private void validateMember(MemberRequest memberRequest) {
+    private void validateExistLoginId(MemberRequest memberRequest) {
         List<MemberResponse> findMembers = memberRepository.findListByLoginId(memberRequest.loginId());
         if (!findMembers.isEmpty()) {
-            throw new ExistMemberException("이미 존재하는 회원입니다.");
+            throw new ExistMemberException("이미 존재하는 아이디입니다.");
         }
     }
 
