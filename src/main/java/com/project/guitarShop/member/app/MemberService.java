@@ -4,9 +4,9 @@ public interface MemberService {
 
     MemberResponse join(MemberRequest memberRequest);
 
-    MemberUpdateDTO updateInfo(Long id, MemberUpdateDTO memberUpdateDTO);
+    MemberResponse updateInfo(Long id, MemberResponse memberResponse);
 
-    MemberUpdatePasswordDTO updatePassword(Long id, MemberUpdatePasswordDTO memberUpdatePasswordDTO);
+    MemberResponse updatePassword(Long id, MemberResponse memberResponse);
 
     MemberResponse login(String loginId, String password);
 

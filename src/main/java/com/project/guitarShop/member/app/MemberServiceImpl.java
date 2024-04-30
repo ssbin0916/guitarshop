@@ -47,16 +47,16 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public MemberUpdateDTO updateInfo(Long id, MemberUpdateDTO memberUpdateDTO) {
+    public MemberResponse updateInfo(Long id, MemberResponse memberResponse) {
         Member member = memberRepository.findById(id).orElseThrow(NotFoundMemberException::new);
 
-        if (memberUpdateDTO.getPhone() != null || memberUpdateDTO.getEmail() != null || memberUpdateDTO.getAddress() != null) {
-            member.updateInfo(memberUpdateDTO.getPhone(), memberUpdateDTO.getEmail(), memberUpdateDTO.getAddress());
+        if (memberResponse.getPhone() != null || memberResponse.getEmail() != null || memberResponse.getAddress() != null) {
+            member.updateInfo(memberResponse.getPhone(), memberResponse.getEmail(), memberResponse.getAddress());
         }
 
         memberRepository.save(member);
 
-        return MemberUpdateDTO.builder()
+        return MemberResponse.builder()
                 .phone(member.getPhone())
                 .email(member.getEmail())
                 .address(member.getAddress())
@@ -65,18 +65,18 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public MemberUpdatePasswordDTO updatePassword(Long id, MemberUpdatePasswordDTO memberUpdatePasswordDTO) {
+    public MemberResponse updatePassword(Long id, MemberResponse memberResponse) {
         Member member = memberRepository.findById(id).orElseThrow(NotFoundMemberException::new);
 
-        validateConfirmPassword(memberUpdatePasswordDTO.getPassword(), memberUpdatePasswordDTO.getConfirmPassword());
+        validateConfirmPassword(memberResponse.getPassword(), memberResponse.getConfirmPassword());
 
-        member.updatePassword(memberUpdatePasswordDTO.getPassword(), memberUpdatePasswordDTO.getConfirmPassword());
+        member.updatePassword(memberResponse.getPassword(), memberResponse.getConfirmPassword());
 
         memberRepository.save(member);
 
-        return MemberUpdatePasswordDTO.builder()
-                .password(member.getPassword())
-                .confirmPassword(memberUpdatePasswordDTO.getConfirmPassword())
+        return MemberResponse.builder()
+                .password(bCryptPasswordEncoder.encode(member.getPassword()))
+                .confirmPassword(bCryptPasswordEncoder.encode(memberResponse.getConfirmPassword()))
                 .build();
     }
 
