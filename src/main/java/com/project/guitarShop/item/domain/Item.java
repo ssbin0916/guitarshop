@@ -1,5 +1,6 @@
 package com.project.guitarShop.item.domain;
 
+import com.project.guitarShop.item.app.ItemRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -8,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Item {
 
     @Id
@@ -32,6 +33,16 @@ public class Item {
         this.quantity = quantity;
         this.category = category;
         this.brand = brand;
+    }
+
+    public static Item toDomain(ItemRequest itemRequest) {
+        return Item.builder()
+                .name(itemRequest.name())
+                .price(itemRequest.price())
+                .quantity(itemRequest.quantity())
+                .category(itemRequest.category())
+                .brand(itemRequest.brand())
+                .build();
     }
 
     public void addStock(int quantity) {
