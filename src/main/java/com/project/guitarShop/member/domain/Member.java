@@ -45,7 +45,7 @@ public class Member {
     private List<Order> orders = new ArrayList<>();
 
     @Builder
-    private Member(String loginId, String password, String confirmPassword, String name, int age, String phone, String email, String role, Address address, List<Order> orders) {
+    public Member(String loginId, String password, String confirmPassword, String name, int age, String phone, String email, String role, Address address, List<Order> orders) {
         Assert.notNull(loginId, "아이디 입력은 필수입니다.");
         Assert.notNull(password, "비밀번호 입력은 필수입니다.");
         Assert.notNull(confirmPassword, "비밀번호 확인 입력은 필수입니다.");
