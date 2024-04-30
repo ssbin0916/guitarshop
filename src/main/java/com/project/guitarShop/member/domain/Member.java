@@ -5,6 +5,7 @@ import com.project.guitarShop.order.domain.Order;
 import com.project.guitarShop.member.app.MemberRequest;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,15 @@ public class Member {
 
     @Builder
     private Member(String loginId, String password, String confirmPassword, String name, int age, String phone, String email, String role, Address address, List<Order> orders) {
+        Assert.notNull(loginId, "아이디 입력은 필수입니다.");
+        Assert.notNull(password, "비밀번호 입력은 필수입니다.");
+        Assert.notNull(confirmPassword, "비밀번호 확인 입력은 필수입니다.");
+        Assert.notNull(name, "이름 입력은 필수입니다.");
+        Assert.notNull(age, "나이 입력은 필수입니다.");
+        Assert.notNull(phone, "전화번호 입력은 필수입니다.");
+        Assert.notNull(email, "이메일 입력은 필수입니다.");
+        Assert.notNull(address, "주소 입력은 필수입니다.");
+
         this.loginId = loginId;
         this.password = password;
         this.confirmPassword = confirmPassword;
@@ -55,17 +65,6 @@ public class Member {
         this.role = role;
         this.address = address;
         this.orders = orders;
-    }
-
-    public void updateInfo(String phone, String email, Address address) {
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
-    }
-
-    public void updatePassword(String password, String confirmPassword) {
-        this.password = password;
-        this.confirmPassword = confirmPassword;
     }
 
     public static Member toDomain(MemberRequest memberRequest) {
