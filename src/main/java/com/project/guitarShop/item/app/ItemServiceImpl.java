@@ -1,5 +1,6 @@
 package com.project.guitarShop.item.app;
 
+import com.project.guitarShop.exception.NotFoundItemException;
 import com.project.guitarShop.item.domain.Brand;
 import com.project.guitarShop.item.domain.Item;
 import com.project.guitarShop.item.domain.QItem;
@@ -30,7 +31,7 @@ public class ItemServiceImpl implements ItemService {
         itemRepository.save(item);
 
         Long itemId = item.getId();
-        Item saveItem = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException());
+        Item saveItem = itemRepository.findById(itemId).orElseThrow(() -> new NotFoundItemException("아이템을 찾을 수 없습니다."));
         return new ItemResponse(saveItem.getName(), saveItem.getPrice(), saveItem.getQuantity(), saveItem.getCategory(), saveItem.getBrand());
     }
 
