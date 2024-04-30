@@ -1,2 +1,0 @@
-INSERT INTO orders (id, member_id, price, name, phone, email, image, address, order_date)
-VALUES (orders_id_SEQ.NEXTVAL, 1, 300000, 'orderName', '111-1111-1111', 'email@test.com', 'orderImage', 'orderAddress', CURRENT_TIMESTAMP);
