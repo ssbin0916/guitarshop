@@ -1,5 +1,8 @@
 package com.project.guitarShop;
 
+import com.project.guitarShop.address.domain.Address;
+import com.project.guitarShop.member.domain.Member;
+import com.project.guitarShop.member.domain.QMember;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
@@ -18,17 +21,28 @@ class GuitarShopApplicationTests {
 	@Test
 	void contextLoads() {
 
-		Hello hello = new Hello();
-		em.persist(hello);
+		Member member = new Member(
+				"loginId",
+				"password",
+				"password",
+				"name",
+				29,
+				"phone",
+				"email",
+				"ROLE_USER",
+				new Address("addr1", "addr2", "addr3"),
+				null);
+
+		em.persist(member);
 
 		JPAQueryFactory query = new JPAQueryFactory(em);
-		QHello qHello = QHello.hello;
+		QMember qMember = QMember.member;
 
-		Hello result = query
-				.selectFrom(qHello)
+		Member result = query
+				.selectFrom(qMember)
 				.fetchOne();
 
-		Assertions.assertThat(result).isEqualTo(hello);
+		Assertions.assertThat(result).isEqualTo(member);
 	}
 
 }
