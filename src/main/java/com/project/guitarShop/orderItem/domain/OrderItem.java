@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Optional;
+
 @Entity
 @Getter
 @Setter
@@ -30,13 +32,13 @@ public class OrderItem {
     private int orderPrice;
     private int count;
 
-    public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
+    public static OrderItem createOrderItem(Optional<Item> item, int orderPrice, int count) {
         OrderItem orderItem = new OrderItem();
-        orderItem.setItem(item);
+        orderItem.setItem(item.get());
         orderItem.setOrderPrice(orderPrice);
         orderItem.setCount(count);
 
-        item.removeStock(count);
+        item.get().removeStock(count);
         return orderItem;
     }
 
