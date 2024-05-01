@@ -1,5 +1,7 @@
 package com.project.guitarShop.item.domain;
 
+import com.project.guitarShop.exception.NotEnoughStockException;
+import com.project.guitarShop.exception.NotFoundItemException;
 import com.project.guitarShop.item.app.ItemRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -52,7 +54,7 @@ public class Item {
     public void removeStock(int quantity) {
         int restStock = this.quantity - quantity;
         if (restStock < 0) {
-            throw new IllegalStateException("");
+            throw new NotEnoughStockException("삭제할 재고가 남아 있지 않습니다.");
         }
         this.quantity = restStock;
     }
