@@ -1,6 +1,6 @@
 package com.project.guitarShop.item.app;
 
-import com.project.guitarShop.item.api.ItemRequestDTO;
+import com.project.guitarShop.item.api.ItemRequestDto;
 import com.project.guitarShop.item.domain.Brand;
 import com.project.guitarShop.item.domain.Category;
 import lombok.Builder;
@@ -13,7 +13,7 @@ public record ItemRequest(String name, int price, int quantity, Category categor
 
     }
 
-    public static ItemRequest toRequest(ItemRequestDTO itemRequestDTO) {
+    public static ItemRequest toRequest(ItemRequestDto itemRequestDTO) {
         return ItemRequest.builder()
                 .name(itemRequestDTO.name())
                 .price(itemRequestDTO.price())
