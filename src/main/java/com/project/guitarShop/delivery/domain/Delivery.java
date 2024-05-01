@@ -1,5 +1,6 @@
 package com.project.guitarShop.delivery.domain;
 
+import com.project.guitarShop.address.domain.Address;
 import com.project.guitarShop.order.domain.Order;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -18,4 +19,10 @@ public class Delivery {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
+
+    @Embedded
+    private Address address;
+
+    @Enumerated(EnumType.STRING)
+    private DeliveryStatus status;
 }
