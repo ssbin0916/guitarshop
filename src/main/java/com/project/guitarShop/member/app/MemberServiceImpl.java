@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,7 +25,7 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponse join(MemberRequest memberRequest) {
 
         validateExistLoginId(memberRequest);
-        validateConfirmPassword(memberRequest.password(), memberRequest.confirmPassword());
+        validateConfirmPassword(memberRequest.getPassword(), memberRequest.getConfirmPassword());
 
         Member member = Member.toDomain(memberRequest);
 
@@ -32,8 +33,6 @@ public class MemberServiceImpl implements MemberService {
 
         return MemberResponse.builder()
                 .loginId(member.getLoginId())
-                .password(bCryptPasswordEncoder.encode(member.getPassword()))
-                .confirmPassword(bCryptPasswordEncoder.encode(member.getConfirmPassword()))
                 .name(member.getName())
                 .age(member.getAge())
                 .phone(member.getPhone())
@@ -44,14 +43,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberResponse updateInfo(Long id, MemberResponse memberResponse) {
+    public MemberResponse updateInfo(Long id, MemberRequest memberRequest) {
         Member member = memberRepository.findById(id).orElseThrow(NotFoundMemberException::new);
-
-        if (memberResponse.getPhone() != null || memberResponse.getEmail() != null || memberResponse.getAddress() != null) {
-            memberResponse.getPhone();
-            memberResponse.getEmail();
-            memberResponse.getAddress();
-        }
 
         memberRepository.save(member);
 
@@ -63,27 +56,38 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberResponse updatePassword(Long id, MemberResponse memberResponse) {
-        Member member = memberRepository.findById(id).orElseThrow(NotFoundMemberException::new);
+    public MemberResponse updatePassword(Long id, MemberRequest memberRequest) {
+        Member member = memberRepository.findById(id).orElseThrow(() -> new NotFoundMemberException("찾을 수 없는 회원입니다."));
 
-        validateConfirmPassword(memberResponse.getPassword(), memberResponse.getConfirmPassword());
+        validateConfirmPassword(memberRequest.getPassword(), memberRequest.getConfirmPassword());
 
-        memberResponse.getPassword();
-        memberResponse.getConfirmPassword();
+        memberRequest.getPassword();
+        memberRequest.getConfirmPassword();
 
         memberRepository.save(member);
 
         return MemberResponse.builder()
-                .password(bCryptPasswordEncoder.encode(member.getPassword()))
-                .confirmPassword(bCryptPasswordEncoder.encode(memberResponse.getConfirmPassword()))
                 .build();
     }
 
     @Override
     public MemberResponse login(String loginId, String password) {
-        return memberRepository.findByLoginId(loginId)
-                .filter(m -> m.getPassword().equals(password))
-                .orElse(null);
+        Optional<Member> memberOptional = memberRepository.findByLoginId(loginId);
+
+        if (memberOptional.isPresent() && memberOptional.get().getPassword().equals(password)) {
+            Member member = memberOptional.get();
+            return MemberResponse.builder()
+                    .loginId(member.getLoginId())
+                    .name(member.getName())
+                    .age(member.getAge())
+                    .phone(member.getPhone())
+                    .email(member.getEmail())
+                    .role(member.getRole())
+                    .address(member.getAddress())
+                    .build();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -93,7 +97,7 @@ public class MemberServiceImpl implements MemberService {
 
     //--검증 메서드--//
     private void validateExistLoginId(MemberRequest memberRequest) {
-        List<MemberResponse> findMembers = memberRepository.findListByLoginId(memberRequest.loginId());
+        List<MemberResponse> findMembers = memberRepository.findListByLoginId(memberRequest.getLoginId());
         if (!findMembers.isEmpty()) {
             throw new ExistMemberException("이미 존재하는 아이디입니다.");
         }

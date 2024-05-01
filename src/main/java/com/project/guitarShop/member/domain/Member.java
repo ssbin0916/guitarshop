@@ -54,7 +54,6 @@ public class Member {
         Assert.notNull(phone, "전화번호 입력은 필수입니다.");
         Assert.notNull(email, "이메일 입력은 필수입니다.");
         Assert.notNull(address, "주소 입력은 필수입니다.");
-
         this.loginId = loginId;
         this.password = password;
         this.confirmPassword = confirmPassword;
@@ -69,16 +68,15 @@ public class Member {
 
     public static Member toDomain(MemberRequest memberRequest) {
         return Member.builder()
-                .loginId(memberRequest.loginId())
-                .password(memberRequest.password())
-                .confirmPassword(memberRequest.confirmPassword())
-                .name(memberRequest.name())
-                .age(memberRequest.age())
-                .phone(memberRequest.phone())
-                .email(memberRequest.email())
-                .role(memberRequest.role())
-                .address(memberRequest.address())
-                .orders(memberRequest.orders())
+                .loginId(memberRequest.getLoginId())
+                .password(memberRequest.getPassword())
+                .confirmPassword(memberRequest.getConfirmPassword())
+                .name(memberRequest.getName())
+                .age(memberRequest.getAge())
+                .phone(memberRequest.getPhone())
+                .email(memberRequest.getEmail())
+                .role(memberRequest.getRole())
+                .address(memberRequest.getAddress())
                 .build();
     }
 }

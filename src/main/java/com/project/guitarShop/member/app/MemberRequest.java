@@ -1,32 +1,37 @@
 package com.project.guitarShop.member.app;
 
 import com.project.guitarShop.address.domain.Address;
-import com.project.guitarShop.order.domain.Order;
-import com.project.guitarShop.member.api.MemberRequestDto;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.List;
+@Getter
+@Setter
+@Builder
+public class MemberRequest {
 
-public record MemberRequest(String loginId, String password, String confirmPassword, String name, int age, String phone,
-                            String email, String role, Address address, List<Order> orders) {
+    private String loginId;
+    private String password;
+    private String confirmPassword;
+    private String name;
+    private int age;
+    private String phone;
+    private String email;
+    private String role;
+    private Address address;
 
-    @Builder
-    public MemberRequest {
-
-    }
-
-    public static MemberRequest toRequest(MemberRequestDto memberRequestDTO) {
-        return MemberRequest.builder()
-                .loginId(memberRequestDTO.loginId())
-                .password(memberRequestDTO.password())
-                .confirmPassword(memberRequestDTO.confirmPassword())
-                .name(memberRequestDTO.name())
-                .age(memberRequestDTO.age())
-                .phone(memberRequestDTO.phone())
-                .email(memberRequestDTO.email())
-                .role(memberRequestDTO.role())
-                .address(memberRequestDTO.address())
-                .orders(memberRequestDTO.orders())
-                .build();
-    }
+//    public static MemberRequest toRequest(MemberRequestDto memberRequestDTO) {
+//        return MemberRequest.builder()
+//                .loginId(memberRequestDTO.loginId())
+//                .password(memberRequestDTO.password())
+//                .confirmPassword(memberRequestDTO.confirmPassword())
+//                .name(memberRequestDTO.name())
+//                .age(memberRequestDTO.age())
+//                .phone(memberRequestDTO.phone())
+//                .email(memberRequestDTO.email())
+//                .role(memberRequestDTO.role())
+//                .address(memberRequestDTO.address())
+//                .orders(memberRequestDTO.orders())
+//                .build();
+//    }
 }

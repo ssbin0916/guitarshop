@@ -36,18 +36,17 @@ class MemberServiceTest {
     @Test
     void join() {
         //given
-        MemberRequest memberRequest = new MemberRequest(
-                "loginId",
-                "password",
-                "password",
-                "name",
-                29,
-                "phone",
-                "email",
-                "ROLE_USER",
-                new Address("addr1", "addr2", "addr3"),
-                null
-        );
+        MemberRequest memberRequest = MemberRequest.builder()
+                .loginId("loginId")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .age(29)
+                .phone("phone")
+                .email("email")
+                .role("role")
+                .address(new Address("add", "re", "ss"))
+                .build();
 
         //when
         MemberResponse memberResponse = memberService.join(memberRequest);
@@ -55,59 +54,60 @@ class MemberServiceTest {
         //then
         assertNotNull(memberResponse);
         assertEquals("loginId", memberResponse.getLoginId());
-        assertNotEquals("password", memberResponse.getPassword());
+        assertEquals("name", memberResponse.getName());
+        assertEquals(29, memberResponse.getAge());
+        assertEquals("phone", memberResponse.getPhone());
+        assertEquals("email", memberResponse.getEmail());
+        assertEquals("role", memberResponse.getRole());
     }
 
     @Test
     void existLoginId() {
         //given
-        MemberRequest memberRequest1 = new MemberRequest(
-                "loginId",
-                "password",
-                "password",
-                "name",
-                29,
-                "phone",
-                "email",
-                "ROLE_USER",
-                new Address("addr1", "addr2", "addr3"),
-                null
-        );
-
+        MemberRequest memberRequest1 = MemberRequest.builder()
+                .loginId("loginId")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .age(29)
+                .phone("phone")
+                .email("email")
+                .role("role")
+                .address(new Address("add", "re", "ss"))
+                .build();
         memberService.join(memberRequest1);
 
-        MemberRequest memberRequest2 = new MemberRequest(
-                "loginId",
-                "password",
-                "password",
-                "name",
-                29,
-                "phone",
-                "email",
-                "ROLE_USER",
-                new Address("addr1", "addr2", "addr3"),
-                null
-        );
-
         //when //then
-        assertThrows(ExistMemberException.class, () -> memberService.join(memberRequest2));
+        assertThrows(ExistMemberException.class, () -> {
+            MemberRequest memberRequest2 = MemberRequest.builder()
+                    .loginId("loginId")
+                    .password("password")
+                    .confirmPassword("password")
+                    .name("name")
+                    .age(29)
+                    .phone("phone")
+                    .email("email")
+                    .role("role")
+                    .address(new Address("add", "re", "ss"))
+                    .build();
+            memberService.join(memberRequest2);
+        });
     }
 
     @Test
     void passwordNotMatch() {
         //given
-        MemberRequest memberRequest = new MemberRequest(
-                "loginId",
-                "password",
-                "confirmPassword",
-                "name",
-                29,
-                "phone",
-                "email",
-                "ROLE_USER",
-                new Address("addr1", "addr2", "addr3"),
-                null
-        );
+        MemberRequest memberRequest = MemberRequest.builder()
+                .loginId("loginId")
+                .password("password")
+                .confirmPassword("confirmPassword")
+                .name("name")
+                .age(29)
+                .phone("phone")
+                .email("email")
+                .role("role")
+                .address(new Address("add", "re", "ss"))
+                .build();
 
         //when //then
         assertThrows(ValidatePasswordException.class, () -> memberService.join(memberRequest));
@@ -116,18 +116,17 @@ class MemberServiceTest {
     @Test
     void login() {
         //given
-        MemberRequest memberRequest = new MemberRequest(
-                "loginId",
-                "password",
-                "password",
-                "name",
-                29,
-                "phone",
-                "email",
-                "ROLE_USER",
-                new Address("addr1", "addr2", "addr3"),
-                null
-        );
+        MemberRequest memberRequest = MemberRequest.builder()
+                .loginId("loginId")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .age(29)
+                .phone("phone")
+                .email("email")
+                .role("role")
+                .address(new Address("add", "re", "ss"))
+                .build();
 
         memberService.join(memberRequest);
 
@@ -137,89 +136,89 @@ class MemberServiceTest {
         //then
         assertNotNull(memberResponse);
         assertEquals("loginId", memberResponse.getLoginId());
-        assertEquals("password", memberResponse.getPassword());
-
     }
 
     @Test
     void updateInfo() {
         //given
-        MemberRequest memberRequest = new MemberRequest(
-                "loginId",
-                "password",
-                "password",
-                "name",
-                29,
-                "phone",
-                "email",
-                "ROLE_USER",
-                new Address("addr1", "addr2", "addr3"),
-                null
-        );
-
+        MemberRequest memberRequest = MemberRequest.builder()
+                .loginId("loginId")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .age(29)
+                .phone("phone")
+                .email("email")
+                .role("role")
+                .address(new Address("add", "re", "ss"))
+                .build();
         memberService.join(memberRequest);
 
         //when
-        MemberResponse memberResponse = MemberResponse.builder()
+        MemberRequest updateMember = MemberRequest.builder()
+                .loginId("updateLoginId")
+                .name("updateName")
+                .age(30)
                 .phone("updatePhone")
                 .email("updateEmail")
-                .address(null)
+                .role("ADMIN")
+                .address(new Address("add", "re", "ss"))
                 .build();
-        memberService.updateInfo(1L, memberResponse);
+        memberService.updateInfo(1L, updateMember);
 
         //then
-        assertNotNull(memberResponse);
-        assertEquals("updatePhone", memberResponse.getPhone());
-        assertEquals("updateEmail", memberResponse.getEmail());
-        assertEquals(null, memberResponse.getAddress());
+        assertNotNull(updateMember);
+        assertEquals("updateLoginId", updateMember.getLoginId());
+        assertEquals("updateName", updateMember.getName());
+        assertEquals(30, updateMember.getAge());
+        assertEquals("updatePhone", updateMember.getPhone());
+        assertEquals("updateEmail", updateMember.getEmail());
+        assertEquals("ADMIN", updateMember.getRole());
     }
 
     @Test
     void updatePassword() {
         //given
-        MemberRequest memberRequest = new MemberRequest(
-                "loginId",
-                "password",
-                "password",
-                "name",
-                29,
-                "phone",
-                "email",
-                "ROLE_USER",
-                new Address("addr1", "addr2", "addr3"),
-                null
-        );
+        MemberRequest memberRequest = MemberRequest.builder()
+                .loginId("loginId")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .age(29)
+                .phone("phone")
+                .email("email")
+                .role("role")
+                .address(new Address("add", "re", "ss"))
+                .build();
 
         memberService.join(memberRequest);
 
         //when
-        MemberResponse memberResponse = MemberResponse.builder()
+        MemberRequest updateMemberRequest = MemberRequest.builder()
                 .password("updatePassword")
                 .confirmPassword("updatePassword")
                 .build();
-        memberService.updatePassword(1L, memberResponse);
 
         //then
-        assertNotNull(memberResponse);
-        assertEquals("updatePassword", memberResponse.getPassword());
-        assertEquals("updatePassword", memberResponse.getConfirmPassword());
+        assertNotNull(updateMemberRequest);
+        assertEquals("updatePassword", updateMemberRequest.getPassword());
+        assertEquals("updatePassword", updateMemberRequest.getConfirmPassword());
     }
 
     @Test
     void delete() {
         //given
-        MemberRequest memberRequest = new MemberRequest(
-                "loginId",
-                "password",
-                "password",
-                "name",
-                29,
-                "phone",
-                "email",
-                "ROLE_USER",
-                new Address("addr1", "addr2", "addr3"),
-                null
-        );
+        MemberRequest memberRequest = MemberRequest.builder()
+                .loginId("loginId")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .age(29)
+                .phone("phone")
+                .email("email")
+                .role("role")
+                .address(new Address("add", "re", "ss"))
+                .build();
 
         memberService.join(memberRequest);
 
