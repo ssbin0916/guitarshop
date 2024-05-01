@@ -2,7 +2,7 @@ package com.project.guitarShop.member.app;
 
 import com.project.guitarShop.address.domain.Address;
 import com.project.guitarShop.order.domain.Order;
-import com.project.guitarShop.member.api.MemberRequestDTO;
+import com.project.guitarShop.member.api.MemberRequestDto;
 import lombok.Builder;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public record MemberRequest(String loginId, String password, String confirmPassw
 
     }
 
-    public static MemberRequest toRequest(MemberRequestDTO memberRequestDTO) {
+    public static MemberRequest toRequest(MemberRequestDto memberRequestDTO) {
         return MemberRequest.builder()
                 .loginId(memberRequestDTO.loginId())
                 .password(memberRequestDTO.password())
