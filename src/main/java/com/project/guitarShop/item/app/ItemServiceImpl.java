@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -57,6 +58,11 @@ public class ItemServiceImpl implements ItemService {
                 .where(qItem.brand.eq(brand))
                 .orderBy(qItem.brand.asc(), new OrderSpecifier<>(order, qItem.price))
                 .fetch();
+    }
+
+    @Override
+    public Optional<ItemResponse> findByName(String name) {
+        return itemRepository.findByName(name);
     }
 }
 
