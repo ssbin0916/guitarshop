@@ -1,8 +1,10 @@
-package com.project.guitarShop.item.app;
+package com.project.guitarShop.service.item;
 
-import com.project.guitarShop.item.domain.Brand;
-import com.project.guitarShop.item.domain.Category;
-import org.assertj.core.api.Assertions;
+import com.project.guitarShop.domain.item.Brand;
+import com.project.guitarShop.domain.item.Category;
+import com.project.guitarShop.dto.item.ItemRequest;
+import com.project.guitarShop.dto.item.ItemResponse;
+import com.project.guitarShop.service.item.ItemService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class ItemServiceImplTest {
+class ItemServiceTest {
 
     @Autowired
     private ItemService itemService;

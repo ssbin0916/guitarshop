@@ -1,10 +1,13 @@
-package com.project.guitarShop.member.app;
+package com.project.guitarShop.service.member;
 
-import com.project.guitarShop.address.domain.Address;
+import com.project.guitarShop.domain.address.Address;
+import com.project.guitarShop.dto.member.MemberRequest;
+import com.project.guitarShop.dto.member.MemberResponse;
 import com.project.guitarShop.exception.ExistMemberException;
 import com.project.guitarShop.exception.NotFoundMemberException;
 import com.project.guitarShop.exception.ValidatePasswordException;
-import com.project.guitarShop.member.repository.MemberRepository;
+import com.project.guitarShop.repository.member.MemberRepository;
+import com.project.guitarShop.service.member.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +33,7 @@ class MemberServiceTest {
 
     @BeforeEach
     void setUp() {
-        memberService = new MemberServiceImpl(memberRepository, bCryptPasswordEncoder);
+        memberService = new MemberService(memberRepository, bCryptPasswordEncoder);
     }
 
     @Test

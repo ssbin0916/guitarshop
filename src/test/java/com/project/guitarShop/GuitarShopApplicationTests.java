@@ -1,7 +1,7 @@
 package com.project.guitarShop;
 
-import com.project.guitarShop.address.domain.Address;
-import com.project.guitarShop.member.domain.Member;
+import com.project.guitarShop.domain.address.Address;
+import com.project.guitarShop.domain.member.Member;
 import com.project.guitarShop.member.domain.QMember;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

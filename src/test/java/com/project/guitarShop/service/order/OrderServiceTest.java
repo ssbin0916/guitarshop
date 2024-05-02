@@ -1,23 +1,23 @@
-package com.project.guitarShop.order.app;
+package com.project.guitarShop.service.order;
 
-import com.project.guitarShop.address.domain.Address;
-import com.project.guitarShop.delivery.domain.Delivery;
-import com.project.guitarShop.delivery.domain.DeliveryStatus;
+import com.project.guitarShop.domain.address.Address;
+import com.project.guitarShop.domain.delivery.Delivery;
+import com.project.guitarShop.domain.delivery.DeliveryStatus;
 import com.project.guitarShop.exception.NotEnoughStockException;
-import com.project.guitarShop.item.app.ItemRequest;
-import com.project.guitarShop.item.app.ItemServiceImpl;
-import com.project.guitarShop.item.domain.Brand;
-import com.project.guitarShop.item.domain.Category;
-import com.project.guitarShop.item.domain.Item;
-import com.project.guitarShop.item.repository.ItemRepository;
-import com.project.guitarShop.member.app.MemberRequest;
-import com.project.guitarShop.member.app.MemberServiceImpl;
-import com.project.guitarShop.member.repository.MemberRepository;
-import com.project.guitarShop.order.domain.Order;
-import com.project.guitarShop.order.domain.OrderStatus;
-import com.project.guitarShop.order.repository.OrderRepository;
-import com.project.guitarShop.orderItem.domain.OrderItem;
-import jakarta.persistence.EntityManager;
+import com.project.guitarShop.dto.item.ItemRequest;
+import com.project.guitarShop.service.item.ItemService;
+import com.project.guitarShop.domain.item.Brand;
+import com.project.guitarShop.domain.item.Category;
+import com.project.guitarShop.domain.item.Item;
+import com.project.guitarShop.repository.item.ItemRepository;
+import com.project.guitarShop.dto.member.MemberRequest;
+import com.project.guitarShop.service.member.MemberService;
+import com.project.guitarShop.repository.member.MemberRepository;
+import com.project.guitarShop.domain.order.Order;
+import com.project.guitarShop.domain.order.OrderStatus;
+import com.project.guitarShop.repository.order.OrderRepository;
+import com.project.guitarShop.domain.orderItem.OrderItem;
+import com.project.guitarShop.service.order.OrderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,43 +31,41 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 //@Rollback(value = false)
-class OrderServiceImplTest {
+class OrderServiceTest {
 
-    @Autowired
-    EntityManager em;
     @Autowired
     MemberRepository memberRepository;
     @Autowired
-    MemberServiceImpl memberService;
+    MemberService memberService;
     @Autowired
     ItemRepository itemRepository;
     @Autowired
-    ItemServiceImpl itemService;
+    ItemService itemService;
     @Autowired
     OrderRepository orderRepository;
 
     @Test
     void order() {
         //given
-        MemberRequest memberRequest = new MemberRequest(
-                "loginId",
-                "password",
-                "password",
-                "name",
-                29,
-                "phone",
-                "email",
-                "ROLE_USER",
-                new Address("addr1", "addr2", "addr3"),
-                new ArrayList<Order>()
-        );
+        MemberRequest memberRequest = MemberRequest.builder()
+                .loginId("loginId")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .age(29)
+                .phone("phone")
+                .email("email")
+                .role("ADMIN")
+                .address(new Address("add", "re", "ss"))
+                .orders(new ArrayList<>())
+                .build();
         memberService.join(memberRequest);
 
         ItemRequest itemRequest = new ItemRequest("name", 10000, 10, Category.ELECTRIC_GUITAR, Brand.JAMESTYLER);
         itemService.save(itemRequest);
 
         //when
-        OrderServiceImpl orderService = new OrderServiceImpl(memberRepository, itemRepository, orderRepository);
+        OrderService orderService = new OrderService(memberRepository, itemRepository, orderRepository);
         Long orderId = orderService.order(1L, 1L, 2);
 
         Optional<Order> savedOrder = orderRepository.findById(orderId);
@@ -75,7 +73,7 @@ class OrderServiceImplTest {
         OrderItem orderItem = savedOrder.get().getOrderItems().get(0);
 
         //then
-        assertEquals(memberRequest.address(), delivery.getAddress());
+        assertEquals(memberRequest.getAddress(), delivery.getAddress());
         assertEquals(OrderStatus.ORDER, savedOrder.get().getOrderStatus(), "상품 주문시 주문 상태는 ORDER");
         assertEquals(DeliveryStatus.READY, delivery.getStatus(), "상품 주문시 배송 상태는 READY");
         assertEquals(1, savedOrder.get().getOrderItems().size(), "주문한 상품 종류 수가 정확해야 한다.");
@@ -85,25 +83,24 @@ class OrderServiceImplTest {
     @Test
     void cancelOrder() {
         //given
-        MemberRequest memberRequest = new MemberRequest(
-                "loginId",
-                "password",
-                "password",
-                "name",
-                29,
-                "phone",
-                "email",
-                "ROLE_USER",
-                new Address("addr1", "addr2", "addr3"),
-                new ArrayList<Order>()
-        );
+        MemberRequest memberRequest = MemberRequest.builder()
+                .loginId("loginId")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .age(29)
+                .phone("phone")
+                .email("email")
+                .role("ADMIN")
+                .address(new Address("add", "re", "ss"))
+                .build();
         memberService.join(memberRequest);
 
         ItemRequest itemRequest = new ItemRequest("name", 10000, 10, Category.ELECTRIC_GUITAR, Brand.JAMESTYLER);
         itemService.save(itemRequest);
 
         //when
-        OrderServiceImpl orderService = new OrderServiceImpl(memberRepository, itemRepository, orderRepository);
+        OrderService orderService = new OrderService(memberRepository, itemRepository, orderRepository);
         Long orderId = orderService.order(1L, 1L, 2);
         orderService.cancelOrder(orderId);
 
@@ -118,25 +115,24 @@ class OrderServiceImplTest {
     @Test
     void notEnoughStock() {
         //given
-        MemberRequest memberRequest = new MemberRequest(
-                "loginId",
-                "password",
-                "password",
-                "name",
-                29,
-                "phone",
-                "email",
-                "ROLE_USER",
-                new Address("addr1", "addr2", "addr3"),
-                new ArrayList<Order>()
-        );
+        MemberRequest memberRequest = MemberRequest.builder()
+                .loginId("loginId")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .age(29)
+                .phone("phone")
+                .email("email")
+                .role("ADMIN")
+                .address(new Address("add", "re", "ss"))
+                .build();
         memberService.join(memberRequest);
 
         ItemRequest itemRequest = new ItemRequest("name", 10000, 10, Category.ELECTRIC_GUITAR, Brand.JAMESTYLER);
         itemService.save(itemRequest);
 
         //when //then
-        OrderServiceImpl orderService = new OrderServiceImpl(memberRepository, itemRepository, orderRepository);
+        OrderService orderService = new OrderService(memberRepository, itemRepository, orderRepository);
         assertThrows(NotEnoughStockException.class, () -> {
             orderService.order(1L, 1L, 11);
         });
