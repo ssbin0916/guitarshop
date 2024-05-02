@@ -2,43 +2,62 @@ package com.project.guitarShop.dto.member;
 
 import com.project.guitarShop.domain.address.Address;
 import com.project.guitarShop.domain.member.Member;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 public class MemberResponse {
 
     @Getter
-    @Setter
-    public static class LoginResponseDto {
-        private Long id;
+    public static class LoginResponse {
         private String loginId;
+        private String name;
+        private String role;
 
-        public LoginResponseDto(Member member) {
-            this.id = member.getId();
+        public LoginResponse(Member member) {
             this.loginId = member.getLoginId();
+            this.name = member.getName();
+            this.role = member.getRole();
         }
     }
 
+    @Getter
+    public static class JoinResponse {
+        private Long id;
+        private String loginId;
+        private String name;
+        private int age;
+        private String email;
+        private Address address;
 
-    private Long id;
-    private String loginId;
-    private String name;
-    private int age;
-    private String phone;
-    private String email;
-    private String role;
-    private Address address;
-
-    @Builder
-    public MemberResponse(Long id, String loginId, String name, int age, String phone, String email, String role, Address address) {
-        this.id = id;
-        this.loginId = loginId;
-        this.name = name;
-        this.age = age;
-        this.phone = phone;
-        this.email = email;
-        this.role = role;
-        this.address = address;
+        public JoinResponse(Member member) {
+            this.id = member.getId();
+            this.loginId = member.getLoginId();
+            this.name = member.getName();
+            this.age = member.getAge();
+            this.email = member.getEmail();
+            this.address = member.getAddress();
+        }
     }
+
+    @Getter
+    public static class UpdateInfoResponse {
+        private String phone;
+        private String email;
+        private Address address;
+
+        public UpdateInfoResponse(Member member) {
+            this.phone = member.getPhone();
+            this.email = member.getEmail();
+            this.address = member.getAddress();
+        }
+    }
+
+    @Getter
+    public static class UpdatePasswordResponse {
+        private Long id;
+
+        public UpdatePasswordResponse(Member member) {
+            this.id = member.getId();
+        }
+    }
+
 }
