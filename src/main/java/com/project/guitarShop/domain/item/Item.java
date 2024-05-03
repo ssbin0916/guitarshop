@@ -1,15 +1,16 @@
 package com.project.guitarShop.domain.item;
 
 import com.project.guitarShop.exception.NotEnoughStockException;
-import com.project.guitarShop.dto.item.ItemRequest;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Item {
 
     @Id
@@ -35,15 +36,6 @@ public class Item {
         this.brand = brand;
     }
 
-    public static Item toDomain(ItemRequest itemRequest) {
-        return Item.builder()
-                .name(itemRequest.name())
-                .price(itemRequest.price())
-                .quantity(itemRequest.quantity())
-                .category(itemRequest.category())
-                .brand(itemRequest.brand())
-                .build();
-    }
 
     public void addStock(int quantity) {
         this.quantity += quantity;
