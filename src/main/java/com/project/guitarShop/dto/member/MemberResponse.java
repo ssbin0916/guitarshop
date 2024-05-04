@@ -8,56 +8,37 @@ public class MemberResponse {
 
     @Getter
     public static class LoginResponse {
-        private String loginId;
-        private String name;
-        private String role;
+        private final String loginId;
+        private final String name;
+        private final String gender;
+        private final Address address;
+        private final String role;
 
         public LoginResponse(Member member) {
             this.loginId = member.getLoginId();
             this.name = member.getName();
+            this.gender = member.getGender();
+            this.address = member.getAddress();
             this.role = member.getRole();
         }
     }
 
     @Getter
     public static class JoinResponse {
-        private Long id;
-        private String loginId;
-        private String name;
-        private int age;
-        private String email;
-        private Address address;
+        private final Long id;
+        private final String loginId;
+        private final String name;
+        private final String gender;
+        private final String email;
+        private final Address address;
 
         public JoinResponse(Member member) {
             this.id = member.getId();
             this.loginId = member.getLoginId();
             this.name = member.getName();
-            this.age = member.getAge();
+            this.gender = member.getGender();
             this.email = member.getEmail();
             this.address = member.getAddress();
         }
     }
-
-    @Getter
-    public static class UpdateInfoResponse {
-        private String phone;
-        private String email;
-        private Address address;
-
-        public UpdateInfoResponse(Member member) {
-            this.phone = member.getPhone();
-            this.email = member.getEmail();
-            this.address = member.getAddress();
-        }
-    }
-
-    @Getter
-    public static class UpdatePasswordResponse {
-        private Long id;
-
-        public UpdatePasswordResponse(Member member) {
-            this.id = member.getId();
-        }
-    }
-
 }
