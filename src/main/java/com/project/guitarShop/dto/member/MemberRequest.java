@@ -33,7 +33,8 @@ public class MemberRequest {
         private String password;
         private String confirmPassword;
         private String name;
-        private int age;
+        private String rrn;
+        private String gender;
         private String phone;
         private String email;
         private Address address;
@@ -44,7 +45,8 @@ public class MemberRequest {
                     .password(passwordEncoder.encode(password))
                     .confirmPassword(passwordEncoder.encode(confirmPassword))
                     .name(name)
-                    .age(age)
+                    .rrn(rrn)
+                    .gender(gender)
                     .phone(phone)
                     .email(email)
                     .address(address)
@@ -76,10 +78,10 @@ public class MemberRequest {
         private String password;
         private String confirmPassword;
 
-        public Member toDomain() {
+        public Member toDomain(BCryptPasswordEncoder passwordEncoder) {
             return Member.builder()
-                    .password(password)
-                    .confirmPassword(confirmPassword)
+                    .password(passwordEncoder.encode(password))
+                    .confirmPassword(passwordEncoder.encode(confirmPassword))
                     .build();
         }
     }
