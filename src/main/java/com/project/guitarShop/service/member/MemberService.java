@@ -29,7 +29,17 @@ public class MemberService {
         validateExistLoginId(request);
         validateConfirmPassword(request.getPassword(), request.getConfirmPassword());
 
-        Member save = memberRepository.save(request.toDomain(passwordEncoder));
+        JoinRequest joinRequest = JoinRequest.insertGender(
+                request.getLoginId(),
+                request.getPassword(),
+                request.getConfirmPassword(),
+                request.getName(),
+                request.getRrn(),
+                request.getPhone(),
+                request.getEmail(),
+                request.getAddress());
+
+        Member save = memberRepository.save(joinRequest.toDomain(passwordEncoder));
 
         return new JoinResponse(save);
     }
