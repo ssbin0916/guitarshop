@@ -1,17 +1,20 @@
 package com.project.guitarShop.service.member;
 
+import com.project.guitarShop.domain.member.Member;
+import com.project.guitarShop.dto.member.MemberRequest.JoinRequest;
+import com.project.guitarShop.dto.member.MemberRequest.UpdateInfoRequest;
+import com.project.guitarShop.dto.member.MemberRequest.UpdatePasswordRequest;
+import com.project.guitarShop.dto.member.MemberResponse.JoinResponse;
+import com.project.guitarShop.dto.member.MemberResponse.LoginResponse;
 import com.project.guitarShop.exception.ExistMemberException;
 import com.project.guitarShop.exception.NotFoundMemberException;
 import com.project.guitarShop.exception.ValidatePasswordException;
-import com.project.guitarShop.domain.member.Member;
-import com.project.guitarShop.dto.member.MemberRequest;
-import com.project.guitarShop.dto.member.MemberResponse;
 import com.project.guitarShop.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,80 +23,56 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public MemberResponse join(MemberRequest memberRequest) {
+    public JoinResponse join(JoinRequest request) {
+        validateExistLoginId(request);
+        validateConfirmPassword(request.getPassword(), request.getConfirmPassword());
 
-        validateExistLoginId(memberRequest);
-        validateConfirmPassword(memberRequest.(), memberRequest.getConfirmPassword());
+        Member save = memberRepository.save(request.toDomain(passwordEncoder));
 
-        Member member = Member.toDomain(memberRequest);
-
-        memberRepository.save(member);
-
-        return MemberResponse.builder()
-                .loginId(member.getLoginId())
-                .name(member.getName())
-                .age(member.getAge())
-                .phone(member.getPhone())
-                .email(member.getEmail())
-                .address(member.getAddress())
-                .role(member.getRole())
-                .build();
+        return new JoinResponse(save);
     }
 
-    public MemberResponse updateInfo(Long id, MemberRequest memberRequest) {
-        Member member = memberRepository.findById(id).orElseThrow(NotFoundMemberException::new);
+    public void updateInfo(Long id, UpdateInfoRequest request) {
+        Member existingMember = memberRepository.findById(id).orElseThrow(() -> new NotFoundMemberException("찾을 수 없는 회원입니다."));
 
-        memberRepository.save(member);
+        existingMember.updateInfo(request.getPhone(), request.getEmail(), request.getAddress());
 
-        return MemberResponse.builder()
-                .phone(member.getPhone())
-                .email(member.getEmail())
-                .address(member.getAddress())
-                .build();
+        memberRepository.save(existingMember);
     }
 
-    public MemberResponse updatePassword(Long id, MemberRequest memberRequest) {
-        Member member = memberRepository.findById(id).orElseThrow(() -> new NotFoundMemberException("찾을 수 없는 회원입니다."));
+    public void updatePassword(Long id, UpdatePasswordRequest request, BCryptPasswordEncoder passwordEncoder) {
+        Member existingMember = memberRepository.findById(id).orElseThrow(() -> new NotFoundMemberException("찾을 수 없는 회원입니다."));
 
-        validateConfirmPassword(memberRequest.getPassword(), memberRequest.getConfirmPassword());
+        existingMember.updatePassword(request.getPassword(), request.getConfirmPassword(), passwordEncoder);
 
-        memberRequest.getPassword();
-        memberRequest.getConfirmPassword();
+        validateConfirmPassword(request.getPassword(), request.getConfirmPassword());
 
-        memberRepository.save(member);
-
-        return MemberResponse.builder()
-                .build();
+        memberRepository.save(existingMember);
     }
 
-    public MemberResponse login(String loginId, String password) {
+    public LoginResponse login(String loginId, String password) {
         Optional<Member> memberOptional = memberRepository.findByLoginId(loginId);
 
-        if (memberOptional.isPresent() && memberOptional.get().getPassword().equals(password)) {
+        if (memberOptional.isPresent()) {
             Member member = memberOptional.get();
-            return MemberResponse.builder()
-                    .loginId(member.getLoginId())
-                    .name(member.getName())
-                    .age(member.getAge())
-                    .phone(member.getPhone())
-                    .email(member.getEmail())
-                    .role(member.getRole())
-                    .address(member.getAddress())
-                    .build();
-        } else {
-            return null;
+            return new LoginResponse(member);
         }
+        throw new ValidatePasswordException("로그인에 실패했습니다.");
     }
 
     public void delete(Long id) {
         memberRepository.deleteById(id);
     }
 
+
+
+
     //--검증 메서드--//
-    private void validateExistLoginId(MemberRequest memberRequest) {
-        List<MemberResponse> findMembers = memberRepository.findListByLoginId(memberRequest.getLoginId());
-        if (!findMembers.isEmpty()) {
+    private void validateExistLoginId(JoinRequest request) {
+        Optional<Member> findMembers = memberRepository.findByLoginId(request.getLoginId());
+        if (findMembers.isPresent()) {
             throw new ExistMemberException("이미 존재하는 아이디입니다.");
         }
     }
