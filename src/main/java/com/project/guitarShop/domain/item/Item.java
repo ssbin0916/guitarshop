@@ -15,7 +15,6 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_id")
     private Long id;
 
     private String name;
@@ -28,7 +27,7 @@ public class Item {
     private Brand brand;
 
     @Builder
-    private Item(String name, int price, int quantity, Category category, Brand brand) {
+    public Item(String name, int price, int quantity, Category category, Brand brand) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
@@ -48,6 +47,4 @@ public class Item {
         }
         this.quantity = restStock;
     }
-
-
 }

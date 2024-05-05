@@ -6,30 +6,38 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cart_id")
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems;
 
-    @Builder
-    public Cart(Long id, Member member, List<OrderItem> orderItems) {
-        this.id = id;
+    public Cart(Member member) {
         this.member = member;
-        this.orderItems = orderItems;
+    }
+
+    public void addItem(OrderItem item) {
+        orderItems.add(item);
+        item.setCart(this);
+    }
+
+    public void removeItem(OrderItem item) {
+        orderItems.remove(item);
+        item.setCart(null);
     }
 }
