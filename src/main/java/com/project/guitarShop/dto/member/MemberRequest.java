@@ -57,39 +57,19 @@ public class MemberRequest {
         @NotEmpty(message = "주소 입력은 필수입니다.")
         private Address address;
 
-        public static JoinRequest insertGender(String loginId, String password, String confirmPassword, String name, String rrn, String phone, String email, Address address) {
-            String gender = calculateGender(rrn);
-            return new JoinRequest(loginId, password, confirmPassword, name, rrn, gender, phone, email, address);
-        }
-
-        private static String calculateGender(String rrn) {
-            char gender = rrn.charAt(7);
-            switch (gender) {
-                case '1':
-                case '3':
-                    return "남자";
-                case '2':
-                case '4':
-                    return "여자";
-                default:
-                    throw new IllegalArgumentException("잘못된 입력입니다.");
-            }
-        }
-
-        public Member toDomain(BCryptPasswordEncoder passwordEncoder) {
+        public Member toEntity() {
             return Member.builder()
                     .loginId(loginId)
-                    .password(passwordEncoder.encode(password))
-                    .confirmPassword(passwordEncoder.encode(confirmPassword))
+                    .password(password)
                     .name(name)
                     .rrn(rrn)
-                    .gender(gender)
                     .phone(phone)
                     .email(email)
                     .address(address)
                     .build();
         }
     }
+
 
     @Getter
     @Setter
@@ -118,7 +98,6 @@ public class MemberRequest {
         public Member toDomain(BCryptPasswordEncoder passwordEncoder) {
             return Member.builder()
                     .password(passwordEncoder.encode(password))
-                    .confirmPassword(passwordEncoder.encode(confirmPassword))
                     .build();
         }
     }
