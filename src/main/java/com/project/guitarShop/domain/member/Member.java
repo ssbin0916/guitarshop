@@ -56,4 +56,14 @@ public class Member {
         this.role = role;
         this.address = address;
     }
+
+    public void updateInfo(String phone, String email, Address address) {
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+    }
+
+    public void updatePassword(String newPassword, BCryptPasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(newPassword);
+    }
 }
