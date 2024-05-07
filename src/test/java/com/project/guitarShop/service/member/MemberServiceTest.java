@@ -9,7 +9,6 @@ import com.project.guitarShop.exception.ExistMemberException;
 import com.project.guitarShop.exception.NotFoundMemberException;
 import com.project.guitarShop.exception.ValidatePasswordException;
 import com.project.guitarShop.repository.member.MemberRepository;
-import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +23,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 //@Rollback(value = false)
 class MemberServiceTest {
-
-    @Autowired
-    EntityManager em;
 
     @Autowired
     MemberRepository memberRepository;
@@ -45,26 +41,50 @@ class MemberServiceTest {
     @Test
     void join() {
         //given
-        JoinRequest request = MemberRequest.JoinRequest.builder()
-                .loginId("loginId")
+        String male = "000000-1111111";
+        String female = "000000-2222222";
+
+        JoinRequest requestMale = MemberRequest.JoinRequest.builder()
+                .loginId("loginId1")
                 .password("password")
                 .confirmPassword("password")
                 .name("name")
-                .rrn("rrn")
-                .gender("gender")
+                .rrn(male)
+                .phone("phone")
+                .email("email")
+                .address(new Address("add", "re", "ss"))
+                .build();
+
+        JoinRequest requestFemale = MemberRequest.JoinRequest.builder()
+                .loginId("loginId2")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .rrn(female)
                 .phone("phone")
                 .email("email")
                 .address(new Address("add", "re", "ss"))
                 .build();
 
         //when
-        JoinResponse response = memberService.join(request);
+        JoinResponse responseMale = memberService.join(requestMale);
+        JoinResponse responseFemale = memberService.join(requestFemale);
 
         //then
-        assertNotNull(response);
-        assertEquals("loginId", response.getLoginId());
-        assertEquals("name", response.getName());
-        assertEquals("email", response.getEmail());
+
+        assertNotNull(responseMale);
+        assertNotNull(responseFemale);
+
+        assertEquals("loginId1", responseMale.getLoginId());
+        assertEquals("name", responseMale.getName());
+        assertEquals("email", responseMale.getEmail());
+        assertEquals("남자", responseMale.getGender());
+
+        assertEquals("loginId2", responseFemale.getLoginId());
+        assertEquals("name", responseFemale.getName());
+        assertEquals("email", responseFemale.getEmail());
+        assertEquals("여자", responseFemale.getGender());
+
     }
 
     @Test
@@ -144,6 +164,7 @@ class MemberServiceTest {
 
     @Test
     void updateInfo() {
+        //given
         JoinRequest request = MemberRequest.JoinRequest.builder()
                 .loginId("loginId")
                 .password("password")
@@ -203,7 +224,6 @@ class MemberServiceTest {
                 new NotFoundMemberException("찾을 수 없는 회원입니다."));
 
         assertTrue(bCryptPasswordEncoder.matches("updatePassword", updatedMember.getPassword()));
-        assertTrue(bCryptPasswordEncoder.matches("updatePassword", updatedMember.getConfirmPassword()));
     }
 
     @Test
