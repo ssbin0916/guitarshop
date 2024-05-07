@@ -7,10 +7,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import static jakarta.persistence.FetchType.LAZY;
 
+@Slf4j
 @Entity
 @Getter
 @Setter
@@ -47,7 +49,6 @@ public class OrderItem {
         orderItem.setOrderPrice(orderPrice);
         orderItem.setCount(count);
 
-        item.removeStock(count);
         return orderItem;
     }
 
@@ -58,6 +59,7 @@ public class OrderItem {
     }
 
     public void cancel() {
+        log.info("cancel order item: {}, quantity: {}", this.id, this.count);
         getItem().addStock(count);
     }
 
