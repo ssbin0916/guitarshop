@@ -4,7 +4,6 @@ package com.project.guitarShop.service.order;
 import com.project.guitarShop.domain.item.Item;
 import com.project.guitarShop.domain.item.Category;
 import com.project.guitarShop.domain.item.Brand;
-import com.project.guitarShop.domain.member.Member;
 import com.project.guitarShop.domain.order.Order;
 import com.project.guitarShop.domain.order.OrderStatus;
 import com.project.guitarShop.domain.orderItem.OrderItem;
@@ -18,7 +17,6 @@ import com.project.guitarShop.dto.member.MemberResponse.*;
 import com.project.guitarShop.dto.item.ItemRequest.*;
 import com.project.guitarShop.dto.item.ItemResponse.*;
 
-import com.project.guitarShop.repository.member.MemberRepository;
 import com.project.guitarShop.repository.item.ItemRepository;
 import com.project.guitarShop.repository.order.OrderRepository;
 
@@ -41,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-//@Rollback(value = false)
+@Rollback(value = false)
 class OrderServiceTest {
 
     @Autowired
