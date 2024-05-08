@@ -1,4 +1,4 @@
-package com.project.guitarShop.exception;
+package com.project.guitarShop.exception.cart;
 
 public class NotFoundCartException extends RuntimeException {
 

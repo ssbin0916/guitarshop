@@ -1,4 +1,4 @@
-package com.project.guitarShop.exception;
+package com.project.guitarShop.exception.order;
 
 public class NotFoundOrderException extends RuntimeException {
 

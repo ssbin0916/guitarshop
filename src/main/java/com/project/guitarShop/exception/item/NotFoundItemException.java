@@ -1,4 +1,4 @@
-package com.project.guitarShop.exception;
+package com.project.guitarShop.exception.item;
 
 public class NotFoundItemException extends RuntimeException {
 
