@@ -39,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-@Rollback(value = false)
+//@Rollback(value = false)
 class OrderServiceTest {
 
     @Autowired
@@ -82,19 +82,19 @@ class OrderServiceTest {
         AddItemResponse itemResponse = itemService.save(itemRequest);
 
         //when
-        Long orderId = orderService.order(memberResponse.getId(), itemResponse.getId(), 2);
+        Order order = orderService.order(memberResponse.getId(), itemResponse.getId(), 2);
 
-        Optional<Order> save = orderRepository.findById(orderId);
+        Optional<Order> save = orderRepository.findById(order.getId());
         assertTrue(save.isPresent());
-        Order order = save.get();
-        Delivery delivery = order.getDelivery();
-        OrderItem orderItem = order.getOrderItems().get(0);
+        Order saveOrder = save.get();
+        Delivery delivery = saveOrder.getDelivery();
+        OrderItem orderItem = saveOrder.getOrderItems().get(0);
 
         //then
         assertEquals(memberRequest.getAddress(), delivery.getAddress());
-        assertEquals(OrderStatus.ORDER, order.getOrderStatus(), "상품 주문시 주문 상태는 ORDER");
+        assertEquals(OrderStatus.ORDER, saveOrder.getOrderStatus(), "상품 주문시 주문 상태는 ORDER");
         assertEquals(DeliveryStatus.READY, delivery.getStatus(), "상품 주문시 배송 상태는 READY");
-        assertEquals(1, order.getOrderItems().size(), "주문한 상품 종류 수가 정확해야 한다.");
+        assertEquals(1, saveOrder.getOrderItems().size(), "주문한 상품 종류 수가 정확해야 한다.");
         assertEquals(itemRequest.getPrice() * 2, orderItem.getTotalPrice(), "주문 가격은 가격 * 수량이다.");
     }
 
@@ -127,11 +127,11 @@ class OrderServiceTest {
         AddItemResponse itemResponse = itemService.save(itemRequest);
 
         //when
-        Long orderId = orderService.order(memberResponse.getId(), itemResponse.getId(), 2);
-        orderService.cancelOrder(orderId);
+        Order order = orderService.order(memberResponse.getId(), itemResponse.getId(), 2);
+        orderService.cancelOrder(order.getId());
 
         //then
-        Order save = orderRepository.findById(orderId)
+        Order save = orderRepository.findById(order.getId())
                 .orElseThrow(() -> new NotFoundOrderException("주문 정보가 없습니다."));
         Item item = itemRepository.findById(itemResponse.getId())
                 .orElseThrow(() -> new NotFoundItemException("아이템이 없습니다."));
@@ -155,7 +155,7 @@ class OrderServiceTest {
                 .address(new Address("add", "re", "ss"))
                 .build();
 
-        JoinResponse memberResponse = memberService.join(memberRequest);
+        memberService.join(memberRequest);
 
         AddItemRequest itemRequest = AddItemRequest.builder()
                 .name("name")
@@ -165,7 +165,7 @@ class OrderServiceTest {
                 .brand(Brand.JAMESTYLER)
                 .build();
 
-        AddItemResponse itemResponse = itemService.save(itemRequest);
+        itemService.save(itemRequest);
 
         //when //then
         assertThrows(NotEnoughStockException.class, () -> {
