@@ -1,24 +1,22 @@
 package com.project.guitarShop.service.cart;
 
+import com.project.guitarShop.domain.address.Address;
 import com.project.guitarShop.domain.cart.Cart;
-import com.project.guitarShop.repository.cart.CartRepository;
-import com.project.guitarShop.dto.item.ItemRequest;
-import com.project.guitarShop.service.item.ItemService;
 import com.project.guitarShop.domain.item.Brand;
 import com.project.guitarShop.domain.item.Category;
-import com.project.guitarShop.repository.item.ItemRepository;
+import com.project.guitarShop.domain.order.Order;
+import com.project.guitarShop.dto.item.ItemRequest.*;
+import com.project.guitarShop.dto.item.ItemResponse.*;
+import com.project.guitarShop.dto.member.MemberRequest.*;
+import com.project.guitarShop.dto.member.MemberResponse.*;
+import com.project.guitarShop.service.item.ItemService;
 import com.project.guitarShop.service.member.MemberService;
-import com.project.guitarShop.domain.member.Member;
-import com.project.guitarShop.repository.member.MemberRepository;
 import com.project.guitarShop.service.order.OrderService;
-import com.project.guitarShop.repository.order.OrderRepository;
-import com.project.guitarShop.repository.orderItem.OrderItemRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,57 +26,127 @@ import static org.junit.jupiter.api.Assertions.*;
 class CartServiceTest {
 
     @Autowired
-    CartRepository cartRepository;
-    @Autowired
-    CartServiceImpl cartService;
-    @Autowired
-    OrderItemRepository orderItemRepository;
+    CartService cartService;
     @Autowired
     MemberService memberService;
     @Autowired
     ItemService itemService;
     @Autowired
-    MemberRepository memberRepository;
-    @Autowired
-    ItemRepository itemRepository;
-    @Autowired
-    OrderRepository orderRepository;
+    OrderService orderService;
+
 
     @Test
     void addCart() {
         //given
-        Member member = new Member();
-        Cart cart = cartService.crea
-        memberService.join(memberRequest);
-        ItemRequest itemRequest = new ItemRequest("name", 10000, 10, Category.ELECTRIC_GUITAR, Brand.JAMESTYLER);
-        itemService.save(itemRequest);
+        JoinRequest memberRequest = JoinRequest.builder()
+                .loginId("loginId1")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .rrn("000000-1111111")
+                .phone("phone")
+                .email("email")
+                .address(new Address("add", "re", "ss"))
+                .build();
+
+        JoinResponse memberResponse = memberService.join(memberRequest);
+
+        AddItemRequest itemRequest = AddItemRequest.builder()
+                .name("name")
+                .price(10000)
+                .quantity(10)
+                .category(Category.ELECTRIC_GUITAR)
+                .brand(Brand.JAMESTYLER)
+                .build();
+
+        AddItemResponse itemResponse = itemService.save(itemRequest);
+
+        Order order = orderService.order(memberResponse.getId(), itemResponse.getId(), 10);
 
         //when
-        OrderService orderService = new OrderService(memberRepository, itemRepository, orderRepository);
+        Cart cart = cartService.addCart(memberResponse.getId(), order.getId(), order.getOrderItems());
 
-        //when
-        Cart savedCart = cartService.addCart(1L, orderItem);
-
-        // Then: 검증
-        assertNotNull(savedCart);
-        assertEquals(1, savedCart.getOrderItems().size());
-        assertTrue(savedCart.getOrderItems().contains(orderItem));
+        //then
+        assertNotNull(cart);
+        assertEquals(1, cart.getOrderItems().size());
+        assertEquals(itemResponse.getId(), cart.getOrderItems().get(0).getId());
+        assertEquals(1L, cart.getId());
     }
 
-    public Cart createCart(Member member) {
-        // 회원 저장
-        memberService.join(member);
-
-        // 회원 id를 확인하여 Cart 생성
-        Long memberId = member.getId();
-        if (memberId == null) {
-            throw new IllegalArgumentException("회원 ID가 null입니다.");
-        }
-
-        Cart cart = Cart.builder()
-                .member(member)
-                .orderItems(new ArrayList<>())
+    @Test
+    void remove() {
+        //given
+        JoinRequest memberRequest = JoinRequest.builder()
+                .loginId("loginId1")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .rrn("000000-1111111")
+                .phone("phone")
+                .email("email")
+                .address(new Address("add", "re", "ss"))
                 .build();
-        return cartRepository.save(cart);
+
+        JoinResponse memberResponse = memberService.join(memberRequest);
+
+        AddItemRequest itemRequest = AddItemRequest.builder()
+                .name("name")
+                .price(10000)
+                .quantity(10)
+                .category(Category.ELECTRIC_GUITAR)
+                .brand(Brand.JAMESTYLER)
+                .build();
+
+        AddItemResponse itemResponse = itemService.save(itemRequest);
+
+        Order order = orderService.order(memberResponse.getId(), itemResponse.getId(), 10);
+
+        Cart cart = cartService.addCart(memberResponse.getId(), order.getId(), order.getOrderItems());
+
+        //when
+        cartService.removeItemFromCart(cart.getId());
+
+        //then
+        assertEquals(10, order.getOrderItems().get(0).getQuantity());
+    }
+
+
+    @Test
+    void update() {
+        //given
+        JoinRequest memberRequest = JoinRequest.builder()
+                .loginId("loginId1")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .rrn("000000-1111111")
+                .phone("phone")
+                .email("email")
+                .address(new Address("add", "re", "ss"))
+                .build();
+
+        JoinResponse memberResponse = memberService.join(memberRequest);
+
+        AddItemRequest itemRequest = AddItemRequest.builder()
+                .name("name")
+                .price(10000)
+                .quantity(10)
+                .category(Category.ELECTRIC_GUITAR)
+                .brand(Brand.JAMESTYLER)
+                .build();
+
+        AddItemResponse itemResponse = itemService.save(itemRequest);
+
+        Order order = orderService.order(memberResponse.getId(), itemResponse.getId(), 10);
+
+        Cart cart = cartService.addCart(memberResponse.getId(), order.getId(), order.getOrderItems());
+
+        int newQuantity = 3;
+
+        //when
+        cartService.updateItemQuantity(cart.getId(), cart.getOrderItems().get(0).getId(), newQuantity);
+
+        //then
+        assertEquals(newQuantity, cart.getOrderItems().get(0).getQuantity());
     }
 }
