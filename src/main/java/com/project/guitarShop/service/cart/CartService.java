@@ -1,16 +1,17 @@
 package com.project.guitarShop.service.cart;
 
-import com.project.guitarShop.dto.cart.CartRequest;
-import com.project.guitarShop.dto.cart.CartResponse;
 import com.project.guitarShop.domain.cart.Cart;
-import com.project.guitarShop.repository.cart.CartRepository;
-import com.project.guitarShop.exception.NotFoundCartException;
-import com.project.guitarShop.exception.NotFoundItemException;
-import com.project.guitarShop.exception.NotFoundOrderException;
-import com.project.guitarShop.item.domain.QItem;
+import com.project.guitarShop.domain.member.Member;
+import com.project.guitarShop.domain.order.Order;
 import com.project.guitarShop.domain.orderItem.OrderItem;
-import com.project.guitarShop.orderItem.domain.QOrderItem;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.project.guitarShop.exception.NotFoundMemberException;
+import com.project.guitarShop.exception.cart.NotFoundCartException;
+import com.project.guitarShop.exception.item.NotFoundItemException;
+import com.project.guitarShop.exception.order.NotFoundOrderException;
+import com.project.guitarShop.repository.cart.CartRepository;
+import com.project.guitarShop.repository.member.MemberRepository;
+import com.project.guitarShop.repository.order.OrderRepository;
+import com.project.guitarShop.repository.orderItem.OrderItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,63 +24,47 @@ import java.util.List;
 public class CartService {
 
     private final CartRepository cartRepository;
-    private final JPAQueryFactory queryFactory;
-    private final QItem qItem = QItem.item;
-    private final QOrderItem qOrderItem = QOrderItem.orderItem;
+    private final MemberRepository memberRepository;
+    private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
 
+    public Cart addCart(Long memberId, Long orderId, List<OrderItem> orderItems) {
 
-    @Override
-    public CartResponse addCart(Long id, OrderItem orderItem) {
-//        Cart cart = cartRepository.findById(id)
-//                .orElseThrow(() -> new NotFoundCartException("장바구니를 찾을 수 없습니다."));
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
-        //검증 메서드 작성
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new NotFoundOrderException("해당 주문을 찾을 수 없습니다."));
 
-        cart.getOrderItems().add(orderItem);
-        return cartRepository.save(cart);
+        Cart cart = Cart.addCart(member, orderItems);
+
+        cartRepository.save(cart);
+
+        return cart;
     }
 
-    @Override
-    public void removeItemFromCart(Long cartId, Long orderItemId) {
-        Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new NotFoundCartException("장바구니를 찾을 수 없습니다."));
+    public void removeItemFromCart(Long cartId) {
+
+        cartRepository.findById(cartId)
+                .orElseThrow(() -> new NotFoundCartException("해당 장바구니를 찾을 수 없습니다."));
+
+        cartRepository.deleteById(cartId);
     }
 
-    @Override
-    public void updateItemQuantity(Long cartId, Long orderItemId, int amount) {
+    public Cart updateItemQuantity(Long cartId, Long orderItemId, int quantity) {
+
         Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new NotFoundCartException("장바구니를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundCartException("해당 장바구니를 찾을 수 없습니다."));
+
         OrderItem orderItem = cart.getOrderItems().stream()
                 .filter(item -> item.getId().equals(orderItemId))
                 .findFirst()
-                .orElseThrow(() -> new NotFoundOrderException("주문 항목을 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundItemException("해당 주문 상품을 찾을 수 없습니다."));
 
-        if (amount > 0) {
-            queryFactory.update(qOrderItem)
-                    .where(
-                            qOrderItem.id.eq(orderItemId),
-                            qOrderItem.cart.id.eq(cartId)
-                    )
-                    .set(qOrderItem.item.quantity, qOrderItem.item.quantity.add(amount))
-                    .execute();
-        } else if (amount < 0) {
-            queryFactory.update(qOrderItem)
-                    .where(
-                            qOrderItem.id.eq(orderItemId),
-                            qOrderItem.cart.id.eq(cartId),
-                            qOrderItem.item.quantity.goe(Math.abs(amount))
-                    )
-                    .set(qOrderItem.item.quantity, qOrderItem.item.quantity.subtract(Math.abs(amount)))
-                    .execute();
-        } else {
-            throw new NotFoundItemException("아이템을 찾을 수 없습니다.");
-        }
-    }
+        orderItem.setQuantity(quantity);
+        orderItemRepository.save(orderItem);
+        cartRepository.save(cart);
 
-    /**
-     * 검증 메서드
-     */
-    private void validateExistCart(CartRequest cartRequest) {
-        List<CartResponse> findCarts = cartRepository.findByIdgetId());
+        return cart;
     }
 }
