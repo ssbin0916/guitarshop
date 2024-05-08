@@ -29,19 +29,20 @@ public class MemberService {
         validateExistLoginId(request);
         validateConfirmPassword(request.getPassword(), request.getConfirmPassword());
 
-        JoinRequest joinRequest = JoinRequest.insertGender(
-                request.getLoginId(),
-                request.getPassword(),
-                request.getConfirmPassword(),
-                request.getName(),
-                request.getRrn(),
-                request.getPhone(),
-                request.getEmail(),
-                request.getAddress());
+        String gender = calculateGender(request.getRrn());
+        Member member = Member.builder()
+                .loginId(request.getLoginId())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .name(request.getName())
+                .rrn(request.getRrn())
+                .gender(gender)
+                .phone(request.getPhone())
+                .email(request.getEmail())
+                .address(request.getAddress())
+                .build();
 
-        Member save = memberRepository.save(joinRequest.toDomain(passwordEncoder));
-
-        return new JoinResponse(save);
+        memberRepository.save(member);
+        return new JoinResponse(member);
     }
 
     public void updateInfo(Long id, UpdateInfoRequest request) {
@@ -55,7 +56,7 @@ public class MemberService {
     public void updatePassword(Long id, UpdatePasswordRequest request, BCryptPasswordEncoder passwordEncoder) {
         Member existingMember = memberRepository.findById(id).orElseThrow(() -> new NotFoundMemberException("찾을 수 없는 회원입니다."));
 
-        existingMember.updatePassword(request.getPassword(), request.getConfirmPassword(), passwordEncoder);
+        existingMember.updatePassword(request.getPassword(), passwordEncoder);
 
         validateConfirmPassword(request.getPassword(), request.getConfirmPassword());
 
@@ -77,9 +78,6 @@ public class MemberService {
     }
 
 
-
-
-    //--검증 메서드--//
     private void validateExistLoginId(JoinRequest request) {
         Optional<Member> findMembers = memberRepository.findByLoginId(request.getLoginId());
         if (findMembers.isPresent()) {
@@ -88,8 +86,22 @@ public class MemberService {
     }
 
     private void validateConfirmPassword(String password, String confirmPassword) {
-        if (!password.equals(confirmPassword)) {
-            throw new ValidatePasswordException("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+        if (password == null || confirmPassword == null || !password.equals(confirmPassword)) {
+            throw new ValidatePasswordException("비밀번호와 비밀번호 번호이 일치하지 않습니다.");
+        }
+    }
+
+    private String calculateGender(String rrn) {
+        char gender = rrn.charAt(7);
+        switch (gender) {
+            case '1':
+            case '3':
+                return "남자";
+            case '2':
+            case '4':
+                return "여자";
+            default:
+                throw new IllegalArgumentException("잘못된 입력입니다.");
         }
     }
 }
