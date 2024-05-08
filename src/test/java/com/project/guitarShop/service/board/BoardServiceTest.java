@@ -25,7 +25,7 @@ class BoardServiceTest {
     void writeBoard() {
         //given
         JoinRequest memberRequest = JoinRequest.builder()
-                .loginId("loginId1")
+                .loginId("loginId")
                 .password("password")
                 .confirmPassword("password")
                 .name("name")
@@ -49,7 +49,7 @@ class BoardServiceTest {
     void readBoard() {
         //given
         JoinRequest memberRequest = JoinRequest.builder()
-                .loginId("loginId1")
+                .loginId("loginId")
                 .password("password")
                 .confirmPassword("password")
                 .name("name")
@@ -74,7 +74,7 @@ class BoardServiceTest {
     void updateBoard() {
         //given
         JoinRequest memberRequest = JoinRequest.builder()
-                .loginId("loginId1")
+                .loginId("loginId")
                 .password("password")
                 .confirmPassword("password")
                 .name("name")
