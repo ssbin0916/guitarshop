@@ -35,8 +35,10 @@ public class Item {
         this.brand = brand;
     }
 
-
     public void addStock(int quantity) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException("잘못된 수량입니다.");
+        }
         this.quantity += quantity;
     }
 
