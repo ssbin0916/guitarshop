@@ -30,7 +30,6 @@ import com.project.guitarShop.exception.order.NotFoundOrderException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -56,29 +55,10 @@ class OrderServiceTest {
     @Test
     void order() {
         //given
-        String male = "000000-1111111";
-
-        JoinRequest memberRequest = MemberRequest.JoinRequest.builder()
-                .loginId("loginId1")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn(male)
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
-
+        JoinRequest memberRequest = createDummyJoinRequest();
         JoinResponse memberResponse = memberService.join(memberRequest);
 
-        AddItemRequest itemRequest = AddItemRequest.builder()
-                .name("name")
-                .price(10000)
-                .quantity(10)
-                .category(Category.ELECTRIC_GUITAR)
-                .brand(Brand.JAMESTYLER)
-                .build();
-
+        AddItemRequest itemRequest = createDummyAddItemRequest();
         AddItemResponse itemResponse = itemService.save(itemRequest);
 
         //when
@@ -101,29 +81,10 @@ class OrderServiceTest {
     @Test
     void cancelOrder() {
         //given
-        String male = "000000-1111111";
-
-        JoinRequest memberRequest = MemberRequest.JoinRequest.builder()
-                .loginId("loginId1")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn(male)
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
-
+        JoinRequest memberRequest = createDummyJoinRequest();
         JoinResponse memberResponse = memberService.join(memberRequest);
 
-        AddItemRequest itemRequest = AddItemRequest.builder()
-                .name("name")
-                .price(10000)
-                .quantity(10)
-                .category(Category.ELECTRIC_GUITAR)
-                .brand(Brand.JAMESTYLER)
-                .build();
-
+        AddItemRequest itemRequest = createDummyAddItemRequest();
         AddItemResponse itemResponse = itemService.save(itemRequest);
 
         //when
@@ -142,34 +103,40 @@ class OrderServiceTest {
 
     @Test
     void notEnoughStock() {
-        String male = "000000-1111111";
-
-        JoinRequest memberRequest = MemberRequest.JoinRequest.builder()
-                .loginId("loginId1")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn(male)
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
-
+        JoinRequest memberRequest = createDummyJoinRequest();
         memberService.join(memberRequest);
 
-        AddItemRequest itemRequest = AddItemRequest.builder()
-                .name("name")
-                .price(10000)
-                .quantity(10)
-                .category(Category.ELECTRIC_GUITAR)
-                .brand(Brand.JAMESTYLER)
-                .build();
-
+        AddItemRequest itemRequest = createDummyAddItemRequest();
         itemService.save(itemRequest);
 
         //when //then
         assertThrows(NotEnoughStockException.class, () -> {
             orderService.order(1L, 1L, 11);
         });
+    }
+
+    private JoinRequest createDummyJoinRequest() {
+        return MemberRequest.JoinRequest.builder()
+                .loginEmail("email@test.com")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .phone("phone")
+                .address(new Address("add", "re", "ss"))
+                .build();
+    }
+
+    private AddItemRequest createDummyAddItemRequest() {
+        return AddItemRequest.builder()
+                .name("name")
+                .price(10000)
+                .quantity(10)
+                .category(Category.ELECTRIC_GUITAR)
+                .brand(Brand.JAMESTYLER)
+                .build();
+    }
+
+    private LoginResponse loginMember(String username, String password) {
+        return memberService.login(username, password);
     }
 }

@@ -7,6 +7,7 @@ import com.project.guitarShop.domain.item.Category;
 import com.project.guitarShop.domain.order.Order;
 import com.project.guitarShop.dto.item.ItemRequest.*;
 import com.project.guitarShop.dto.item.ItemResponse.*;
+import com.project.guitarShop.dto.member.MemberRequest;
 import com.project.guitarShop.dto.member.MemberRequest.*;
 import com.project.guitarShop.dto.member.MemberResponse.*;
 import com.project.guitarShop.service.item.ItemService;
@@ -15,7 +16,6 @@ import com.project.guitarShop.service.order.OrderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,27 +38,10 @@ class CartServiceTest {
     @Test
     void addCart() {
         //given
-        JoinRequest memberRequest = JoinRequest.builder()
-                .loginId("loginId1")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn("000000-1111111")
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
-
+        JoinRequest memberRequest = createDummyJoinRequest();
         JoinResponse memberResponse = memberService.join(memberRequest);
 
-        AddItemRequest itemRequest = AddItemRequest.builder()
-                .name("name")
-                .price(10000)
-                .quantity(10)
-                .category(Category.ELECTRIC_GUITAR)
-                .brand(Brand.JAMESTYLER)
-                .build();
-
+        AddItemRequest itemRequest = createDummyAddItemRequest();
         AddItemResponse itemResponse = itemService.save(itemRequest);
 
         Order order = orderService.order(memberResponse.getId(), itemResponse.getId(), 10);
@@ -76,27 +59,10 @@ class CartServiceTest {
     @Test
     void remove() {
         //given
-        JoinRequest memberRequest = JoinRequest.builder()
-                .loginId("loginId1")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn("000000-1111111")
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
-
+        JoinRequest memberRequest = createDummyJoinRequest();
         JoinResponse memberResponse = memberService.join(memberRequest);
 
-        AddItemRequest itemRequest = AddItemRequest.builder()
-                .name("name")
-                .price(10000)
-                .quantity(10)
-                .category(Category.ELECTRIC_GUITAR)
-                .brand(Brand.JAMESTYLER)
-                .build();
-
+        AddItemRequest itemRequest = createDummyAddItemRequest();
         AddItemResponse itemResponse = itemService.save(itemRequest);
 
         Order order = orderService.order(memberResponse.getId(), itemResponse.getId(), 10);
@@ -114,27 +80,10 @@ class CartServiceTest {
     @Test
     void update() {
         //given
-        JoinRequest memberRequest = JoinRequest.builder()
-                .loginId("loginId1")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn("000000-1111111")
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
-
+        JoinRequest memberRequest = createDummyJoinRequest();
         JoinResponse memberResponse = memberService.join(memberRequest);
 
-        AddItemRequest itemRequest = AddItemRequest.builder()
-                .name("name")
-                .price(10000)
-                .quantity(10)
-                .category(Category.ELECTRIC_GUITAR)
-                .brand(Brand.JAMESTYLER)
-                .build();
-
+        AddItemRequest itemRequest = createDummyAddItemRequest();
         AddItemResponse itemResponse = itemService.save(itemRequest);
 
         Order order = orderService.order(memberResponse.getId(), itemResponse.getId(), 10);
@@ -148,5 +97,26 @@ class CartServiceTest {
 
         //then
         assertEquals(newQuantity, cart.getOrderItems().get(0).getQuantity());
+    }
+
+    private JoinRequest createDummyJoinRequest() {
+        return MemberRequest.JoinRequest.builder()
+                .loginEmail("email@test.com")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .phone("phone")
+                .address(new Address("add", "re", "ss"))
+                .build();
+    }
+
+    private AddItemRequest createDummyAddItemRequest() {
+        return AddItemRequest.builder()
+                .name("name")
+                .price(10000)
+                .quantity(10)
+                .category(Category.ELECTRIC_GUITAR)
+                .brand(Brand.JAMESTYLER)
+                .build();
     }
 }

@@ -2,7 +2,9 @@ package com.project.guitarShop.service.board;
 
 import com.project.guitarShop.domain.address.Address;
 import com.project.guitarShop.domain.board.Board;
+import com.project.guitarShop.dto.member.MemberRequest;
 import com.project.guitarShop.dto.member.MemberRequest.JoinRequest;
+import com.project.guitarShop.dto.member.MemberResponse;
 import com.project.guitarShop.dto.member.MemberResponse.JoinResponse;
 import com.project.guitarShop.service.member.MemberService;
 import org.junit.jupiter.api.Test;
@@ -24,18 +26,8 @@ class BoardServiceTest {
     @Test
     void writeBoard() {
         //given
-        JoinRequest memberRequest = JoinRequest.builder()
-                .loginId("loginId")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn("000000-1111111")
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
-
-        JoinResponse memberResponse = memberService.join(memberRequest);
+        JoinRequest request = createDummyJoinRequest();
+        JoinResponse memberResponse = memberService.join(request);
 
         //when
         Board board = boardService.createBoard(memberResponse.getId(), "제목", "내용", 1234);
@@ -48,18 +40,8 @@ class BoardServiceTest {
     @Test
     void readBoard() {
         //given
-        JoinRequest memberRequest = JoinRequest.builder()
-                .loginId("loginId")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn("000000-1111111")
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
-
-        JoinResponse memberResponse = memberService.join(memberRequest);
+        JoinRequest request = createDummyJoinRequest();
+        JoinResponse memberResponse = memberService.join(request);
 
         Board board = boardService.createBoard(memberResponse.getId(), "제목", "내용", 1234);
 
@@ -73,18 +55,8 @@ class BoardServiceTest {
     @Test
     void updateBoard() {
         //given
-        JoinRequest memberRequest = JoinRequest.builder()
-                .loginId("loginId")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn("000000-1111111")
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
-
-        JoinResponse memberResponse = memberService.join(memberRequest);
+        JoinRequest request = createDummyJoinRequest();
+        JoinResponse memberResponse = memberService.join(request);
 
         Board board = boardService.createBoard(memberResponse.getId(), "제목", "내용", 1234);
 
@@ -95,6 +67,21 @@ class BoardServiceTest {
         assertEquals("제목 수정", updateBoard.getTitle());
         assertEquals("내용 수정", updateBoard.getContent());
         assertEquals(1234, updateBoard.getPassword());
+    }
+
+    private JoinRequest createDummyJoinRequest() {
+        return MemberRequest.JoinRequest.builder()
+                .loginEmail("email@test.com")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .phone("phone")
+                .address(new Address("add", "re", "ss"))
+                .build();
+    }
+
+    private MemberResponse.LoginResponse loginMember(String username, String password) {
+        return memberService.login(username, password);
     }
 
 }

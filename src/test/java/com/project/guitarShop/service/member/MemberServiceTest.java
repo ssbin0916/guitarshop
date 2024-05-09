@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,80 +40,35 @@ class MemberServiceTest {
     @Test
     void join() {
         //given
-        String male = "000000-1111111";
-        String female = "000000-2222222";
-
-        JoinRequest requestMale = MemberRequest.JoinRequest.builder()
-                .loginId("loginId1")
+        JoinRequest request = MemberRequest.JoinRequest.builder()
+                .loginEmail("email@test.com")
                 .password("password")
                 .confirmPassword("password")
                 .name("name")
-                .rrn(male)
                 .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
-
-        JoinRequest requestFemale = MemberRequest.JoinRequest.builder()
-                .loginId("loginId2")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn(female)
-                .phone("phone")
-                .email("email")
                 .address(new Address("add", "re", "ss"))
                 .build();
 
         //when
-        JoinResponse responseMale = memberService.join(requestMale);
-        JoinResponse responseFemale = memberService.join(requestFemale);
+        JoinResponse response = memberService.join(request);
 
         //then
 
-        assertNotNull(responseMale);
-        assertNotNull(responseFemale);
+        assertNotNull(response);
 
-        assertEquals("loginId1", responseMale.getLoginId());
-        assertEquals("name", responseMale.getName());
-        assertEquals("email", responseMale.getEmail());
-        assertEquals("남자", responseMale.getGender());
-
-        assertEquals("loginId2", responseFemale.getLoginId());
-        assertEquals("name", responseFemale.getName());
-        assertEquals("email", responseFemale.getEmail());
-        assertEquals("여자", responseFemale.getGender());
-
+        assertEquals("email@test.com", response.getLoginEmail());
+        assertEquals("name", response.getName());
     }
 
     @Test
     void existLoginId() {
         //given
-        JoinRequest request1 = MemberRequest.JoinRequest.builder()
-                .loginId("loginId")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn("000000-1111111")
-                .gender("gender")
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
+        JoinRequest request1 = createDummyJoinRequest();
         memberService.join(request1);
 
         //when
-        JoinRequest request2 = MemberRequest.JoinRequest.builder()
-                .loginId("loginId")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn("000000-1111111")
-                .gender("gender")
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
+        JoinRequest request2 = createDummyJoinRequest();
+        memberService.join(request2);
 
         //then
         assertThrows(ExistMemberException.class, () -> memberService.join(request2));
@@ -122,17 +76,9 @@ class MemberServiceTest {
 
     @Test
     void passwordNotMatch() {
-        JoinRequest request = MemberRequest.JoinRequest.builder()
-                .loginId("loginId")
-                .password("password")
-                .confirmPassword("notMatchPassword")
-                .name("name")
-                .rrn("000000-1111111")
-                .gender("gender")
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
+        //given
+        JoinRequest request = createDummyJoinRequest();
+        memberService.join(request);
 
         //when //then
         assertThrows(ValidatePasswordException.class, () -> memberService.join(request));
@@ -140,49 +86,26 @@ class MemberServiceTest {
 
     @Test
     void login() {
-        JoinRequest request = MemberRequest.JoinRequest.builder()
-                .loginId("loginId")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn("000000-1111111")
-                .gender("gender")
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
-
+        JoinRequest request = createDummyJoinRequest();
         memberService.join(request);
 
         //when
-        LoginResponse response = memberService.login("loginId", "password");
+        LoginResponse response = memberService.login("email@test.com", "password");
 
         //then
         assertNotNull(response);
-        assertEquals("loginId", response.getLoginId());
+        assertEquals("email@test.com", response.getLoginEmail());
     }
 
     @Test
     void updateInfo() {
         //given
-        JoinRequest request = MemberRequest.JoinRequest.builder()
-                .loginId("loginId")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn("000000-1111111")
-                .gender("gender")
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
-
+        JoinRequest request = createDummyJoinRequest();
         memberService.join(request);
 
         //when
         UpdateInfoRequest updateMember = UpdateInfoRequest.builder()
                 .phone("updatePhone")
-                .email("updateEmail")
                 .address(new Address("up", "da", "te"))
                 .build();
 
@@ -191,24 +114,13 @@ class MemberServiceTest {
         //then
         assertNotNull(updateMember);
         assertEquals("updatePhone", updateMember.getPhone());
-        assertEquals("updateEmail", updateMember.getEmail());
     }
 
     @Test
     void updatePassword() {
-        JoinRequest request = MemberRequest.JoinRequest.builder()
-                .loginId("loginId")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn("000000-1111111")
-                .gender("gender")
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
-
-        JoinResponse member = memberService.join(request);
+        //given
+        JoinRequest request = createDummyJoinRequest();
+        JoinResponse response = memberService.join(request);
 
         //when
         UpdatePasswordRequest updatePasswordRequest = UpdatePasswordRequest.builder()
@@ -216,11 +128,11 @@ class MemberServiceTest {
                 .confirmPassword("updatePassword")
                 .build();
 
-        memberService.updatePassword(member.getId(), updatePasswordRequest, bCryptPasswordEncoder);
+        memberService.updatePassword(response.getId(), updatePasswordRequest);
 
 
         //then
-        Member updatedMember = memberRepository.findById(member.getId()).orElseThrow(() ->
+        Member updatedMember = memberRepository.findById(response.getId()).orElseThrow(() ->
                 new NotFoundMemberException("찾을 수 없는 회원입니다."));
 
         assertTrue(bCryptPasswordEncoder.matches("updatePassword", updatedMember.getPassword()));
@@ -228,18 +140,8 @@ class MemberServiceTest {
 
     @Test
     void delete() {
-        JoinRequest request = MemberRequest.JoinRequest.builder()
-                .loginId("loginId")
-                .password("password")
-                .confirmPassword("password")
-                .name("name")
-                .rrn("000000-1111111")
-                .gender("gender")
-                .phone("phone")
-                .email("email")
-                .address(new Address("add", "re", "ss"))
-                .build();
-
+        //given
+        JoinRequest request = createDummyJoinRequest();
         memberService.join(request);
 
         //when
@@ -250,5 +152,20 @@ class MemberServiceTest {
             memberRepository.findById(1L)
                     .orElseThrow(() -> new NotFoundMemberException("존재하지 않습니다."));
         });
+    }
+
+    private JoinRequest createDummyJoinRequest() {
+        return MemberRequest.JoinRequest.builder()
+                .loginEmail("email@test.com")
+                .password("password")
+                .confirmPassword("password")
+                .name("name")
+                .phone("phone")
+                .address(new Address("add", "re", "ss"))
+                .build();
+    }
+
+    private LoginResponse loginMember(String username, String password) {
+        return memberService.login(username, password);
     }
 }
