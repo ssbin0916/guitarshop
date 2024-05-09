@@ -8,16 +8,14 @@ public class MemberResponse {
 
     @Getter
     public static class LoginResponse {
-        private final String loginId;
+        private final String loginEmail;
         private final String name;
-        private final String gender;
         private final Address address;
         private final String role;
 
         public LoginResponse(Member member) {
-            this.loginId = member.getLoginId();
+            this.loginEmail = member.getLoginEmail();
             this.name = member.getName();
-            this.gender = member.getGender();
             this.address = member.getAddress();
             this.role = member.getRole();
         }
@@ -26,18 +24,14 @@ public class MemberResponse {
     @Getter
     public static class JoinResponse {
         private final Long id;
-        private final String loginId;
+        private final String loginEmail;
         private final String name;
-        private final String gender;
-        private final String email;
         private final Address address;
 
         public JoinResponse(Member member) {
             this.id = member.getId();
-            this.loginId = member.getLoginId();
+            this.loginEmail = member.getLoginEmail();
             this.name = member.getName();
-            this.gender = member.getGender();
-            this.email = member.getEmail();
             this.address = member.getAddress();
         }
     }
