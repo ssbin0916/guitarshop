@@ -23,19 +23,18 @@ public class Member {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String loginId;
+    private String loginEmail;
 
     @Column(nullable = false)
     private String password;
+
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
-    private String rrn;
-    private String gender;
+
     @Column(nullable = false)
     private String phone;
+
     @Column(nullable = false)
-    private String email;
     private String role;
 
     @Embedded
@@ -45,21 +44,17 @@ public class Member {
     private List<Order> orders = new ArrayList<>();
 
     @Builder
-    public Member(String loginId, String password, String name, String rrn, String gender, String phone, String email, String role, Address address) {
-        this.loginId = loginId;
+    public Member(String loginEmail, String password, String name, String phone, String role, Address address) {
+        this.loginEmail = loginEmail;
         this.password = password;
         this.name = name;
-        this.rrn = rrn;
-        this.gender = gender;
         this.phone = phone;
-        this.email = email;
         this.role = role;
         this.address = address;
     }
 
-    public void updateInfo(String phone, String email, Address address) {
+    public void updateInfo(String phone, Address address) {
         this.phone = phone;
-        this.email = email;
         this.address = address;
     }
 
