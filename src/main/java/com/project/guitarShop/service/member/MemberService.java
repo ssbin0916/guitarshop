@@ -1,16 +1,17 @@
 package com.project.guitarShop.service.member;
 
 import com.project.guitarShop.domain.member.Member;
-import com.project.guitarShop.dto.member.MemberRequest.JoinRequest;
-import com.project.guitarShop.dto.member.MemberRequest.UpdateInfoRequest;
-import com.project.guitarShop.dto.member.MemberRequest.UpdatePasswordRequest;
-import com.project.guitarShop.dto.member.MemberResponse.JoinResponse;
-import com.project.guitarShop.dto.member.MemberResponse.LoginResponse;
+import com.project.guitarShop.dto.member.CustomUserDetails;
+import com.project.guitarShop.dto.member.MemberRequest.*;
+import com.project.guitarShop.dto.member.MemberResponse.*;
 import com.project.guitarShop.exception.ExistMemberException;
 import com.project.guitarShop.exception.NotFoundMemberException;
 import com.project.guitarShop.exception.ValidatePasswordException;
 import com.project.guitarShop.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,25 +21,23 @@ import java.util.Optional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+
     private final BCryptPasswordEncoder passwordEncoder;
 
     public JoinResponse join(JoinRequest request) {
         validateExistLoginId(request);
         validateConfirmPassword(request.getPassword(), request.getConfirmPassword());
 
-        String gender = calculateGender(request.getRrn());
         Member member = Member.builder()
-                .loginId(request.getLoginId())
+                .loginEmail(request.getLoginEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .name(request.getName())
-                .rrn(request.getRrn())
-                .gender(gender)
                 .phone(request.getPhone())
-                .email(request.getEmail())
                 .address(request.getAddress())
+                .role("USER")
                 .build();
 
         memberRepository.save(member);
@@ -48,30 +47,41 @@ public class MemberService {
     public void updateInfo(Long id, UpdateInfoRequest request) {
         Member existingMember = memberRepository.findById(id).orElseThrow(() -> new NotFoundMemberException("찾을 수 없는 회원입니다."));
 
-        existingMember.updateInfo(request.getPhone(), request.getEmail(), request.getAddress());
+        existingMember.updateInfo(request.getPhone(), request.getAddress());
 
         memberRepository.save(existingMember);
     }
 
-    public void updatePassword(Long id, UpdatePasswordRequest request, BCryptPasswordEncoder passwordEncoder) {
+    public void updatePassword(Long id, UpdatePasswordRequest request) {
         Member existingMember = memberRepository.findById(id).orElseThrow(() -> new NotFoundMemberException("찾을 수 없는 회원입니다."));
 
-        existingMember.updatePassword(request.getPassword(), passwordEncoder);
+        existingMember.updatePassword(passwordEncoder.encode(request.getPassword()), passwordEncoder);
 
         validateConfirmPassword(request.getPassword(), request.getConfirmPassword());
 
         memberRepository.save(existingMember);
     }
 
-    public LoginResponse login(String loginId, String password) {
-        Optional<Member> memberOptional = memberRepository.findByLoginId(loginId);
+    public LoginResponse login(String loginEmail, String password) {
+        Optional<Member> memberOptional = memberRepository.findByLoginEmail(loginEmail);
 
-        if (memberOptional.isPresent()) {
-            Member member = memberOptional.get();
-            return new LoginResponse(member);
+        if (memberOptional.isEmpty()) {
+            throw new NotFoundMemberException("해당 아이디를 찾을 수 없습니다.");
         }
-        throw new ValidatePasswordException("로그인에 실패했습니다.");
+
+        Member member = memberOptional.get();
+
+        if (!member.getLoginEmail().equals(loginEmail)) {
+            throw new ValidatePasswordException("아이디가 일치하지 않습니다.");
+        }
+
+        if (!passwordEncoder.matches(password, member.getPassword())) {
+            throw new ValidatePasswordException("비밀번호가 일치하지 않습니다.");
+        }
+
+        return new LoginResponse(member);
     }
+
 
     public void delete(Long id) {
         memberRepository.deleteById(id);
@@ -79,7 +89,7 @@ public class MemberService {
 
 
     private void validateExistLoginId(JoinRequest request) {
-        Optional<Member> findMembers = memberRepository.findByLoginId(request.getLoginId());
+        Optional<Member> findMembers = memberRepository.findByLoginEmail(request.getLoginEmail());
         if (findMembers.isPresent()) {
             throw new ExistMemberException("이미 존재하는 아이디입니다.");
         }
@@ -91,17 +101,15 @@ public class MemberService {
         }
     }
 
-    private String calculateGender(String rrn) {
-        char gender = rrn.charAt(7);
-        switch (gender) {
-            case '1':
-            case '3':
-                return "남자";
-            case '2':
-            case '4':
-                return "여자";
-            default:
-                throw new IllegalArgumentException("잘못된 입력입니다.");
+    @Override
+    public UserDetails loadUserByUsername(String loginEmail) throws UsernameNotFoundException {
+
+        Member member = memberRepository.findByLoginEmail(loginEmail)
+                .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
+
+        if (member != null) {
+            return new CustomUserDetails(member);
         }
+        return null;
     }
 }
