@@ -1,5 +1,6 @@
 package com.project.guitarShop.domain.member;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.guitarShop.domain.address.Address;
 import com.project.guitarShop.domain.order.Order;
 import jakarta.persistence.*;
@@ -40,6 +41,7 @@ public class Member {
     @Embedded
     private Address address;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
@@ -53,8 +55,11 @@ public class Member {
         this.address = address;
     }
 
-    public void updateInfo(String phone, Address address) {
+    public void updatePhone(String phone) {
         this.phone = phone;
+    }
+
+    public void updateAddress(Address address) {
         this.address = address;
     }
 
