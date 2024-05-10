@@ -2,14 +2,13 @@ package com.project.guitarShop.dto.item;
 
 import com.project.guitarShop.domain.item.Brand;
 import com.project.guitarShop.domain.item.Category;
-import com.project.guitarShop.domain.item.Item;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
 
 
 public class ItemRequest {
 
     @Getter
-    @Setter
     @Builder
     public static class AddItemRequest {
         private String name;
@@ -17,21 +16,10 @@ public class ItemRequest {
         private int quantity;
         private Category category;
         private Brand brand;
-
-        public Item toDomain() {
-            return Item.builder()
-                    .name(name)
-                    .price(price)
-                    .quantity(quantity)
-                    .category(category)
-                    .brand(brand)
-                    .build();
-        }
     }
 
     @Getter
-    @Setter
-    @AllArgsConstructor
+    @Builder
     public static class FindItemRequest {
         private String name;
         private Integer price;
