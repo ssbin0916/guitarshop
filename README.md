@@ -7,7 +7,7 @@
 * 엔티티에 setter는 사용하지 않도록 설계
 * DTO를 static nested class 사용으로 단일 책임 원칙 적용
 
-## 사용기술
+## 사용 기술
 
 * JAVA 17, Spring Frmawork, Spring Boot, H2DB, JPA, Querydsl
 
