@@ -1,10 +1,12 @@
 package com.project.guitarShop.domain.order;
 
+import com.project.guitarShop.domain.address.Address;
 import com.project.guitarShop.domain.delivery.Delivery;
 import com.project.guitarShop.domain.delivery.DeliveryStatus;
 import com.project.guitarShop.domain.member.Member;
 import com.project.guitarShop.domain.orderItem.OrderItem;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -34,8 +36,8 @@ public class Order {
     @OneToMany(cascade = ALL, fetch = LAZY, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne(mappedBy = "order", cascade = ALL, fetch = LAZY)
-    @JoinColumn(name = "delivery_id")
+    @Embedded
+    @OneToOne(cascade = ALL, fetch = LAZY)
     private Delivery delivery;
 
     private LocalDateTime orderDate;
@@ -44,21 +46,13 @@ public class Order {
     private OrderStatus orderStatus;
 
 
-
-
-    public void addOrderItem(OrderItem orderItem) {
-        this.orderItems.add(orderItem);
-        orderItem.setOrder(this);
-    }
-
-    public static Order createOrder(Member member, Delivery delivery, List<OrderItem> orderItems, LocalDateTime orderDate, OrderStatus orderStatus) {
-        Order order = new Order();
-        order.member = member;
-        order.delivery = delivery;
-        order.orderItems = new ArrayList<>(orderItems);
-        order.orderDate = orderDate;
-        order.orderStatus = orderStatus;
-        return order;
+    @Builder
+    public Order(Member member, List<OrderItem> orderItems, Delivery delivery, LocalDateTime orderDate, OrderStatus orderStatus) {
+        this.member = member;
+        this.orderItems = new ArrayList<>(orderItems);
+        this.delivery = delivery;
+        this.orderDate = orderDate;
+        this.orderStatus = orderStatus;
     }
 
     public void cancel() {
