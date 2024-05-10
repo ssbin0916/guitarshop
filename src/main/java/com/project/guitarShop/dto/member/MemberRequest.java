@@ -1,35 +1,28 @@
 package com.project.guitarShop.dto.member;
 
 import com.project.guitarShop.domain.address.Address;
-import com.project.guitarShop.domain.member.Member;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class MemberRequest {
 
     @Getter
-    @Setter
     public static class LoginRequest {
 
-        @Email
+        @Email(message = "이메일 입력은 필수입니다.")
         private String loginEmail;
         @NotEmpty(message = "비밀번호 입력은 필수입니다.")
         private String password;
     }
 
     @Getter
-    @Setter
     @Builder
     public static class JoinRequest {
 
         @Email
+        @NotEmpty(message = "이메일 입력은 필수입니다.")
         private String loginEmail;
 
         @NotEmpty(message = "비밀번호 입력은 필수입니다.")
@@ -46,14 +39,12 @@ public class MemberRequest {
         @NotEmpty(message = "전화번호 입력은 필수입니다.")
         private String phone;
 
-        @Valid
         private Address address;
 
     }
 
 
     @Getter
-    @Setter
     @Builder
     public static class UpdateInfoRequest {
         private String phone;
@@ -61,10 +52,10 @@ public class MemberRequest {
     }
 
     @Getter
-    @Setter
     @Builder
     public static class UpdatePasswordRequest {
-        private String password;
+        private String currentPassword;
+        private String newPassword;
         private String confirmPassword;
     }
 }
