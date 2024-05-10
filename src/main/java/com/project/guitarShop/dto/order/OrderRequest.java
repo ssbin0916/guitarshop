@@ -21,21 +21,21 @@ public class OrderRequest {
     public static class CreateOrderRequest {
         private Member member;
         private List<Item> items;
-        private List<Integer> counts;
+        private int count;
 
         public Order toEntity(Member member, List<OrderItem> orderItems, Delivery delivery) {
             return Order.createOrder(member, delivery, orderItems, LocalDateTime.now(), OrderStatus.ORDER);
         }
 
-        public List<OrderItem> createOrderItems(List<Item> items) {
-            List<OrderItem> orderItems = new ArrayList<>();
-            IntStream.range(0, items.size()).forEach(index -> {
-                Item item = items.get(index);
-                int count = this.counts.get(index);
-                OrderItem orderItem = new OrderItem(item, item.getPrice(), count);
-                orderItems.add(orderItem);
-            });
-            return orderItems;
-        }
+//        public List<OrderItem> createOrderItems(List<Item> items) {
+//            List<OrderItem> orderItems = new ArrayList<>();
+//            IntStream.range(0, items.size()).forEach(index -> {
+//                Item item = items.get(index);
+//                int count = this.count.get(index);
+//                OrderItem orderItem = new OrderItem(item, item.getPrice(), count);
+//                orderItems.add(orderItem);
+//            });
+//            return orderItems;
+//        }
     }
 }
