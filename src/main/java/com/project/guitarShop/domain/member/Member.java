@@ -1,6 +1,7 @@
 package com.project.guitarShop.domain.member;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.guitarShop.domain.BaseTime;
 import com.project.guitarShop.domain.address.Address;
 import com.project.guitarShop.domain.order.Order;
 import jakarta.persistence.*;
@@ -17,7 +18,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Member {
+public class Member extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

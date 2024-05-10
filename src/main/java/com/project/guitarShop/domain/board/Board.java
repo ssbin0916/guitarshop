@@ -1,5 +1,6 @@
 package com.project.guitarShop.domain.board;
 
+import com.project.guitarShop.domain.BaseTime;
 import com.project.guitarShop.domain.member.Member;
 import com.project.guitarShop.exception.ValidatePasswordException;
 import jakarta.persistence.*;
@@ -11,7 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Board {
+public class Board extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

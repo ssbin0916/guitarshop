@@ -41,6 +41,9 @@ public class MemberService implements UserDetailsService {
                 .build();
 
         memberRepository.save(member);
+
+        member.prePersist();
+
         return new JoinResponse(member);
     }
 
