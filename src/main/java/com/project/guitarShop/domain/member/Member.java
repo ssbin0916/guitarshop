@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +63,7 @@ public class Member extends BaseTime {
         this.address = address;
     }
 
-    public void updatePassword(String newPassword, BCryptPasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(newPassword);
+    public void updatePassword(String newPassword) {
+        this.password = newPassword;
     }
 }
