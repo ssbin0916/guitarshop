@@ -10,7 +10,7 @@
 
 ## 사용기술
 
-* JAVA 17, Spring Frmawork, Spring Boot, H2DB, JAP, Querydsl
+* JAVA 17, Spring Frmawork, Spring Boot, H2DB, JPA, Querydsl
 
 ## ERD
 
