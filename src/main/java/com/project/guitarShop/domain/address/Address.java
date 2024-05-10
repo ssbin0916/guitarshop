@@ -1,6 +1,7 @@
 package com.project.guitarShop.domain.address;
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,8 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Address {
 
+    @NotEmpty(message = "주소를 입력해야 합니다.")
     private String address;
+
+    @NotEmpty(message = "상세 주소를 입력해야 합니다.")
     private String addressDetail;
+
     private String request;
 
     public Address(String address, String addressDetail, String request) {
