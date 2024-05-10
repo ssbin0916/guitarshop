@@ -5,12 +5,13 @@ import com.project.guitarShop.domain.order.Order;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter
-@Setter
+@Embeddable
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Delivery {
@@ -19,8 +20,7 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @OneToOne(mappedBy = "delivery", fetch = LAZY)
     private Order order;
 
     @Embedded
@@ -29,8 +29,8 @@ public class Delivery {
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
-    public Delivery(Address address) {
+    public Delivery(Address address, DeliveryStatus status) {
         this.address = address;
-        this.status = DeliveryStatus.READY;
+        this.status = status;
     }
 }
