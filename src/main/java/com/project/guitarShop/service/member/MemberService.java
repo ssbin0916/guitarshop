@@ -48,27 +48,48 @@ public class MemberService implements UserDetailsService {
     }
 
     public void updateInfo(Long id, UpdateInfoRequest request) {
-        Member existingMember = memberRepository.findById(id).orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
-        if (request.getPhone() != null) {
-            existingMember.updatePhone(request.getPhone());
+        boolean isUpdated = false;
+        StringBuilder errorMessages = new StringBuilder();
+
+        if (request.getPhone() != null && !request.getPhone().isEmpty()) {
+            member.updatePhone(request.getPhone());
+            isUpdated = true;
         }
 
         if (request.getAddress() != null) {
-            existingMember.updateAddress(request.getAddress());
+            member.updateAddress(request.getAddress());
+            isUpdated = true;
         }
 
-        memberRepository.save(existingMember);
+        if (isUpdated) {
+            memberRepository.save(member);
+        } else {
+            errorMessages.append("변경할 정보가 유효하지 않습니다.");
+            throw new IllegalArgumentException("회원 정보 업데이트에 실패하였습니다");
+        }
     }
 
+
     public void updatePassword(Long id, UpdatePasswordRequest request) {
-        Member existingMember = memberRepository.findById(id).orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
-        existingMember.updatePassword(passwordEncoder.encode(request.getPassword()), passwordEncoder);
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
-        validateConfirmPassword(request.getPassword(), request.getConfirmPassword());
+        if (!passwordEncoder.matches(request.getCurrentPassword(), member.getPassword())) {
+            throw new ValidatePasswordException("현재 비밀번호가 일치하지 않습니다.");
+        }
 
-        memberRepository.save(existingMember);
+        if (!request.getNewPassword().equals(request.getConfirmPassword())) {
+            throw new ValidatePasswordException("새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+        }
+
+        String encodePassword = passwordEncoder.encode(request.getNewPassword());
+        member.updatePassword(encodePassword);
+
+        memberRepository.save(member);
     }
 
     public LoginResponse login(String loginEmail, String password) {
