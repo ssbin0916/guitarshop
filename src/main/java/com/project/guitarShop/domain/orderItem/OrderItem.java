@@ -4,16 +4,15 @@ import com.project.guitarShop.domain.cart.Cart;
 import com.project.guitarShop.domain.item.Item;
 import com.project.guitarShop.domain.order.Order;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class OrderItem {
@@ -37,27 +36,13 @@ public class OrderItem {
     private int orderPrice;
     private int quantity;
 
-    public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
-        if (item == null) {
-            throw new IllegalArgumentException("상품이 비어있으면 안됩니다.");
-        }
-
-        OrderItem orderItem = new OrderItem();
-        orderItem.setItem(item);
-        orderItem.setOrderPrice(orderPrice);
-        orderItem.setQuantity(count);
-
-        return orderItem;
-    }
-
-
-
-
+    @Builder
     public OrderItem(Item item, int orderPrice, int quantity) {
         this.item = item;
         this.orderPrice = orderPrice;
         this.quantity = quantity;
     }
+
 
     public void cancel() {
         getItem().addStock(quantity);
