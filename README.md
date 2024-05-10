@@ -8,5 +8,10 @@
 * DTO 내부 클래스 사용으로 단일 책임 원칙 적용
 * 외래키 미사용 설계
 
+## 사용기술
+
+* JAVA 17, Spring Frmawork, Spring Boot, H2DB, JAP, Querydsl
+
+## ERD
 
 ![guitar_shop](https://github.com/ssbin0916/GUITAR-SHOP/assets/151374753/322a4850-9fb1-47f1-8367-69dea5c8ddcf)
