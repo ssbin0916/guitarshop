@@ -45,15 +45,21 @@ public class MemberService implements UserDetailsService {
     }
 
     public void updateInfo(Long id, UpdateInfoRequest request) {
-        Member existingMember = memberRepository.findById(id).orElseThrow(() -> new NotFoundMemberException("찾을 수 없는 회원입니다."));
+        Member existingMember = memberRepository.findById(id).orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
-        existingMember.updateInfo(request.getPhone(), request.getAddress());
+        if (request.getPhone() != null) {
+            existingMember.updatePhone(request.getPhone());
+        }
+
+        if (request.getAddress() != null) {
+            existingMember.updateAddress(request.getAddress());
+        }
 
         memberRepository.save(existingMember);
     }
 
     public void updatePassword(Long id, UpdatePasswordRequest request) {
-        Member existingMember = memberRepository.findById(id).orElseThrow(() -> new NotFoundMemberException("찾을 수 없는 회원입니다."));
+        Member existingMember = memberRepository.findById(id).orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
         existingMember.updatePassword(passwordEncoder.encode(request.getPassword()), passwordEncoder);
 
