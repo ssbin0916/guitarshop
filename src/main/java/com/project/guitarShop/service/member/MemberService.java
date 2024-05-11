@@ -47,7 +47,7 @@ public class MemberService implements UserDetailsService {
         return new JoinResponse(member);
     }
 
-    public void updateInfo(Long id, UpdateInfoRequest request) {
+    public UpdateInfoResponse updateInfo(Long id, UpdateInfoRequest request) {
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
@@ -70,10 +70,12 @@ public class MemberService implements UserDetailsService {
             errorMessages.append("변경할 정보가 유효하지 않습니다.");
             throw new IllegalArgumentException("회원 정보 업데이트에 실패하였습니다");
         }
+
+        return new UpdateInfoResponse(member);
     }
 
 
-    public void updatePassword(Long id, UpdatePasswordRequest request) {
+    public UpdatePasswordResponse updatePassword(Long id, UpdatePasswordRequest request) {
 
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
@@ -89,7 +91,9 @@ public class MemberService implements UserDetailsService {
         String encodePassword = passwordEncoder.encode(request.getNewPassword());
         member.updatePassword(encodePassword);
 
-        memberRepository.save(member);
+        Member save = memberRepository.save(member);
+
+        return new UpdatePasswordResponse(save);
     }
 
     public LoginResponse login(String loginEmail, String password) {
