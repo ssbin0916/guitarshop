@@ -35,4 +35,34 @@ public class MemberResponse {
             this.address = member.getAddress();
         }
     }
+
+    @Getter
+    public static class UpdateInfoResponse {
+        private final Long id;
+        private final String loginEmail;
+        private final String name;
+        private final Address address;
+
+        public UpdateInfoResponse(Member member) {
+            this.id = member.getId();
+            this.loginEmail = member.getLoginEmail();
+            this.name = member.getName();
+            this.address = member.getAddress();
+        }
+    }
+
+    @Getter
+    public static class UpdatePasswordResponse {
+        private final Long id;
+        private final String loginEmail;
+        private final String name;
+        private final Address address;
+
+        public UpdatePasswordResponse(Member member) {
+            this.id = member.getId();
+            this.loginEmail = member.getLoginEmail();
+            this.name = member.getName();
+            this.address = member.getAddress();
+        }
+    }
 }
