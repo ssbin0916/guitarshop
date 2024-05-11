@@ -12,8 +12,8 @@ public class ItemRequest {
     @Builder
     public static class AddItemRequest {
         private String name;
-        private int price;
-        private int quantity;
+        private Integer price;
+        private Integer quantity;
         private Category category;
         private Brand brand;
     }
