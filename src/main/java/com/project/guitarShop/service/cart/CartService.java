@@ -51,20 +51,20 @@ public class CartService {
         cartRepository.deleteById(cartId);
     }
 
-    public Cart updateItemQuantity(Long cartId, Long orderItemId, int quantity) {
-
-        Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new NotFoundCartException("해당 장바구니를 찾을 수 없습니다."));
-
-        OrderItem orderItem = cart.getOrderItems().stream()
-                .filter(item -> item.getId().equals(orderItemId))
-                .findFirst()
-                .orElseThrow(() -> new NotFoundItemException("해당 주문 상품을 찾을 수 없습니다."));
-
-        orderItem.setQuantity(quantity);
-        orderItemRepository.save(orderItem);
-        cartRepository.save(cart);
-
-        return cart;
-    }
+//    public Cart updateItemQuantity(Long cartId, Long orderItemId, int quantity) {
+//
+//        Cart cart = cartRepository.findById(cartId)
+//                .orElseThrow(() -> new NotFoundCartException("해당 장바구니를 찾을 수 없습니다."));
+//
+//        OrderItem orderItem = cart.getOrderItems().stream()
+//                .filter(item -> item.getId().equals(orderItemId))
+//                .findFirst()
+//                .orElseThrow(() -> new NotFoundItemException("해당 주문 상품을 찾을 수 없습니다."));
+//
+//        orderItem.setQuantity(quantity);
+//        orderItemRepository.save(orderItem);
+//        cartRepository.save(cart);
+//
+//        return cart;
+//    }
 }
