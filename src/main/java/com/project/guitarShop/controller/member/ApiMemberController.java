@@ -14,6 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -22,58 +25,60 @@ public class ApiMemberController {
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public ResponseEntity<?> join(@RequestBody @Valid JoinRequest request) {
+    public ResponseEntity<?> join( @Valid @RequestBody JoinRequest request) {
 
         try {
             JoinResponse response = memberService.join(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("회원가입에 실패했습니다.");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("서버 오류가 발생했습니다.");
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Valid LoginRequest request) {
+    public ResponseEntity<?> login( @Valid @RequestBody LoginRequest request) {
 
         try {
             LoginResponse response = memberService.login(request.getLoginEmail(), request.getPassword());
             return ResponseEntity.ok().body(response);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("로그인에 실패했습니다.");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("서버 오류가 발생했습니다.");
         }
     }
 
     @PutMapping("/{id}/updateInfo")
-    public ResponseEntity<?> updateInfo(@PathVariable Long id, @RequestBody @Valid UpdateInfoRequest request) {
+    public ResponseEntity<?> updateInfo(@PathVariable Long id, @Valid @RequestBody  UpdateInfoRequest request) {
 
         try {
             memberService.updateInfo(id, request);
-            StringBuilder message = new StringBuilder("변경 완료: ");
+            List<String> updateMessage = new ArrayList<>();
 
             if (request.getPhone() != null) {
-                message.append("전화번호 ");
+                updateMessage.add("전화번호");
             }
 
             if (request.getAddress() != null) {
-                message.append("주소 ");
+                updateMessage.add("주소");
             }
 
-            if (message.toString().equals("변경 완료: ")) {
-                message = new StringBuilder("변경된 정보가 없습니다.");
+            if (updateMessage.isEmpty()) {
+                return ResponseEntity.ok("변경된 정보가 없습니다.");
+            } else {
+                String message = String.join("", updateMessage) + "가 변경되었습니다.";
+                return ResponseEntity.ok(message);
             }
-            return ResponseEntity.ok(message.toString());
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("회원 정보 수정이 실패했습니다.");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("서버 오류가 발생했습니다.");
         }
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/{id}/updatePassword")
     public ResponseEntity<?> updatePassword(@PathVariable Long id, @Valid @RequestBody UpdatePasswordRequest request) {
 
         try {
