@@ -1,6 +1,6 @@
 package com.project.guitarShop.repository.member;
 
-import com.project.guitarShop.domain.member.Member;
+import com.project.guitarShop.entity.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

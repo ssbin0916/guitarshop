@@ -10,7 +10,7 @@ import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
-import static com.project.guitarShop.domain.item.QItem.item;
+import static com.project.guitarShop.entity.item.QItem.item;
 
 public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
