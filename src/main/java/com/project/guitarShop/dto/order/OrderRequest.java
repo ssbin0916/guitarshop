@@ -9,9 +9,20 @@ public class OrderRequest {
     @Getter
     @Builder
     public static class CreateOrderRequest {
+        private final Long orderId;
         private final Long memberId;
         private final Long itemId;
-        private final int quantity;
+        private final Integer quantity;
+        private Address deliveryAddress;
+    }
+
+    @Getter
+    @Builder
+    public static class OrderFormCartRequest {
+        private final Long cartId;
+        private final Long memberId;
+        private final Long itemId;
+        private final Integer quantity;
         private Address deliveryAddress;
     }
 }

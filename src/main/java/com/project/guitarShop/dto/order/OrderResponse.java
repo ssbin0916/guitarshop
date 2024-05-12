@@ -15,7 +15,7 @@ public class OrderResponse {
     @Getter
     public static class CreateOrdersResponse {
         private final Long id;
-        private List<OrderItem> orderItems;
+        private final List<OrderItem> orderItems;
         private final LocalDateTime orderDate;
         private final OrderStatus orderStatus;
         private final Delivery delivery;
@@ -32,4 +32,26 @@ public class OrderResponse {
             this.totalPrice = order.getTotalPrice();
         }
     }
+
+    @Getter
+    public static class OrderFormCartResponse {
+        private final Long id;
+        private final List<OrderItem> orderItems;
+        private final LocalDateTime orderDate;
+        private final OrderStatus orderStatus;
+        private final Delivery delivery;
+        private final DeliveryStatus deliveryStatus;
+        private final int totalPrice;
+
+        public OrderFormCartResponse(Order order) {
+            this.id = order.getId();
+            this.orderItems = order.getOrderItems();
+            this.orderDate = order.getOrderDate();
+            this.orderStatus = order.getOrderStatus();
+            this.delivery = order.getDelivery();
+            this.deliveryStatus = order.getDelivery().getStatus();
+            this.totalPrice = order.getTotalPrice();
+        }
+    }
+
 }

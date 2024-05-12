@@ -10,12 +10,12 @@ public class ItemResponse {
 
     @Getter
     public static class AddItemResponse {
-        private Long id;
-        private String name;
-        private int price;
-        private int quantity;
-        private Category category;
-        private Brand brand;
+        private final Long id;
+        private final String name;
+        private final int price;
+        private final int quantity;
+        private final Category category;
+        private final Brand brand;
 
         @QueryProjection
         public AddItemResponse(Item item) {
@@ -30,10 +30,10 @@ public class ItemResponse {
 
     @Getter
     public static class FindItemResponse {
-        private String name;
-        private Integer price;
-        private Category category;
-        private Brand brand;
+        private final String name;
+        private final Integer price;
+        private final Category category;
+        private final Brand brand;
 
         @QueryProjection
         public FindItemResponse(String name, int price, Category category, Brand brand) {
@@ -41,6 +41,19 @@ public class ItemResponse {
             this.price = price;
             this.category = category;
             this.brand = brand;
+        }
+    }
+
+    @Getter
+    public static class CancelItemResponse {
+        private final Long id;
+        private final String name;
+        private final Integer price;
+
+        public CancelItemResponse(Item item) {
+            this.id = item.getId();
+            this.name = item.getName();
+            this.price = item.getPrice();
         }
     }
 }
