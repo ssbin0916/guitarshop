@@ -1,6 +1,6 @@
 package com.project.guitarShop.domain.order;
 
-import com.project.guitarShop.domain.address.Address;
+import com.project.guitarShop.domain.cart.Cart;
 import com.project.guitarShop.domain.delivery.Delivery;
 import com.project.guitarShop.domain.delivery.DeliveryStatus;
 import com.project.guitarShop.domain.member.Member;
@@ -27,13 +27,14 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(cascade = ALL, fetch = LAZY, orphanRemoval = true)
+    @OneToMany(cascade = ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @Embedded
@@ -45,6 +46,9 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
     @Builder
     public Order(Member member, List<OrderItem> orderItems, Delivery delivery, LocalDateTime orderDate, OrderStatus orderStatus) {
