@@ -45,7 +45,9 @@ public class OrderItem {
 
 
     public void cancel() {
-        getItem().addStock(quantity);
+        if (this.item != null) {
+            getItem().addStock(quantity);
+        }
     }
 
     public int getTotalPrice() {
