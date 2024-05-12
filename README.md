@@ -13,4 +13,4 @@
 
 ## ERD
 
-![guitar_shop](https://github.com/ssbin0916/GUITAR-SHOP/assets/151374753/322a4850-9fb1-47f1-8367-69dea5c8ddcf)
+![guitar_shop](https://github.com/ssbin0916/GUITAR-SHOP/assets/151374753/acbb74ca-3df1-4664-8367-8bd4ad41390c)
