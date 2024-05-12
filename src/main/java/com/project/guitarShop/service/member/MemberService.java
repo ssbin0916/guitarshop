@@ -48,6 +48,7 @@ public class MemberService implements UserDetailsService {
     }
 
     public UpdateInfoResponse updateInfo(Long id, UpdateInfoRequest request) {
+
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
@@ -96,7 +97,9 @@ public class MemberService implements UserDetailsService {
         return new UpdatePasswordResponse(save);
     }
 
+
     public LoginResponse login(String loginEmail, String password) {
+
         Optional<Member> memberOptional = memberRepository.findByLoginEmail(loginEmail);
 
         if (memberOptional.isEmpty()) {
@@ -123,13 +126,16 @@ public class MemberService implements UserDetailsService {
 
 
     private void validateExistLoginId(JoinRequest request) {
+
         Optional<Member> findMembers = memberRepository.findByLoginEmail(request.getLoginEmail());
         if (findMembers.isPresent()) {
             throw new ExistMemberException("이미 존재하는 아이디입니다.");
         }
     }
 
+
     private void validateConfirmPassword(String password, String confirmPassword) {
+
         if (password == null || confirmPassword == null || !password.equals(confirmPassword)) {
             throw new ValidatePasswordException("비밀번호와 비밀번호 번호이 일치하지 않습니다.");
         }
