@@ -1,5 +1,5 @@
 package com.project.guitarShop.domain.delivery;
 
 public enum DeliveryStatus {
-    READY, COMPLETE, DELIVERING
+    READY, COMPLETE, DELIVERING, CANCEL
 }
