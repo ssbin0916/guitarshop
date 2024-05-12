@@ -1,4 +1,4 @@
-package com.project.guitarShop.domain.item;
+package com.project.guitarShop.entity.item;
 
 import com.project.guitarShop.exception.NotEnoughStockException;
 import jakarta.persistence.*;

@@ -1,4 +1,4 @@
-package com.project.guitarShop.domain;
+package com.project.guitarShop.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;

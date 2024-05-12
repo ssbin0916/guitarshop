@@ -1,7 +1,7 @@
-package com.project.guitarShop.domain.delivery;
+package com.project.guitarShop.entity.delivery;
 
-import com.project.guitarShop.domain.address.Address;
-import com.project.guitarShop.domain.order.Order;
+import com.project.guitarShop.entity.address.Address;
+import com.project.guitarShop.entity.order.Order;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

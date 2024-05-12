@@ -1,4 +1,4 @@
-package com.project.guitarShop.domain.order;
+package com.project.guitarShop.entity.order;
 
 import lombok.Getter;
 

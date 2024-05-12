@@ -1,4 +1,4 @@
-package com.project.guitarShop.domain.address;
+package com.project.guitarShop.entity.address;
 
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotEmpty;

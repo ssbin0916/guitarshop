@@ -1,8 +1,8 @@
-package com.project.guitarShop.domain.orderItem;
+package com.project.guitarShop.entity.orderItem;
 
-import com.project.guitarShop.domain.cart.Cart;
-import com.project.guitarShop.domain.item.Item;
-import com.project.guitarShop.domain.order.Order;
+import com.project.guitarShop.entity.cart.Cart;
+import com.project.guitarShop.entity.item.Item;
+import com.project.guitarShop.entity.order.Order;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,7 +37,7 @@ public class OrderItem {
     private int quantity;
 
     @Builder
-    public OrderItem(Item item, int orderPrice, int quantity) {
+    public OrderItem(Item item, Integer orderPrice, Integer quantity) {
         this.item = item;
         this.orderPrice = orderPrice;
         this.quantity = quantity;

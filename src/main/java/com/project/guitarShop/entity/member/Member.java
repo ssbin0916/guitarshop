@@ -1,9 +1,9 @@
-package com.project.guitarShop.domain.member;
+package com.project.guitarShop.entity.member;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.project.guitarShop.domain.BaseTime;
-import com.project.guitarShop.domain.address.Address;
-import com.project.guitarShop.domain.order.Order;
+import com.project.guitarShop.entity.BaseTime;
+import com.project.guitarShop.entity.address.Address;
+import com.project.guitarShop.entity.order.Order;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

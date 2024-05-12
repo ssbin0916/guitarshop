@@ -1,10 +1,9 @@
-package com.project.guitarShop.domain.order;
+package com.project.guitarShop.entity.order;
 
-import com.project.guitarShop.domain.cart.Cart;
-import com.project.guitarShop.domain.delivery.Delivery;
-import com.project.guitarShop.domain.delivery.DeliveryStatus;
-import com.project.guitarShop.domain.member.Member;
-import com.project.guitarShop.domain.orderItem.OrderItem;
+import com.project.guitarShop.entity.delivery.Delivery;
+import com.project.guitarShop.entity.delivery.DeliveryStatus;
+import com.project.guitarShop.entity.member.Member;
+import com.project.guitarShop.entity.orderItem.OrderItem;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,10 +44,6 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
 
     @Builder
     public Order(Member member, List<OrderItem> orderItems, Delivery delivery, LocalDateTime orderDate, OrderStatus orderStatus) {

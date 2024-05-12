@@ -1,7 +1,7 @@
-package com.project.guitarShop.domain.board;
+package com.project.guitarShop.entity.board;
 
-import com.project.guitarShop.domain.BaseTime;
-import com.project.guitarShop.domain.member.Member;
+import com.project.guitarShop.entity.BaseTime;
+import com.project.guitarShop.entity.member.Member;
 import com.project.guitarShop.exception.ValidatePasswordException;
 import jakarta.persistence.*;
 import lombok.Getter;
