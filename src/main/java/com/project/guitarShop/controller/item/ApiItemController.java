@@ -23,15 +23,15 @@ public class ApiItemController {
     private final ItemService itemService;
 
     @PostMapping("/addItem")
-    public ResponseEntity<?> save(@Valid @RequestBody AddItemRequest request) {
+    public ResponseEntity<?> save(@RequestBody List<AddItemRequest> requests) {
 
         try {
-            AddItemResponse response = itemService.save(request);
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            List<AddItemResponse> responses = itemService.save(requests);
+            return ResponseEntity.status(HttpStatus.CREATED).body(responses);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("서버 오류기 발생했습니다.");
+            return ResponseEntity.internalServerError().body("서버 오류가 발생했습니다.");
         }
     }
 
