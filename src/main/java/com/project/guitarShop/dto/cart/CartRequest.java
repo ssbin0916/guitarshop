@@ -10,6 +10,12 @@ public class CartRequest {
     public static class AddCartRequest {
         private final Long memberId;
         private final Long itemId;
-        private final Integer quantity;
+    }
+
+    @Getter
+    @Builder
+    public static class UpdateQuantityRequest {
+        private final Long cartId;
+        private final Long cartItemId;
     }
 }

@@ -20,7 +20,8 @@ public class OrderResponse {
         private final OrderStatus orderStatus;
         private final Delivery delivery;
         private final DeliveryStatus deliveryStatus;
-        private final int totalPrice;
+        private final String itemName;
+        private final Integer price;
 
         public CreateOrdersResponse(Order order) {
             this.id = order.getId();
@@ -29,7 +30,8 @@ public class OrderResponse {
             this.orderStatus = order.getOrderStatus();
             this.delivery = order.getDelivery();
             this.deliveryStatus = order.getDelivery().getStatus();
-            this.totalPrice = order.getTotalPrice();
+            this.itemName = order.getOrderItems().get(0).getName();
+            this.price = order.getPrice();
         }
     }
 
@@ -41,7 +43,7 @@ public class OrderResponse {
         private final OrderStatus orderStatus;
         private final Delivery delivery;
         private final DeliveryStatus deliveryStatus;
-        private final int totalPrice;
+        private final String itemName;
 
         public OrderFormCartResponse(Order order) {
             this.id = order.getId();
@@ -50,8 +52,7 @@ public class OrderResponse {
             this.orderStatus = order.getOrderStatus();
             this.delivery = order.getDelivery();
             this.deliveryStatus = order.getDelivery().getStatus();
-            this.totalPrice = order.getTotalPrice();
+            this.itemName = order.getOrderItems().get(0).getName();
         }
     }
-
 }

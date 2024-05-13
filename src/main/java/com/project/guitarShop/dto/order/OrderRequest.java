@@ -12,7 +12,6 @@ public class OrderRequest {
         private final Long orderId;
         private final Long memberId;
         private final Long itemId;
-        private final Integer quantity;
         private Address deliveryAddress;
     }
 
@@ -22,7 +21,13 @@ public class OrderRequest {
         private final Long cartId;
         private final Long memberId;
         private final Long itemId;
-        private final Integer quantity;
         private Address deliveryAddress;
+    }
+
+    @Getter
+    @Builder
+    public static class CancelOrderRequest {
+        private final Long orderId;
+        private final Long itemId;
     }
 }
