@@ -1,7 +1,7 @@
 package com.project.guitarShop.service.board;
 
-import com.project.guitarShop.domain.board.Board;
-import com.project.guitarShop.domain.member.Member;
+import com.project.guitarShop.entity.board.Board;
+import com.project.guitarShop.entity.member.Member;
 import com.project.guitarShop.exception.NotFoundMemberException;
 import com.project.guitarShop.exception.board.NotFoundBoardException;
 import com.project.guitarShop.repository.board.BoardRepository;

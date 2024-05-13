@@ -1,6 +1,6 @@
 package com.project.guitarShop.service.member;
 
-import com.project.guitarShop.domain.member.Member;
+import com.project.guitarShop.entity.member.Member;
 import com.project.guitarShop.dto.member.CustomUserDetails;
 import com.project.guitarShop.dto.member.MemberRequest.*;
 import com.project.guitarShop.dto.member.MemberResponse.*;
@@ -144,12 +144,11 @@ public class MemberService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String loginEmail) throws UsernameNotFoundException {
 
-        Member member = memberRepository.findByLoginEmail(loginEmail)
-                .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
-
-        if (member != null) {
-            return new CustomUserDetails(member);
-        }
-        return null;
+        return memberRepository.findByLoginEmail(loginEmail)
+                .map(member -> new CustomUserDetails(member))
+                .orElseThrow(() -> {
+                    return new UsernameNotFoundException("해당 회원을 찾을 수 없습니다.");
+                });
     }
+
 }

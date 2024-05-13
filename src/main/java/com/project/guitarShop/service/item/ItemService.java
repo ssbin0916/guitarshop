@@ -1,6 +1,6 @@
 package com.project.guitarShop.service.item;
 
-import com.project.guitarShop.domain.item.Item;
+import com.project.guitarShop.entity.item.Item;
 import com.project.guitarShop.dto.item.ItemRequest.AddItemRequest;
 import com.project.guitarShop.dto.item.ItemRequest.FindItemRequest;
 import com.project.guitarShop.dto.item.ItemResponse.AddItemResponse;
@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,43 +22,64 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
-    public AddItemResponse save(AddItemRequest request) {
+//    public AddItemResponse save(AddItemRequest request) {
+//
+//        if (request == null) {
+//            throw new IllegalArgumentException("입력된 아이템이 없습니다.");
+//        }
+//
+//        if (request.getName() == null || request.getName().trim().isEmpty()) {
+//            throw new IllegalArgumentException("아이템 이름은 필수입니다.");
+//        }
+//
+//        if (request.getPrice() == null || request.getPrice() < 0) {
+//            throw new IllegalArgumentException("유효하지 않은 가격입니다.");
+//        }
+//
+//        if (request.getQuantity() == null || request.getQuantity() < 0) {
+//            throw new IllegalArgumentException("유효하지 않은 수량입니다.");
+//        }
+//
+//        if (request.getCategory() == null) {
+//            throw new IllegalArgumentException("유효하지 않은 카테고리 입니다.");
+//        }
+//
+//        if (request.getBrand() == null) {
+//            throw new IllegalArgumentException("유효하지 않은 브랜드입니다.");
+//        }
+//
+//        Item item = Item.builder()
+//                .name(request.getName())
+//                .price(request.getPrice())
+//                .quantity(request.getQuantity())
+//                .category(request.getCategory())
+//                .brand(request.getBrand())
+//                .build();
+//
+//        itemRepository.save(item);
+//
+//        return new AddItemResponse(item);
+//    }
 
-        if (request == null) {
-            throw new IllegalArgumentException("입력된 아이템이 없습니다.");
+    public List<AddItemResponse> save(List<AddItemRequest> requests) {
+        List<Item> items = new ArrayList<>();
+        for (AddItemRequest request : requests) {
+            if (request.getName() == null || request.getName().trim().isEmpty()) {
+                throw new IllegalArgumentException("아이템 이름은 필수입니다.");
+            }
+            Item item = Item.builder()
+                    .name(request.getName())
+                    .price(request.getPrice())
+                    .quantity(request.getQuantity())
+                    .category(request.getCategory())
+                    .brand(request.getBrand())
+                    .build();
+            items.add(item);
         }
-
-        if (request.getName() == null || request.getName().trim().isEmpty()) {
-            throw new IllegalArgumentException("아이템 이름은 필수입니다.");
-        }
-
-        if (request.getPrice() == null || request.getPrice() < 0) {
-            throw new IllegalArgumentException("유효하지 않은 가격입니다.");
-        }
-
-        if (request.getQuantity() == null || request.getQuantity() < 0) {
-            throw new IllegalArgumentException("유효하지 않은 수량입니다.");
-        }
-
-        if (request.getCategory() == null) {
-            throw new IllegalArgumentException("유효하지 않은 카테고리 입니다.");
-        }
-
-        if (request.getBrand() == null) {
-            throw new IllegalArgumentException("유효하지 않은 브랜드입니다.");
-        }
-
-        Item item = Item.builder()
-                .name(request.getName())
-                .price(request.getPrice())
-                .quantity(request.getQuantity())
-                .category(request.getCategory())
-                .brand(request.getBrand())
-                .build();
-
-        itemRepository.save(item);
-
-        return new AddItemResponse(item);
+        itemRepository.saveAll(items);
+        return items.stream()
+                .map(AddItemResponse::new)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

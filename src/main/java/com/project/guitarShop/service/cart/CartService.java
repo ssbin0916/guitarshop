@@ -1,20 +1,24 @@
 package com.project.guitarShop.service.cart;
 
-import com.project.guitarShop.domain.cart.Cart;
-import com.project.guitarShop.domain.member.Member;
-import com.project.guitarShop.domain.order.Order;
+import com.project.guitarShop.entity.cart.Cart;
+import com.project.guitarShop.entity.cartItem.CartItem;
+import com.project.guitarShop.entity.item.Item;
+import com.project.guitarShop.entity.member.Member;
 import com.project.guitarShop.dto.cart.CartRequest.AddCartRequest;
 import com.project.guitarShop.dto.cart.CartResponse.AddCartResponse;
+import com.project.guitarShop.exception.NotEnoughStockException;
 import com.project.guitarShop.exception.NotFoundMemberException;
 import com.project.guitarShop.exception.cart.NotFoundCartException;
-import com.project.guitarShop.exception.order.NotFoundOrderException;
+import com.project.guitarShop.exception.item.NotFoundItemException;
 import com.project.guitarShop.repository.cart.CartRepository;
+import com.project.guitarShop.repository.item.ItemRepository;
 import com.project.guitarShop.repository.member.MemberRepository;
-import com.project.guitarShop.repository.order.OrderRepository;
-import com.project.guitarShop.repository.orderItem.OrderItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,24 +27,36 @@ public class CartService {
 
     private final CartRepository cartRepository;
     private final MemberRepository memberRepository;
-    private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
+    private final ItemRepository itemRepository;
 
     public AddCartResponse addCart(AddCartRequest request) {
 
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
-        Order order = orderRepository.findById(request.getOrderId())
-                .orElseThrow(() -> new NotFoundOrderException("해당 주문을 찾을 수 없습니다."));
+        Cart cart = cartRepository.findByMemberId(request.getMemberId())
+                .orElseGet(() -> Cart.builder().member(member).build());
 
-        Cart cart = Cart.builder()
-                .member(member)
-                .order(order)
-                .orderItems(request.getOrderItems())
+        Item item = itemRepository.findById(request.getItemId())
+                .orElseThrow(() -> new NotFoundItemException("해당 상품을 찾을 수 없습니다."));
+
+        if (item.getQuantity() < request.getQuantity()) {
+            throw new NotEnoughStockException("상품 재고가 부족합니다.");
+        }
+
+        CartItem cartItem = CartItem.builder()
+                .cart(cart)
+                .item(item)
+                .quantity(request.getQuantity())
                 .build();
 
-        Cart save = cartRepository.save(cart);
+        List<CartItem> cartItems = new ArrayList<>();
+        cartItems.add(cartItem);
+
+        Cart save = Cart.builder()
+                .member(member)
+                .cartItems(cartItems)
+                .build();
 
         return new AddCartResponse(save);
     }
