@@ -1,7 +1,7 @@
 package com.project.guitarShop.service.board;
 
-import com.project.guitarShop.domain.address.Address;
-import com.project.guitarShop.domain.board.Board;
+import com.project.guitarShop.entity.address.Address;
+import com.project.guitarShop.entity.board.Board;
 import com.project.guitarShop.dto.member.MemberRequest;
 import com.project.guitarShop.dto.member.MemberRequest.JoinRequest;
 import com.project.guitarShop.dto.member.MemberResponse;

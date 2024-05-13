@@ -1,7 +1,7 @@
 package com.project.guitarShop.service.member;
 
-import com.project.guitarShop.domain.address.Address;
-import com.project.guitarShop.domain.member.Member;
+import com.project.guitarShop.entity.address.Address;
+import com.project.guitarShop.entity.member.Member;
 import com.project.guitarShop.dto.member.MemberRequest;
 import com.project.guitarShop.dto.member.MemberRequest.*;
 import com.project.guitarShop.dto.member.MemberResponse.*;
@@ -95,6 +95,7 @@ class MemberServiceTest {
         //then
         assertNotNull(response);
         assertEquals("email@test.com", response.getLoginEmail());
+        assertEquals("password", request.getPassword());
     }
 
     @Test
@@ -124,7 +125,8 @@ class MemberServiceTest {
 
         //when
         UpdatePasswordRequest updatePasswordRequest = UpdatePasswordRequest.builder()
-                .password("updatePassword")
+                .currentPassword("password")
+                .confirmPassword("password")
                 .confirmPassword("updatePassword")
                 .build();
 
