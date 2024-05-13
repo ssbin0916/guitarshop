@@ -47,8 +47,8 @@ public class ApiOrderController {
         }
     }
 
-    @PostMapping("/{cartId}/{memberId}/orderFromCart")
-    public ResponseEntity<?> orderFormCart(@Valid @RequestBody OrderFormCartRequest request) {
+    @PostMapping("/{cartId}/{cartItemId}/orderFromCart")
+    public ResponseEntity<?> orderFormCart(@PathVariable Long cartId, @PathVariable Long cartItemId, @Valid @RequestBody OrderFormCartRequest request) {
 
         try {
             OrderFormCartResponse response = orderService.orderFromCart(request);
@@ -59,8 +59,9 @@ public class ApiOrderController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 회원을 찾을 수 없습니다.");
         } catch (NotFoundItemException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 상품을 찾을 수 없습니다.");
-        } catch (NotEnoughStockException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("재고가 부족합니다.");
         }
+//        catch (NotEnoughStockException e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("재고가 부족합니다.");
+//        }
     }
 }
