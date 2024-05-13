@@ -1,7 +1,7 @@
 package com.project.guitarShop.service.cart;
 
-import com.project.guitarShop.dto.cart.CartRequest.*;
-import com.project.guitarShop.dto.cart.CartResponse.*;
+import com.project.guitarShop.dto.cart.CartRequest.AddCartRequest;
+import com.project.guitarShop.dto.cart.CartResponse.AddCartResponse;
 import com.project.guitarShop.entity.cart.Cart;
 import com.project.guitarShop.entity.cartItem.CartItem;
 import com.project.guitarShop.entity.item.Item;
@@ -11,7 +11,6 @@ import com.project.guitarShop.exception.NotFoundMemberException;
 import com.project.guitarShop.exception.cart.NotFoundCartException;
 import com.project.guitarShop.exception.item.NotFoundItemException;
 import com.project.guitarShop.repository.cart.CartRepository;
-import com.project.guitarShop.repository.cartItem.CartItemRepository;
 import com.project.guitarShop.repository.item.ItemRepository;
 import com.project.guitarShop.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -51,11 +50,13 @@ public class CartService {
         List<CartItem> cartItems = new ArrayList<>();
         cartItems.add(cartItem);
 
-        Cart cart = Cart.builder()
-                .member(member)
-                .cartItems(cartItems)
-                .price(cartItem.getPrice())
-                .build();
+        Cart cart = cartRepository.findByMemberId(request.getMemberId())
+                .orElse(
+                        Cart.builder()
+                                .member(member)
+                                .cartItems(cartItems)
+                                .price(cartItem.getPrice())
+                                .build());
 
         cartRepository.save(cart);
         item.removeStock(1);
