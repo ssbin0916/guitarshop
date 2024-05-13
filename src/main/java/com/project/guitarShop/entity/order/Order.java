@@ -34,13 +34,12 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(cascade = ALL, orphanRemoval = true)
+    @OneToMany(cascade = ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToMany(cascade = ALL, orphanRemoval = true)
+    @OneToMany(cascade = ALL)
     private List<CartItem> cartItems = new ArrayList<>();
 
-    @Embedded
     @OneToOne(cascade = ALL, fetch = LAZY)
     private Delivery delivery;
 

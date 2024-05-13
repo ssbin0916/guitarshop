@@ -1,6 +1,5 @@
 package com.project.guitarShop.entity.member;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.guitarShop.entity.BaseTime;
 import com.project.guitarShop.entity.address.Address;
 import com.project.guitarShop.entity.order.Order;
@@ -12,6 +11,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static jakarta.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
@@ -26,23 +27,18 @@ public class Member extends BaseTime {
     @Column(nullable = false, unique = true)
     private String loginEmail;
 
-    @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     private String phone;
 
-    @Column(nullable = false)
     private String role;
 
     @Embedded
     private Address address;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = ALL)
     private List<Order> orders = new ArrayList<>();
 
     @Builder

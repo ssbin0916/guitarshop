@@ -28,7 +28,7 @@ public class Cart {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(cascade = ALL, orphanRemoval = true)
+    @OneToMany(cascade = ALL)
     private List<CartItem> cartItems = new ArrayList<>();
 
     private Integer price;
