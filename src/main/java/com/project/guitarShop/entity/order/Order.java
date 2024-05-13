@@ -1,7 +1,9 @@
 package com.project.guitarShop.entity.order;
 
+import com.project.guitarShop.entity.cartItem.CartItem;
 import com.project.guitarShop.entity.delivery.Delivery;
 import com.project.guitarShop.entity.delivery.DeliveryStatus;
+import com.project.guitarShop.entity.item.Item;
 import com.project.guitarShop.entity.member.Member;
 import com.project.guitarShop.entity.orderItem.OrderItem;
 import jakarta.persistence.*;
@@ -26,7 +28,6 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
@@ -35,6 +36,9 @@ public class Order {
 
     @OneToMany(cascade = ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
+
+    @OneToMany(cascade = ALL, orphanRemoval = true)
+    private List<CartItem> cartItems = new ArrayList<>();
 
     @Embedded
     @OneToOne(cascade = ALL, fetch = LAZY)
@@ -48,9 +52,10 @@ public class Order {
     private Integer price;
 
     @Builder
-    public Order(Member member, List<OrderItem> orderItems, Delivery delivery, LocalDateTime orderDate, OrderStatus orderStatus, Integer price) {
+    public Order(Member member, List<OrderItem> orderItems, List<CartItem> cartItems, Delivery delivery, LocalDateTime orderDate, OrderStatus orderStatus, Integer price) {
         this.member = member;
-        this.orderItems = new ArrayList<>(orderItems);
+        this.orderItems = orderItems == null ? new ArrayList<>() : new ArrayList<>(orderItems);
+        this.cartItems = cartItems == null ? new ArrayList<>() : new ArrayList<>(cartItems);
         this.delivery = delivery;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
