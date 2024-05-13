@@ -1,7 +1,7 @@
 package com.project.guitarShop.dto.item;
 
-import com.project.guitarShop.domain.item.Brand;
-import com.project.guitarShop.domain.item.Category;
+import com.project.guitarShop.entity.item.Brand;
+import com.project.guitarShop.entity.item.Category;
 import lombok.Builder;
 import lombok.Getter;
 

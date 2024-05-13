@@ -1,23 +1,35 @@
 package com.project.guitarShop.dto.member;
 
-import com.project.guitarShop.domain.address.Address;
+import com.project.guitarShop.entity.address.Address;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 public class MemberRequest {
 
     @Getter
+    @Builder
     public static class LoginRequest {
 
         @Email(message = "이메일 입력은 필수입니다.")
         private String loginEmail;
         @NotEmpty(message = "비밀번호 입력은 필수입니다.")
         private String password;
+
+        public LoginRequest() {
+
+        }
+
+        public LoginRequest(String loginEmail, String password) {
+            this.loginEmail = loginEmail;
+            this.password = password;
+        }
     }
 
     @Getter
+    @Setter
     @Builder
     public static class JoinRequest {
 

@@ -1,6 +1,6 @@
 package com.project.guitarShop.dto.order;
 
-import com.project.guitarShop.domain.address.Address;
+import com.project.guitarShop.entity.address.Address;
 import lombok.Builder;
 import lombok.Getter;
 

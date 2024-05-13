@@ -1,8 +1,8 @@
 package com.project.guitarShop.dto.item;
 
-import com.project.guitarShop.domain.item.Brand;
-import com.project.guitarShop.domain.item.Category;
-import com.project.guitarShop.domain.item.Item;
+import com.project.guitarShop.entity.item.Brand;
+import com.project.guitarShop.entity.item.Category;
+import com.project.guitarShop.entity.item.Item;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 

@@ -1,10 +1,10 @@
 package com.project.guitarShop.dto.order;
 
-import com.project.guitarShop.domain.delivery.Delivery;
-import com.project.guitarShop.domain.delivery.DeliveryStatus;
-import com.project.guitarShop.domain.order.Order;
-import com.project.guitarShop.domain.order.OrderStatus;
-import com.project.guitarShop.domain.orderItem.OrderItem;
+import com.project.guitarShop.entity.delivery.Delivery;
+import com.project.guitarShop.entity.delivery.DeliveryStatus;
+import com.project.guitarShop.entity.order.Order;
+import com.project.guitarShop.entity.order.OrderStatus;
+import com.project.guitarShop.entity.orderItem.OrderItem;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

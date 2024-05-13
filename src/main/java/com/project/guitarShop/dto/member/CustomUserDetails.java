@@ -1,6 +1,6 @@
 package com.project.guitarShop.dto.member;
 
-import com.project.guitarShop.domain.member.Member;
+import com.project.guitarShop.entity.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

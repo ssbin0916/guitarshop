@@ -1,7 +1,7 @@
 package com.project.guitarShop.dto.member;
 
-import com.project.guitarShop.domain.address.Address;
-import com.project.guitarShop.domain.member.Member;
+import com.project.guitarShop.entity.address.Address;
+import com.project.guitarShop.entity.member.Member;
 import lombok.Getter;
 
 public class MemberResponse {
