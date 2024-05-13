@@ -11,7 +11,6 @@ import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter
-@Embeddable
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Delivery {

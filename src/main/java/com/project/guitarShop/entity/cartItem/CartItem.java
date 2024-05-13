@@ -24,10 +24,6 @@ public class CartItem {
     private Item item;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "order_id")
-    private Order order;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
@@ -35,7 +31,8 @@ public class CartItem {
     private Integer price;
 
     @Builder
-    public CartItem(Item item, String name, Integer price) {
+    public CartItem(Cart cart, Item item, String name, Integer price) {
+        this.cart = cart;
         this.item = item;
         this.name = name;
         this.price = price;
