@@ -45,13 +45,16 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    private Integer price;
+
     @Builder
-    public Order(Member member, List<OrderItem> orderItems, Delivery delivery, LocalDateTime orderDate, OrderStatus orderStatus) {
+    public Order(Member member, List<OrderItem> orderItems, Delivery delivery, LocalDateTime orderDate, OrderStatus orderStatus, Integer price) {
         this.member = member;
         this.orderItems = new ArrayList<>(orderItems);
         this.delivery = delivery;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
+        this.price = price;
     }
 
     public void cancel() {
@@ -62,10 +65,6 @@ public class Order {
         for (OrderItem orderItem : orderItems) {
             orderItem.cancel();
         }
-    }
-
-    public int getTotalPrice() {
-        return orderItems.stream().mapToInt(OrderItem::getTotalPrice).sum();
     }
 }
 

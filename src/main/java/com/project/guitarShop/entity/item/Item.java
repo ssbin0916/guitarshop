@@ -18,8 +18,8 @@ public class Item {
     private Long id;
 
     private String name;
-    private int price;
-    private int quantity;
+    private Integer price;
+    private Integer quantity;
 
     @Enumerated(EnumType.STRING)
     private Category category;
@@ -27,7 +27,7 @@ public class Item {
     private Brand brand;
 
     @Builder
-    public Item(String name, int price, int quantity, Category category, Brand brand) {
+    public Item(String name, Integer price, Integer quantity, Category category, Brand brand) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
@@ -35,14 +35,14 @@ public class Item {
         this.brand = brand;
     }
 
-    public void addStock(int quantity) {
+    public void addStock(Integer quantity) {
         if (quantity < 0) {
             throw new IllegalArgumentException("잘못된 수량입니다.");
         }
         this.quantity += quantity;
     }
 
-    public void removeStock(int quantity) {
+    public void removeStock(Integer quantity) {
         int restStock = this.quantity - quantity;
         if (restStock < 0) {
             throw new NotEnoughStockException("삭제할 재고가 남아 있지 않습니다.");

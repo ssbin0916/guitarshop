@@ -33,24 +33,20 @@ public class OrderItem {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    private int orderPrice;
-    private int quantity;
+    private String name;
+    private Integer price;
 
     @Builder
-    public OrderItem(Item item, Integer orderPrice, Integer quantity) {
+    public OrderItem(Item item, String name, Integer price) {
         this.item = item;
-        this.orderPrice = orderPrice;
-        this.quantity = quantity;
+        this.name = name;
+        this.price = price;
     }
 
 
     public void cancel() {
         if (this.item != null) {
-            getItem().addStock(quantity);
+            getItem().addStock(1);
         }
-    }
-
-    public int getTotalPrice() {
-        return getOrderPrice() * getQuantity();
     }
 }

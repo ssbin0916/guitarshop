@@ -31,9 +31,18 @@ public class Cart {
     @OneToMany(cascade = ALL, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
 
+    private Integer price;
+
     @Builder
-    public Cart(Member member, List<CartItem> cartItems) {
+    public Cart(Member member, List<CartItem> cartItems, Integer price) {
         this.member = member;
-        this.cartItems = new ArrayList<>();
+        this.cartItems = new ArrayList<>(cartItems);
+        this.price = price;
+    }
+
+    public void remove() {
+        for (CartItem cartItem : cartItems) {
+            cartItem.remove();
+        }
     }
 }

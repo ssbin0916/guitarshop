@@ -26,12 +26,19 @@ public class CartItem {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private Integer quantity;
+    private String name;
+    private Integer price;
 
     @Builder
-    public CartItem(Cart cart, Item item, Integer quantity) {
-        this.cart = cart;
+    public CartItem(Item item, String name, Integer price) {
         this.item = item;
-        this.quantity = quantity;
+        this.name = name;
+        this.price = price;
+    }
+
+    public void remove() {
+        if (this.item != null) {
+            getItem().addStock(1);
+        }
     }
 }
