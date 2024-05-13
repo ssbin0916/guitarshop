@@ -21,7 +21,7 @@ public class ApiCartController {
 
     private final CartService cartService;
 
-    @PostMapping("{memberId}/{orderId}/addCart")
+    @PostMapping("/{memberId}/{itemId}/{quantity}/addCart")
     public ResponseEntity<?> cart(@Valid @RequestBody AddCartRequest request) {
 
         try {
