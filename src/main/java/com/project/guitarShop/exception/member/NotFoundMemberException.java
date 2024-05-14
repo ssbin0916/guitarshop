@@ -1,4 +1,4 @@
-package com.project.guitarShop.exception;
+package com.project.guitarShop.exception.member;
 
 public class NotFoundMemberException extends RuntimeException {
 
