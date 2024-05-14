@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 public class MemberRequest {
 
@@ -26,10 +25,10 @@ public class MemberRequest {
             this.loginEmail = loginEmail;
             this.password = password;
         }
+
     }
 
     @Getter
-    @Setter
     @Builder
     public static class JoinRequest {
 
@@ -55,10 +54,10 @@ public class MemberRequest {
 
     }
 
-
     @Getter
     @Builder
     public static class UpdateInfoRequest {
+        private Long id;
         private String phone;
         private Address address;
     }
@@ -66,8 +65,10 @@ public class MemberRequest {
     @Getter
     @Builder
     public static class UpdatePasswordRequest {
+        private Long id;
         private String currentPassword;
         private String newPassword;
         private String confirmPassword;
     }
+
 }
