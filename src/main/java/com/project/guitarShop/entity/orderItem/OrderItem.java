@@ -1,6 +1,5 @@
 package com.project.guitarShop.entity.orderItem;
 
-import com.project.guitarShop.entity.cart.Cart;
 import com.project.guitarShop.entity.item.Item;
 import com.project.guitarShop.entity.order.Order;
 import jakarta.persistence.*;
@@ -9,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
@@ -30,10 +28,6 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
-
     private String name;
     private Integer price;
 
@@ -44,10 +38,28 @@ public class OrderItem {
         this.price = price;
     }
 
+    public void addOrder(Order order) {
+        this.order = order;
+    }
+
+    public static OrderItem createOrderItem(Item item, String name, Integer price) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.item = item;
+        orderItem.name = name;
+        orderItem.price = price;
+
+        item.removeStock(1);
+        return orderItem;
+    }
 
     public void cancel() {
         if (this.item != null) {
             getItem().addStock(1);
         }
     }
+
+    public Integer getTotalPrice() {
+        return getPrice();
+    }
+
 }

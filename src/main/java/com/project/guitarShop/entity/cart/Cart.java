@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import static jakarta.persistence.CascadeType.*;
+import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
@@ -24,20 +24,43 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(cascade = ALL)
+    @OneToMany(mappedBy = "cart", cascade = ALL)
     private List<CartItem> cartItems = new ArrayList<>();
 
-    private Integer price;
-
     @Builder
-    public Cart(Member member, List<CartItem> cartItems, Integer price) {
+    public Cart(Member member) {
         this.member = member;
-        this.cartItems = new ArrayList<>(cartItems);
-        this.price = price;
+    }
+
+    public void addMember(Member member) {
+        this.member = member;
+        member.getCarts().add(this);
+    }
+
+    public void addCartItem(CartItem cartItem) {
+        this.cartItems.add(cartItem);
+        cartItem.addCart(this);
+    }
+
+    public static Cart createCart(Member member, CartItem... cartItems) {
+        Cart cart = new Cart();
+        cart.addMember(member);
+        for (CartItem cartItem : cartItems) {
+            cart.addCartItem(cartItem);
+        }
+        return cart;
+    }
+
+    public Integer getTotalPrice() {
+        Integer totalPrice = 0;
+        for (CartItem cartItem : cartItems) {
+            totalPrice += cartItem.getTotalPrice();
+        }
+        return totalPrice;
     }
 
     public void remove() {
@@ -45,4 +68,5 @@ public class Cart {
             cartItem.remove();
         }
     }
+
 }

@@ -1,9 +1,7 @@
 package com.project.guitarShop.entity.order;
 
-import com.project.guitarShop.entity.cartItem.CartItem;
 import com.project.guitarShop.entity.delivery.Delivery;
 import com.project.guitarShop.entity.delivery.DeliveryStatus;
-import com.project.guitarShop.entity.item.Item;
 import com.project.guitarShop.entity.member.Member;
 import com.project.guitarShop.entity.orderItem.OrderItem;
 import jakarta.persistence.*;
@@ -34,13 +32,11 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(cascade = ALL)
+    @OneToMany(mappedBy = "order", cascade = ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToMany(cascade = ALL)
-    private List<CartItem> cartItems = new ArrayList<>();
-
     @OneToOne(cascade = ALL, fetch = LAZY)
+    @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
     private LocalDateTime orderDate;
@@ -48,21 +44,54 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    private Integer price;
-
     @Builder
-    public Order(Member member, List<OrderItem> orderItems, List<CartItem> cartItems, Delivery delivery, LocalDateTime orderDate, OrderStatus orderStatus, Integer price) {
+    public Order(Member member, Delivery delivery, LocalDateTime orderDate, OrderStatus orderStatus) {
         this.member = member;
-        this.orderItems = orderItems == null ? new ArrayList<>() : new ArrayList<>(orderItems);
-        this.cartItems = cartItems == null ? new ArrayList<>() : new ArrayList<>(cartItems);
         this.delivery = delivery;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
-        this.price = price;
+    }
+
+    public void addMember(Member member) {
+        this.member = member;
+        member.getOrders().add(this);
+    }
+
+    public void addOrderItem(OrderItem orderItem) {
+        this.orderItems.add(orderItem);
+        orderItem.addOrder(this);
+    }
+
+    public void addDelivery(Delivery delivery) {
+        this.delivery = delivery;
+        delivery.addOrder(this);
+    }
+
+    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
+        Order order = new Order();
+        order.addMember(member);
+        order.addDelivery(delivery);
+
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+
+        order.orderStatus = OrderStatus.ORDER;
+        order.orderDate = LocalDateTime.now();
+
+        return order;
+    }
+
+    public Integer getTotalPrice() {
+        Integer totalPrice = 0;
+        for (OrderItem orderItem : orderItems) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return totalPrice;
     }
 
     public void cancel() {
-        if (delivery.getStatus() == DeliveryStatus.COMPLETE) {
+        if (delivery.getDeliveryStatus() == DeliveryStatus.COMPLETE) {
             throw new IllegalStateException("이미 배송 완료된 상품은 취소가 불가능합니다.");
         }
         this.orderStatus = OrderStatus.CANCEL;
@@ -70,5 +99,6 @@ public class Order {
             orderItem.cancel();
         }
     }
+
 }
 

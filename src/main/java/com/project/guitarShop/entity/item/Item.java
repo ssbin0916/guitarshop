@@ -1,6 +1,6 @@
 package com.project.guitarShop.entity.item;
 
-import com.project.guitarShop.exception.NotEnoughStockException;
+import com.project.guitarShop.exception.item.NotFoundItemException;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +21,8 @@ public class Item {
     private Integer price;
     private Integer quantity;
 
+
+
     @Enumerated(EnumType.STRING)
     private Category category;
     @Enumerated(EnumType.STRING)
@@ -36,17 +38,21 @@ public class Item {
     }
 
     public void addStock(Integer quantity) {
+
         if (quantity < 0) {
-            throw new IllegalArgumentException("잘못된 수량입니다.");
+            throw new NotFoundItemException("해당 상품을 찾을 수 없습니다.");
         }
         this.quantity += quantity;
     }
 
     public void removeStock(Integer quantity) {
+
         int restStock = this.quantity - quantity;
+
         if (restStock < 0) {
-            throw new NotEnoughStockException("삭제할 재고가 남아 있지 않습니다.");
+            throw new NotFoundItemException("해당 상품을 찾을 수 없습니다.");
         }
         this.quantity = restStock;
     }
+
 }

@@ -2,7 +2,6 @@ package com.project.guitarShop.entity.cartItem;
 
 import com.project.guitarShop.entity.cart.Cart;
 import com.project.guitarShop.entity.item.Item;
-import com.project.guitarShop.entity.order.Order;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,22 +19,34 @@ public class CartItem {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "item_id")
-    private Item item;
-
-    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cart_id")
     private Cart cart;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "item_id")
+    private Item item;
 
     private String name;
     private Integer price;
 
     @Builder
-    public CartItem(Cart cart, Item item, String name, Integer price) {
-        this.cart = cart;
+    public CartItem(Item item, String name, Integer price) {
         this.item = item;
         this.name = name;
         this.price = price;
+    }
+
+    public void addCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public static CartItem createCartItem(Item item, String name, Integer price) {
+        CartItem cartItem = new CartItem();
+        cartItem.item = item;
+        cartItem.name = name;
+        cartItem.price = price;
+
+        return cartItem;
     }
 
     public void remove() {
@@ -43,4 +54,9 @@ public class CartItem {
             getItem().addStock(1);
         }
     }
+
+    public Integer getTotalPrice() {
+        return getPrice();
+    }
+
 }

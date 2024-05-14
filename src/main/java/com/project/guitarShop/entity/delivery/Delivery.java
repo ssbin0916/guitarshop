@@ -3,6 +3,7 @@ package com.project.guitarShop.entity.delivery;
 import com.project.guitarShop.entity.address.Address;
 import com.project.guitarShop.entity.order.Order;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -26,14 +27,15 @@ public class Delivery {
     private Address address;
 
     @Enumerated(EnumType.STRING)
-    private DeliveryStatus status;
+    private DeliveryStatus deliveryStatus;
 
-    public Delivery(Address address, DeliveryStatus status) {
+    @Builder
+    public Delivery(Address address, DeliveryStatus deliveryStatus) {
         this.address = address;
-        this.status = status;
+        this.deliveryStatus = deliveryStatus;
     }
 
-    public Delivery(DeliveryStatus status) {
-        this.status = status;
+    public void addOrder(Order order) {
+        this.order = order;
     }
 }
