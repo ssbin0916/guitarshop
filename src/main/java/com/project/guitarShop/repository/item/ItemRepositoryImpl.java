@@ -3,7 +3,6 @@ package com.project.guitarShop.repository.item;
 import com.project.guitarShop.dto.item.ItemRequest.FindItemRequest;
 import com.project.guitarShop.dto.item.ItemResponse.FindItemResponse;
 import com.project.guitarShop.dto.item.QItemResponse_FindItemResponse;
-import com.project.guitarShop.repository.orderItem.OrderItemRepository;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -15,11 +14,9 @@ import static com.project.guitarShop.entity.item.QItem.item;
 public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
-    private final OrderItemRepository orderItemRepository;
 
-    public ItemRepositoryImpl(EntityManager em, OrderItemRepository itemRepository) {
+    public ItemRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
-        this.orderItemRepository = itemRepository;
     }
 
     @Override
@@ -64,4 +61,5 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
         return query.fetch();
     }
+
 }
