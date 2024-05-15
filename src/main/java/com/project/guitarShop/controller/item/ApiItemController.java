@@ -1,11 +1,14 @@
 package com.project.guitarShop.controller.item;
 
-import com.project.guitarShop.dto.item.ItemRequest.*;
-import com.project.guitarShop.dto.item.ItemResponse.*;
-import com.project.guitarShop.exception.item.NotFoundItemException;
+import com.project.guitarShop.dto.item.ItemRequest.AddItemRequest;
+import com.project.guitarShop.dto.item.ItemRequest.FindItemRequest;
+import com.project.guitarShop.dto.item.ItemResponse.AddItemResponse;
+import com.project.guitarShop.dto.item.ItemResponse.FindItemResponse;
 import com.project.guitarShop.service.item.ItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,28 +28,15 @@ public class ApiItemController {
     @PostMapping("/addItem")
     public ResponseEntity<?> save(@RequestBody List<AddItemRequest> requests) {
 
-        try {
-            List<AddItemResponse> responses = itemService.save(requests);
-            return ResponseEntity.status(HttpStatus.CREATED).body(responses);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("서버 오류가 발생했습니다.");
-        }
+        List<AddItemResponse> responses = itemService.save(requests);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responses);
     }
 
     @PostMapping("/search")
-    public ResponseEntity<?> search(@Valid @RequestBody FindItemRequest request) {
+    public ResponseEntity<Page<FindItemResponse>> search(@Valid @RequestBody FindItemRequest request, Pageable pageable) {
 
-        try {
-            List<FindItemResponse> response = itemService.search(request);
-            return ResponseEntity.ok().body(response);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (NotFoundItemException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("서버 오류가 발생했습니다.");
-        }
+        Page<FindItemResponse> response = itemService.search(request, pageable);
+        return ResponseEntity.ok().body(response);
     }
+
 }
