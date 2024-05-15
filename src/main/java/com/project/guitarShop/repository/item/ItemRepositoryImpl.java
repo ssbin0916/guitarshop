@@ -3,9 +3,17 @@ package com.project.guitarShop.repository.item;
 import com.project.guitarShop.dto.item.ItemRequest.FindItemRequest;
 import com.project.guitarShop.dto.item.ItemResponse.FindItemResponse;
 import com.project.guitarShop.dto.item.QItemResponse_FindItemResponse;
+import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -19,8 +27,9 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+
     @Override
-    public List<FindItemResponse> search(FindItemRequest request) {
+    public Page<FindItemResponse> search(FindItemRequest request, Pageable pageable) {
 
         JPAQuery<FindItemResponse> query = queryFactory
                 .select(new QItemResponse_FindItemResponse(
@@ -31,11 +40,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                 .from(item);
 
         if (request.getName() != null) {
-            query.where(item.name.like("%" + request.getName() + "%"));
-        }
-
-        if (request.getPrice() != null) {
-            query.where(item.price.eq(request.getPrice()));
+            query.where(item.name.containsIgnoreCase(request.getName()));
         }
 
         if (request.getCategory() != null) {
@@ -46,20 +51,23 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
             query.where(item.brand.eq(request.getBrand()));
         }
 
-        if (request.getCategory() != null) {
-            query.where(item.category.eq(request.getCategory()));
-            if (request.getBrand() != null) {
-                query.where(item.brand.eq(request.getBrand()));
+        if (pageable.getSort().isSorted()) {
+            for (Sort.Order o : pageable.getSort()) {
+                PathBuilder pathBuilder = new PathBuilder(item.getType(), item.getMetadata());
+
+                query.orderBy(new OrderSpecifier<>(o.isAscending() ? Order.ASC :
+                        Order.DESC, pathBuilder.get(o.getProperty())));
             }
         }
 
-        if (request.isSortAscending()) {
-            query.orderBy(item.price.asc());
-        } else {
-            query.orderBy(item.price.desc());
-        }
+        QueryResults<FindItemResponse> results = query
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
 
-        return query.fetch();
+        List<FindItemResponse> content = results.getResults();
+        long total = results.getTotal();
+
+        return new PageImpl<>(content, pageable, total);
     }
-
 }
