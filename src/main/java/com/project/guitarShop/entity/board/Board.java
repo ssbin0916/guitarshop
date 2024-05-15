@@ -2,7 +2,7 @@ package com.project.guitarShop.entity.board;
 
 import com.project.guitarShop.entity.BaseTime;
 import com.project.guitarShop.entity.member.Member;
-import com.project.guitarShop.exception.ValidatePasswordException;
+import com.project.guitarShop.exception.member.ValidatePasswordException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
