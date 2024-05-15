@@ -4,9 +4,10 @@ import com.project.guitarShop.entity.member.Member;
 import com.project.guitarShop.dto.member.CustomUserDetails;
 import com.project.guitarShop.dto.member.MemberRequest.*;
 import com.project.guitarShop.dto.member.MemberResponse.*;
-import com.project.guitarShop.exception.ExistMemberException;
-import com.project.guitarShop.exception.NotFoundMemberException;
-import com.project.guitarShop.exception.ValidatePasswordException;
+
+import com.project.guitarShop.exception.member.ExistMemberException;
+import com.project.guitarShop.exception.member.NotFoundMemberException;
+import com.project.guitarShop.exception.member.ValidatePasswordException;
 import com.project.guitarShop.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
