@@ -22,9 +22,8 @@ public class ItemRequest {
     @Builder
     public static class FindItemRequest {
         private String name;
-        private Integer price;
         private Category category;
         private Brand brand;
-        private boolean sortAscending;
+        private Boolean sort;
     }
 }
