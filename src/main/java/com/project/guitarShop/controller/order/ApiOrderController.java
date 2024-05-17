@@ -23,13 +23,11 @@ public class ApiOrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 
-//        @PostMapping("/{orderId}/cancel")
-//    public ResponseEntity<String> cancel(@PathVariable Long orderId) {
-//
-//        orderService.cancelOrder(orderId);
-//        return ResponseEntity.ok("주문이 취소되었습니다.");
-//
-//    }
+    @PostMapping("/{orderId}/cancel")
+    public ResponseEntity<String> cancel(@PathVariable Long orderId) {
+        orderService.cancelOrder(orderId);
+        return ResponseEntity.ok("주문이 취소되었습니다.");
+    }
 
     @PostMapping("/{cartId}/orderFromCart")
     public ResponseEntity<Long> orderFormCart(@PathVariable Long cartId) {
