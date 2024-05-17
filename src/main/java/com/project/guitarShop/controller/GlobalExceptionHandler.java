@@ -1,6 +1,8 @@
 package com.project.guitarShop.controller;
 
+import com.project.guitarShop.exception.board.NotFoundBoardException;
 import com.project.guitarShop.exception.cart.NotFoundCartException;
+import com.project.guitarShop.exception.comment.NotFoundCommentException;
 import com.project.guitarShop.exception.item.NotFoundItemException;
 import com.project.guitarShop.exception.member.ExistMemberException;
 import com.project.guitarShop.exception.member.NotFoundMemberException;
@@ -34,6 +36,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundCartException.class)
     public ResponseEntity<String> handleNotFoundCartException(NotFoundCartException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 장바구니를 찾을 수 없습니다.");
+    }
+
+    @ExceptionHandler(NotFoundBoardException.class)
+    public ResponseEntity<String> handleNotFoundBoardException(NotFoundBoardException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 게시글을 찾을 수 없습니다.");
+    }
+
+    @ExceptionHandler(NotFoundCommentException.class)
+    public ResponseEntity<String> handleNotFoundCommentException(NotFoundCommentException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 답글을 찾을 수 없습니다.");
     }
 
     @ExceptionHandler(ExistMemberException.class)
