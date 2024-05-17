@@ -7,10 +7,13 @@ import com.project.guitarShop.entity.delivery.DeliveryStatus;
 import com.project.guitarShop.entity.item.Item;
 import com.project.guitarShop.entity.member.Member;
 import com.project.guitarShop.entity.order.Order;
+import com.project.guitarShop.entity.order.OrderStatus;
 import com.project.guitarShop.entity.orderItem.OrderItem;
 import com.project.guitarShop.exception.cart.NotFoundCartException;
 import com.project.guitarShop.exception.item.NotFoundItemException;
 import com.project.guitarShop.exception.member.NotFoundMemberException;
+import com.project.guitarShop.exception.order.NotFoundOrderException;
+import com.project.guitarShop.exception.order.OrderCancelException;
 import com.project.guitarShop.repository.cart.CartRepository;
 import com.project.guitarShop.repository.item.ItemRepository;
 import com.project.guitarShop.repository.member.MemberRepository;
@@ -54,23 +57,23 @@ public class OrderService {
         return order.getId();
     }
 
-//    public void cancelOrder(Long orderId) {
-//
-//        Order order = orderRepository.findById(orderId)
-//                .orElseThrow(() -> new NotFoundOrderException("해당 주문을 찾을 수 없습니다."));
-//
-//        if (order.getOrderStatus() == OrderStatus.CANCEL) {
-//            throw new OrderCancelException("이미 취소된 주문입니다.");
-//        }
-//
-//        if (order.getDelivery().getStatus() == DeliveryStatus.DELIVERING || order.getDelivery().getStatus() == DeliveryStatus.COMPLETE) {
-//            throw new OrderCancelException("배송된 주문은 취소할 수 없습니다.");
-//        }
-//
-//        order.cancel();
-//
-//        orderRepository.save(order);
-//    }
+    public void cancelOrder(Long orderId) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new NotFoundOrderException("해당 주문을 찾을 수 없습니다."));
+
+        if (order.getOrderStatus() == OrderStatus.CANCEL) {
+            throw new OrderCancelException("이미 취소된 주문입니다.");
+        }
+
+        if (order.getDelivery().getDeliveryStatus() == DeliveryStatus.DELIVERING || order.getDelivery().getDeliveryStatus() == DeliveryStatus.COMPLETE) {
+            throw new OrderCancelException("배송된 주문은 취소할 수 없습니다.");
+        }
+
+        order.cancel();
+
+        orderRepository.save(order);
+    }
 
     public Long orderFromCart(Long cartId) {
 
