@@ -9,8 +9,8 @@
 
 ## 사용 기술
 
-* JAVA 17, Spring Frmawork, Spring Boot, H2DB, Spring Data JPA, Querydsl
+* JAVA 17, Spring Frmawork, Spring Boot, Spring Sequrity, Redis, H2DB, Spring Data JPA, Querydsl
 
 ## ERD
 
-![guitar_shop](https://github.com/ssbin0916/GUITAR-SHOP/assets/151374753/acbb74ca-3df1-4664-8367-8bd4ad41390c)
+![GUITARSHOP](https://github.com/ssbin0916/GUITAR-SHOP/assets/151374753/71c2fe20-120b-4f61-b93e-c5075ffe56e6)
