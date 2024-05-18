@@ -1,4 +1,4 @@
-package com.project.guitarShop;
+package com.project.guitarShop.config;
 
 
 import org.springframework.context.annotation.Bean;
