@@ -101,13 +101,8 @@ public class MemberService implements UserDetailsService {
 
     public LoginResponse login(String loginEmail, String password) {
 
-        Optional<Member> memberOptional = memberRepository.findByLoginEmail(loginEmail);
-
-        if (memberOptional.isEmpty()) {
-            throw new NotFoundMemberException("해당 아이디를 찾을 수 없습니다.");
-        }
-
-        Member member = memberOptional.get();
+        Member member = memberRepository.findByLoginEmail(loginEmail)
+                .orElseThrow(() -> new NotFoundMemberException("해당 아이디를 찾을 수 없습니다."));
 
         if (!member.getLoginEmail().equals(loginEmail)) {
             throw new ValidatePasswordException("아이디가 일치하지 않습니다.");
