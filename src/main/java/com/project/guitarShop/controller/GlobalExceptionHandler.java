@@ -19,48 +19,58 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundMemberException.class)
     public ResponseEntity<String> handleNotFoundMemberException(NotFoundMemberException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 멤버를 찾을 수 없습니다.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
     @ExceptionHandler(NotFoundOrderException.class)
     public ResponseEntity<String> handleNotFoundOrderException(NotFoundOrderException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 주문을 찾을 수 없습니다.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
     @ExceptionHandler(NotFoundItemException.class)
     public ResponseEntity<String> handleNotFoundItemException(NotFoundItemException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 상품을 찾을 수 없습니다.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
-
 
     @ExceptionHandler(NotFoundCartException.class)
     public ResponseEntity<String> handleNotFoundCartException(NotFoundCartException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 장바구니를 찾을 수 없습니다.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
     @ExceptionHandler(NotFoundBoardException.class)
     public ResponseEntity<String> handleNotFoundBoardException(NotFoundBoardException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 게시글을 찾을 수 없습니다.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
     @ExceptionHandler(NotFoundCommentException.class)
     public ResponseEntity<String> handleNotFoundCommentException(NotFoundCommentException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 답글을 찾을 수 없습니다.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
     @ExceptionHandler(ExistMemberException.class)
     public ResponseEntity<String> handleExistMemberException(ExistMemberException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 회원입니다.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
     @ExceptionHandler(ValidatePasswordException.class)
     public ResponseEntity<String> handleValidatePasswordException(ValidatePasswordException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호가 일치하지 않습니다.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
     @ExceptionHandler(OrderCancelException.class)
     public ResponseEntity<String> handleOrderCancelException(OrderCancelException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 취소 되었거나 배송된 주문은 취소할 수 없습니다.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(InterruptedException.class)
+    public ResponseEntity<String> handleInterruptedException(InterruptedException e) {
+        Thread.currentThread().interrupt();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Thread interrupted");
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
