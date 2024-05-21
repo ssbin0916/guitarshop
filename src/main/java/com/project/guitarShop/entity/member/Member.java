@@ -51,7 +51,7 @@ public class Member extends BaseTime {
     private List<Board> boards = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = ALL)
-    private List<Comment> members = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public Member(String loginEmail, String password, String name, String phone, String role, Address address) {

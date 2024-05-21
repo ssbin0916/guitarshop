@@ -21,8 +21,6 @@ public class Item {
     private Integer price;
     private Integer quantity;
 
-
-
     @Enumerated(EnumType.STRING)
     private Category category;
     @Enumerated(EnumType.STRING)
