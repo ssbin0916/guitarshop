@@ -20,38 +20,24 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-public class ApiMemberController {
+public class MemberController {
 
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public ResponseEntity<?> join( @Valid @RequestBody JoinRequest request) {
-
-        try {
-            JoinResponse response = memberService.join(request);
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("회원가입에 실패했습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("서버 오류가 발생했습니다.");
-        }
+    public ResponseEntity<?> join(@Valid @RequestBody JoinRequest request) {
+        JoinResponse response = memberService.join(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login( @Valid @RequestBody LoginRequest request) {
-
-        try {
-            LoginResponse response = memberService.login(request.getLoginEmail(), request.getPassword());
-            return ResponseEntity.ok().body(response);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("로그인에 실패했습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("서버 오류가 발생했습니다.");
-        }
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
+        LoginResponse response = memberService.login(request.getLoginEmail(), request.getPassword());
+        return ResponseEntity.ok().body(response);
     }
 
     @PutMapping("/{id}/updateInfo")
-    public ResponseEntity<?> updateInfo(@PathVariable Long id, @Valid @RequestBody  UpdateInfoRequest request) {
+    public ResponseEntity<?> updateInfo(@PathVariable Long id, @Valid @RequestBody UpdateInfoRequest request) {
 
         try {
             memberService.updateInfo(id, request);
@@ -80,14 +66,8 @@ public class ApiMemberController {
 
     @PutMapping("/{id}/updatePassword")
     public ResponseEntity<?> updatePassword(@PathVariable Long id, @Valid @RequestBody UpdatePasswordRequest request) {
-
-        try {
-            UpdatePasswordResponse response = memberService.updatePassword(id, request);
-            return ResponseEntity.ok().body(response);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("비밀번호 변경에 실패했습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("서버 오류가 발생했습니다.");
-        }
+        UpdatePasswordResponse response = memberService.updatePassword(id, request);
+        return ResponseEntity.ok().body(response);
     }
+
 }

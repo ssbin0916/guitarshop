@@ -21,20 +21,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class ApiItemController {
+public class ItemController {
 
     private final ItemService itemService;
 
     @PostMapping("/addItem")
     public ResponseEntity<?> save(@RequestBody List<AddItemRequest> requests) {
-
         List<AddItemResponse> responses = itemService.save(requests);
         return ResponseEntity.status(HttpStatus.CREATED).body(responses);
     }
 
     @PostMapping("/search")
     public ResponseEntity<Page<FindItemResponse>> search(@Valid @RequestBody FindItemRequest request, Pageable pageable) {
-
         Page<FindItemResponse> response = itemService.search(request, pageable);
         return ResponseEntity.ok().body(response);
     }

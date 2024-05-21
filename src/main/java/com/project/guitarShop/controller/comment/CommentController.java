@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class ApiCommentController {
+public class CommentController {
 
     private final CommentService commentService;
 
@@ -23,4 +23,5 @@ public class ApiCommentController {
         CommentWriteResponse comment = commentService.comment(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(comment);
     }
+
 }

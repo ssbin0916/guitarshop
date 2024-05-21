@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class ApiOrderController {
+public class OrderController {
 
     private final LettuceLockFacade lettuceLockFacade;
 
@@ -33,4 +33,5 @@ public class ApiOrderController {
         Long orderId = lettuceLockFacade.orderFromCart(cartId);
         return ResponseEntity.status(HttpStatus.CREATED).body(orderId);
     }
+
 }

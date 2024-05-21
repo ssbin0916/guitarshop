@@ -12,20 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class ApiCartController {
+public class CartController {
 
     private final CartService cartService;
 
     @PostMapping("/{memberId}/{itemId}/addCart")
     public ResponseEntity<Long> addCart(@PathVariable Long memberId, @PathVariable Long itemId) {
-
         Long addCart = cartService.addCart(memberId, itemId);
         return ResponseEntity.status(HttpStatus.CREATED).body(addCart);
     }
 
     @PostMapping("/{cartId}/remove")
     public ResponseEntity<?> remove(@PathVariable Long cartId) {
-
         cartService.remove(cartId);
         return ResponseEntity.ok("장바구니에 담긴 상품이 모두 삭제되었습니다.");
     }
