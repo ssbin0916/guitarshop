@@ -1,7 +1,7 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:guitarshop
-#    url: jdbc:h2:mem:test
+    url: jdbc:h2:tcp://localhost/./guitarShop
+#    url: jdbc:h2:mem:guitarShop
     username: sa
     password:
     driver-class-name: org.h2.Driver
