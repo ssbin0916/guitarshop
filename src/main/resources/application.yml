@@ -2,7 +2,7 @@ spring:
   datasource:
 #    url: jdbc:h2:tcp://localhost/./guitarShop
 #    url: jdbc:h2:mem:guitarShop
-    url: jdbc:mysql://54.180.116.59/guitarShop
+    url: jdbc:mysql://52.78.91.206/guitarShop
     username: sa
     password:
 #    driver-class-name: org.h2.Driver
