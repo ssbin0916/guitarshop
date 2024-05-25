@@ -2,6 +2,9 @@
 
 ## 프로젝트 목표
 
+## 배포 서버
+http://43.201.107.128:8080/
+
 #### 기타 판매 온라인 쇼핑몰 백엔드 API 서버 구축 프로젝트입니다.
 
 * 엔티티에 setter는 사용하지 않도록 설계
@@ -17,5 +20,5 @@
 
 ![GUITARSHOP](https://github.com/ssbin0916/GUITAR-SHOP/assets/151374753/71c2fe20-120b-4f61-b93e-c5075ffe56e6)
 
-## 배포 서버
-http://43.201.107.128:8080/
+## 배포하면서 정리한 블로그입니다.
+https://velog.io/@ssbin0916/AWS-EC2-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%B0%B0%ED%8F%AC
