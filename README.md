@@ -25,5 +25,5 @@ http://43.201.107.128:8080/
 
 ![GUITARSHOP](https://github.com/ssbin0916/GUITAR-SHOP/assets/151374753/71c2fe20-120b-4f61-b93e-c5075ffe56e6)
 
-## 배포하면서 정리한 블로그입니다.
+## 배포 과정을 정리한 블로그입니다.
 https://velog.io/@ssbin0916/AWS-EC2-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%B0%B0%ED%8F%AC
