@@ -1,4 +1,3 @@
--- Drop existing tables if they exist
 DROP TABLE IF EXISTS board;
 DROP TABLE IF EXISTS cart;
 DROP TABLE IF EXISTS cart_item;
@@ -9,7 +8,6 @@ DROP TABLE IF EXISTS member;
 DROP TABLE IF EXISTS order_item;
 DROP TABLE IF EXISTS orders;
 
--- Create tables
 CREATE TABLE member (
     id BIGINT AUTO_INCREMENT,
     create_date TIMESTAMP,
@@ -49,8 +47,8 @@ CREATE TABLE item (
     id BIGINT AUTO_INCREMENT,
     price INT,
     quantity INT,
-    brand VARCHAR(255) CHECK (brand IN ('FENDER', 'GIBSON', 'PRS', 'SUHR', 'JAMESTYLER', 'MARTIN', 'TAYLOR')),
-    category VARCHAR(255) CHECK (category IN ('ELECTRIC_GUITAR', 'ACOUSTIC_GUITAR')),
+    brand ENUM('FENDER', 'GIBSON', 'PRS', 'SUHR', 'JAMESTYLER', 'MARTIN', 'TAYLOR'),
+    category ENUM('ELECTRIC_GUITAR', 'ACOUSTIC_GUITAR'),
     name VARCHAR(255),
     PRIMARY KEY (id)
 );
@@ -82,7 +80,7 @@ CREATE TABLE delivery (
     id BIGINT AUTO_INCREMENT,
     address VARCHAR(255),
     address_detail VARCHAR(255),
-    delivery_status VARCHAR(255) CHECK (delivery_status IN ('READY', 'COMPLETE', 'DELIVERING', 'CANCEL')),
+    delivery_status ENUM('READY', 'COMPLETE', 'DELIVERING', 'CANCEL'),
     request VARCHAR(255),
     PRIMARY KEY (id)
 );
@@ -92,7 +90,7 @@ CREATE TABLE orders (
     delivery_id BIGINT UNIQUE,
     member_id BIGINT,
     order_date TIMESTAMP,
-    order_status VARCHAR(255) CHECK (order_status IN ('ORDER', 'CANCEL')),
+    order_status ENUM('ORDER', 'CANCEL'),
     PRIMARY KEY (id),
     FOREIGN KEY (delivery_id) REFERENCES delivery(id),
     FOREIGN KEY (member_id) REFERENCES member(id)
@@ -109,7 +107,6 @@ CREATE TABLE order_item (
     FOREIGN KEY (order_id) REFERENCES orders(id)
 );
 
--- Add foreign key constraints
 ALTER TABLE board
     ADD CONSTRAINT FKsds8ox89wwf6aihinar49rmfy
     FOREIGN KEY (member_id) REFERENCES member(id);
