@@ -1,11 +1,7 @@
 package com.project.guitarShop.service.member;
 
-import com.project.guitarShop.dto.member.MemberRequest;
-import com.project.guitarShop.dto.member.MemberRequest.JoinRequest;
-import com.project.guitarShop.dto.member.MemberRequest.UpdateInfoRequest;
-import com.project.guitarShop.dto.member.MemberRequest.UpdatePasswordRequest;
-import com.project.guitarShop.dto.member.MemberResponse.JoinResponse;
-import com.project.guitarShop.dto.member.MemberResponse.LoginResponse;
+import com.project.guitarShop.dto.member.MemberRequest.*;
+import com.project.guitarShop.dto.member.MemberResponse.*;
 import com.project.guitarShop.entity.address.Address;
 import com.project.guitarShop.entity.member.Member;
 import com.project.guitarShop.exception.member.ExistMemberException;
@@ -33,17 +29,16 @@ class MemberServiceTest {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    MemberServiceImpl memberService;
+    MemberService memberService;
 
     @BeforeEach
     void setUp() {
-        memberService = new MemberServiceImpl(memberRepository, bCryptPasswordEncoder);
     }
 
     @Test
     void join() {
         //given
-        JoinRequest request = MemberRequest.JoinRequest.builder()
+        JoinRequest request = JoinRequest.builder()
                 .loginEmail("email@test.com")
                 .password("password")
                 .confirmPassword("password")
@@ -162,7 +157,7 @@ class MemberServiceTest {
     }
 
     private JoinRequest createDummyJoinRequest() {
-        return MemberRequest.JoinRequest.builder()
+        return JoinRequest.builder()
                 .loginEmail("email@test.com")
                 .password("password")
                 .confirmPassword("password")
