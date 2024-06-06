@@ -15,14 +15,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class CommentServiceImpl {
+public class CommentServiceImpl implements CommentService {
 
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
 
+    @Transactional
+    @Override
     public CommentWriteResponse comment(CommentWriteRequest request) {
 
         Member member = memberRepository.findById(request.getMemberId())

@@ -31,6 +31,13 @@ public class ItemServiceImpl implements ItemService {
             if (request.getName() == null || request.getName().trim().isEmpty()) {
                 throw new IllegalArgumentException("아이템 이름은 필수입니다.");
             }
+            if (request.getCategory() == null) {
+                throw new IllegalArgumentException("아이템 카테고리는 필수입니다.");
+            }
+            if (request.getBrand() == null) {
+                throw new IllegalArgumentException("아이템 브랜드는 필수입니다.");
+            }
+
             Item item = Item.builder()
                     .name(request.getName())
                     .price(request.getPrice())
@@ -40,6 +47,7 @@ public class ItemServiceImpl implements ItemService {
                     .build();
             items.add(item);
         }
+
         itemRepository.saveAll(items);
         return items.stream()
                 .map(AddItemResponse::new)
