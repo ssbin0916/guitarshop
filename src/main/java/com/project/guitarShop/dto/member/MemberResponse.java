@@ -6,46 +6,53 @@ import lombok.Getter;
 
 public class MemberResponse {
 
-    public record LoginResponse(
-            String loginEmail,
-            String name,
-            Address address,
-            String role
-    ) {
+    @Getter
+    public static class LoginResponse {
+        private final String loginEmail;
+        private final String name;
+        private final Address address;
+        private final String role;
+
         public LoginResponse(Member member) {
-            this(
-                    member.getLoginEmail(),
-                    member.getName(),
-                    member.getAddress(),
-                    member.getRole()
-            );
+            this.loginEmail = member.getLoginEmail();
+            this.name = member.getName();
+            this.address = member.getAddress();
+            this.role = member.getRole();
         }
     }
 
-    public record JoinResponse(
-            boolean success,
-            String message
-    ) {
+    @Getter
+    public static class JoinResponse {
+        private final Long id;
+        private final String loginEmail;
+        private final String name;
+        private final Address address;
+
+        public JoinResponse(Member member) {
+            this.id = member.getId();
+            this.loginEmail = member.getLoginEmail();
+            this.name = member.getName();
+            this.address = member.getAddress();
+        }
     }
 
-    public record UpdateInfoResponse(
-            String loginEmail,
-            String name,
-            Address address
-    ) {
+    @Getter
+    public static class UpdateInfoResponse {
+        private final Long id;
+        private final String loginEmail;
+        private final String name;
+        private final Address address;
+
         public UpdateInfoResponse(Member member) {
-            this(
-                    member.getLoginEmail(),
-                    member.getName(),
-                    member.getAddress()
-            );
+            this.id = member.getId();
+            this.loginEmail = member.getLoginEmail();
+            this.name = member.getName();
+            this.address = member.getAddress();
         }
     }
 
-    public record UpdatePasswordResponse(
-            String loginEmail,
-            String name
-    ) {
+    @Getter
+    public static class UpdatePasswordResponse {
         private final Long id;
         private final String loginEmail;
         private final String name;
