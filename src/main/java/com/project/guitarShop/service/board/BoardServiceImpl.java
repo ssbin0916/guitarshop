@@ -33,7 +33,7 @@ public class BoardServiceImpl implements BoardService {
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
-        Board board = new Board(member, request.getTitle(), request.getContent());
+        Board board = new Board(request.getTitle(), request.getContent(), member);
 
         Board save = boardRepository.save(board);
 

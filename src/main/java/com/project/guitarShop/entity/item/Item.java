@@ -23,6 +23,7 @@ public class Item {
 
     @Enumerated(EnumType.STRING)
     private Category category;
+
     @Enumerated(EnumType.STRING)
     private Brand brand;
 

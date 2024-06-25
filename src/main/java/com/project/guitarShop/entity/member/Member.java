@@ -55,7 +55,6 @@ public class Member extends BaseTime {
 
     @Builder
     public Member(String loginEmail, String password, String name, String phone, String role, Address address) {
-
         this.loginEmail = loginEmail;
         this.password = password;
         this.name = name;

@@ -28,8 +28,6 @@ public class Board extends BaseTime {
 
     private String content;
 
-    private String writer;
-
     private Integer view;
 
     @ManyToOne(fetch = LAZY)
@@ -40,10 +38,10 @@ public class Board extends BaseTime {
     @OrderBy("id asc")
     private List<Comment> comments = new ArrayList<>();
 
-    public Board(Member member, String title, String content) {
-        this.member = member;
+    public Board(String title, String content, Member member) {
         this.title = title;
         this.content = content;
+        this.member = member;
     }
 
     public void updateBoard(String title, String content) {
