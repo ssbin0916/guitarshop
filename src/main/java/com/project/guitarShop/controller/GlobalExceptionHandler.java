@@ -5,6 +5,7 @@ import com.project.guitarShop.exception.cart.NotFoundCartException;
 import com.project.guitarShop.exception.comment.NotFoundCommentException;
 import com.project.guitarShop.exception.item.NotFoundItemException;
 import com.project.guitarShop.exception.member.ExistMemberException;
+import com.project.guitarShop.exception.member.MemberUpdateFailException;
 import com.project.guitarShop.exception.member.NotFoundMemberException;
 import com.project.guitarShop.exception.member.ValidatePasswordException;
 import com.project.guitarShop.exception.order.NotFoundOrderException;
@@ -54,6 +55,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ValidatePasswordException.class)
     public ResponseEntity<String> handleValidatePasswordException(ValidatePasswordException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(MemberUpdateFailException.class)
+    public ResponseEntity<String> handleMemberUpdateFailException(MemberUpdateFailException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
