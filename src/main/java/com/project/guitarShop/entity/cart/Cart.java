@@ -3,10 +3,10 @@ package com.project.guitarShop.entity.cart;
 import com.project.guitarShop.entity.cartItem.CartItem;
 import com.project.guitarShop.entity.member.Member;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,7 @@ import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cart {
 
     @Id

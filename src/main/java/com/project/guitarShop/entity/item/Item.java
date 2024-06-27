@@ -1,17 +1,17 @@
 package com.project.guitarShop.entity.item;
 
+import com.project.guitarShop.entity.BaseEntity;
 import com.project.guitarShop.exception.item.NotFoundItemException;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
-public class Item {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Item extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,20 +1,20 @@
 package com.project.guitarShop.entity.delivery;
 
+import com.project.guitarShop.entity.BaseEntity;
 import com.project.guitarShop.entity.address.Address;
 import com.project.guitarShop.entity.order.Order;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import static jakarta.persistence.FetchType.*;
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
-public class Delivery {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Delivery extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

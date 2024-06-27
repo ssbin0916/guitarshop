@@ -1,6 +1,6 @@
 package com.project.guitarShop.entity.member;
 
-import com.project.guitarShop.entity.BaseTime;
+import com.project.guitarShop.entity.BaseEntity;
 import com.project.guitarShop.entity.address.Address;
 import com.project.guitarShop.entity.board.Board;
 import com.project.guitarShop.entity.cart.Cart;
@@ -10,7 +10,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +19,7 @@ import static jakarta.persistence.CascadeType.ALL;
 @Entity
 @Getter
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
-public class Member extends BaseTime {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

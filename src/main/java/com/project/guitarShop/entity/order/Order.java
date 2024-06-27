@@ -1,14 +1,15 @@
 package com.project.guitarShop.entity.order;
 
+import com.project.guitarShop.entity.BaseEntity;
 import com.project.guitarShop.entity.delivery.Delivery;
 import com.project.guitarShop.entity.delivery.DeliveryStatus;
 import com.project.guitarShop.entity.member.Member;
 import com.project.guitarShop.entity.orderItem.OrderItem;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,9 +21,8 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @Table(name = "orders")
 @Getter
-@NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
-public class Order {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Order extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

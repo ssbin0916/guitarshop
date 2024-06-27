@@ -1,12 +1,14 @@
 package com.project.guitarShop.entity.address;
 
 import jakarta.persistence.Embeddable;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Address {
 
     private String address;
@@ -15,6 +17,7 @@ public class Address {
 
     private String request;
 
+    @Builder
     public Address(String address, String addressDetail, String request) {
         this.address = address;
         this.addressDetail = addressDetail;

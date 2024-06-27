@@ -1,12 +1,13 @@
 package com.project.guitarShop.entity.board;
 
-import com.project.guitarShop.entity.BaseTime;
+import com.project.guitarShop.entity.BaseEntity;
 import com.project.guitarShop.entity.comment.Comment;
 import com.project.guitarShop.entity.member.Member;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,8 @@ import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
-public class Board extends BaseTime {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Board extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +40,7 @@ public class Board extends BaseTime {
     @OrderBy("id asc")
     private List<Comment> comments = new ArrayList<>();
 
+    @Builder
     public Board(Member member, String title, String content) {
         this.member = member;
         this.title = title;

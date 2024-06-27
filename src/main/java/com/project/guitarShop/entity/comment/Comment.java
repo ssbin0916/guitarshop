@@ -1,24 +1,20 @@
 package com.project.guitarShop.entity.comment;
 
-import com.project.guitarShop.entity.BaseTime;
+import com.project.guitarShop.entity.BaseEntity;
 import com.project.guitarShop.entity.board.Board;
 import com.project.guitarShop.entity.member.Member;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EntityListeners(AuditingEntityListener.class)
-public class Comment extends BaseTime {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +30,7 @@ public class Comment extends BaseTime {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Builder
     public Comment(Member member, Board board, String comment) {
         this.member = member;
         this.board = board;

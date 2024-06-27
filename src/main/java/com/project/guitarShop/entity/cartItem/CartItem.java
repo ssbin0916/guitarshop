@@ -3,15 +3,16 @@ package com.project.guitarShop.entity.cartItem;
 import com.project.guitarShop.entity.cart.Cart;
 import com.project.guitarShop.entity.item.Item;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static jakarta.persistence.FetchType.*;
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CartItem {
 
     @Id
