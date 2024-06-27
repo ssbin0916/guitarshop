@@ -2,67 +2,58 @@ package com.project.guitarShop.dto.member;
 
 import com.project.guitarShop.entity.address.Address;
 import com.project.guitarShop.entity.member.Member;
-import lombok.Getter;
 
 public class MemberResponse {
 
-    @Getter
-    public static class LoginResponse {
-        private final String loginEmail;
-        private final String name;
-        private final Address address;
-        private final String role;
-
+    public record LoginResponse(
+            String loginEmail,
+            String name,
+            Address address,
+            String role
+    ) {
         public LoginResponse(Member member) {
-            this.loginEmail = member.getLoginEmail();
-            this.name = member.getName();
-            this.address = member.getAddress();
-            this.role = member.getRole();
+            this(
+                    member.getLoginEmail(),
+                    member.getName(),
+                    member.getAddress(),
+                    member.getRole()
+            );
         }
     }
 
-    @Getter
-    public static class JoinResponse {
-        private final Long id;
-        private final String loginEmail;
-        private final String name;
-        private final Address address;
-
+    public record JoinResponse(
+            String loginEmail,
+            String name,
+            Address address
+    ) {
         public JoinResponse(Member member) {
-            this.id = member.getId();
-            this.loginEmail = member.getLoginEmail();
-            this.name = member.getName();
-            this.address = member.getAddress();
+            this(
+                    member.getLoginEmail(),
+                    member.getName(),
+                    member.getAddress()
+            );
         }
     }
 
-    @Getter
-    public static class UpdateInfoResponse {
-        private final Long id;
-        private final String loginEmail;
-        private final String name;
-        private final Address address;
-
+    public record UpdateInfoResponse(
+            String loginEmail,
+            String name,
+            Address address
+    ) {
         public UpdateInfoResponse(Member member) {
-            this.id = member.getId();
-            this.loginEmail = member.getLoginEmail();
-            this.name = member.getName();
-            this.address = member.getAddress();
+            this(
+                    member.getLoginEmail(),
+                    member.getName(),
+                    member.getAddress()
+            );
         }
     }
 
-    @Getter
-    public static class UpdatePasswordResponse {
-        private final Long id;
-        private final String loginEmail;
-        private final String name;
-        private final Address address;
-
-        public UpdatePasswordResponse(Member member) {
-            this.id = member.getId();
-            this.loginEmail = member.getLoginEmail();
-            this.name = member.getName();
-            this.address = member.getAddress();
-        }
+    public record UpdatePasswordResponse(
+            boolean success,
+            String message
+    ) {
     }
 }
+
+
