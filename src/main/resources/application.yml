@@ -34,3 +34,6 @@ logging.level:
 server:
   port: 8080
   address: 0.0.0.0
+
+  jwt:
+    secret: 295713f06b7aac58d9a5aa67cab86532c4a9a29afd1565491ad2242e1f950a12
