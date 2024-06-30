@@ -28,22 +28,22 @@ public class ItemServiceImpl implements ItemService {
     public List<AddItemResponse> save(List<AddItemRequest> requests) {
         List<Item> items = new ArrayList<>();
         for (AddItemRequest request : requests) {
-            if (request.getName() == null || request.getName().trim().isEmpty()) {
+            if (request.name() == null || request.name().trim().isEmpty()) {
                 throw new IllegalArgumentException("아이템 이름은 필수입니다.");
             }
-            if (request.getCategory() == null) {
+            if (request.category() == null) {
                 throw new IllegalArgumentException("아이템 카테고리는 필수입니다.");
             }
-            if (request.getBrand() == null) {
+            if (request.brand() == null) {
                 throw new IllegalArgumentException("아이템 브랜드는 필수입니다.");
             }
 
             Item item = Item.builder()
-                    .name(request.getName())
-                    .price(request.getPrice())
-                    .quantity(request.getQuantity())
-                    .category(request.getCategory())
-                    .brand(request.getBrand())
+                    .name(request.name())
+                    .price(request.price())
+                    .quantity(request.quantity())
+                    .category(request.category())
+                    .brand(request.brand())
                     .build();
             items.add(item);
         }
