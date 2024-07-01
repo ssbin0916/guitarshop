@@ -6,11 +6,11 @@ import org.springframework.stereotype.Repository;
 import java.time.Duration;
 
 @Repository
-public class RedisLockRepository {
+public class RedisRepository {
 
     private RedisTemplate<String, String> redisTemplate;
 
-    public RedisLockRepository(RedisTemplate<String, String> redisTemplate) {
+    public RedisRepository(RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
@@ -26,5 +26,10 @@ public class RedisLockRepository {
 
     private String generateKey(String key) {
         return key.toString();
+    }
+
+    public long increasesViewCount(Long key) {
+        String redisKey = String.valueOf(key);
+        return redisTemplate.opsForValue().increment(redisKey);
     }
 }
