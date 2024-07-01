@@ -28,8 +28,6 @@ public class Board extends BaseEntity {
 
     private String content;
 
-    private String writer;
-
     private Integer view;
 
     @ManyToOne(fetch = LAZY)
@@ -41,15 +39,20 @@ public class Board extends BaseEntity {
     private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    public Board(Member member, String title, String content) {
+    public Board(Member member, String title, String content, Integer view) {
         this.member = member;
         this.title = title;
         this.content = content;
+        this.view = view;
     }
 
     public void updateBoard(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public void addViewCount(Integer view) {
+        this.view = view;
     }
 
 
