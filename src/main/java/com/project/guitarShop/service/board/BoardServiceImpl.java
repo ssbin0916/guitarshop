@@ -12,7 +12,9 @@ import com.project.guitarShop.exception.board.NotFoundBoardException;
 import com.project.guitarShop.exception.member.NotFoundMemberException;
 import com.project.guitarShop.repository.board.BoardRepository;
 import com.project.guitarShop.repository.member.MemberRepository;
+import com.project.guitarShop.repository.redis.RedisRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
+    private final RedisRepository redisRepository;
 
     @Transactional
     @Override
@@ -33,11 +36,9 @@ public class BoardServiceImpl implements BoardService {
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
-        Board board = new Board(member, request.getTitle(), request.getContent());
+        Board board = new Board(member, request.getTitle(), request.getContent(), 0);
 
         Board save = boardRepository.save(board);
-
-        save.prePersist();
 
         return new BoardWriteResponse(save);
     }
@@ -48,12 +49,16 @@ public class BoardServiceImpl implements BoardService {
         return boardRepository.findAll(pageable).map(BoardListResponse::new);
     }
 
+    @Cacheable(value = "board", key = "#id")
     @Transactional
     @Override
     public BoardReadResponse readBoard(Long boardId) {
         Board board  = boardRepository.findById(boardId)
                 .orElseThrow(() -> new NotFoundBoardException("해당 게시글을 찾을 수 없습니다."));
 
+        long increasesViewCount = redisRepository.increasesViewCount(boardId);
+        board.addViewCount((int) increasesViewCount);
+        boardRepository.save(board);
         return new BoardReadResponse(board);
     }
 
