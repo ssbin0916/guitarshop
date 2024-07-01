@@ -10,12 +10,23 @@ http://43.201.107.128:8080/
 #### 기타 판매 온라인 쇼핑몰 백엔드 API 서버 구축 프로젝트입니다.
 
 * 객체와 데이터베이스의 패러다임 불일치 해결
+  
 * 중간 테이블을 통한 다대다 관계 해결
+  
 * 객체 불변성 유지
+
 * 동시성 이슈 해결을 위한 Redis 사용
-* 스프링 시큐리티를 활용한 인증과 인가
+  
+* 스프링 시큐리티와 JWT를 활용한 보안 강화
+https://velog.io/@ssbin0916/Spring-Security%EC%99%80-JWT
+
+* 캐시를 활용한 대용량 트래픽 처리 속도 향상
+https://velog.io/@ssbin0916/Redis%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%9D%B4%EC%8A%88-%EB%B0%8F-%EB%8C%80%EC%9A%A9%EB%9F%89-%ED%8A%B8%EB%9E%98%ED%94%BD-%EC%B2%98%EB%A6%AC
+
 * 서비스 레이어와 컨트롤러 레이어 테스트
+  
 * AWS EC2 배포
+https://velog.io/@ssbin0916/AWS-EC2-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%B0%B0%ED%8F%AC
 
 ## 사용 기술
 
@@ -24,6 +35,3 @@ http://43.201.107.128:8080/
 ## ERD
 
 ![GUITARSHOP](https://github.com/ssbin0916/GUITAR-SHOP/assets/151374753/71c2fe20-120b-4f61-b93e-c5075ffe56e6)
-
-## 배포 과정을 정리한 블로그입니다.
-https://velog.io/@ssbin0916/AWS-EC2-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%B0%B0%ED%8F%AC
