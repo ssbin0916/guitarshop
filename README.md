@@ -8,7 +8,7 @@
 
 * [Incr 명령어를 활용한 게시글 조회 동시성 이슈 해결](https://velog.io/@ssbin0916/Redis%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EA%B2%8C%EC%8B%9C%EA%B8%80-%EC%A1%B0%ED%9A%8C-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%9D%B4%EC%8A%88-%ED%95%B4%EA%B2%B0)
 
-* [캐싱을 활용한 게시글 조회 대용량 트래픽 처리 속도 향상](https://velog.io/@ssbin0916/Redis-%EC%BA%90%EC%8B%B1%EC%9D%84-%ED%86%B5%ED%95%9C-%EB%8C%80%EC%9A%A9%EB%9F%89-%ED%8A%B8%EB%9E%98%ED%94%BD-%EC%B2%98%EB%A6%AC)
+* [캐싱을 통한 게시글 조회 대용량 트래픽 처리 속도 향상](https://velog.io/@ssbin0916/Redis-%EC%BA%90%EC%8B%B1%EC%9D%84-%ED%86%B5%ED%95%9C-%EB%8C%80%EC%9A%A9%EB%9F%89-%ED%8A%B8%EB%9E%98%ED%94%BD-%EC%B2%98%EB%A6%AC)
 
 * [Sorted Set을 활용한 선착순 쿠폰 이벤트 처리](https://velog.io/@ssbin0916/Redis%EC%9D%98-Sorted-Set%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EC%84%A0%EC%B0%A9%EC%88%9C-%EC%BF%A0%ED%8F%B0-%EC%9D%B4%EB%B2%A4%ED%8A%B8)
   
