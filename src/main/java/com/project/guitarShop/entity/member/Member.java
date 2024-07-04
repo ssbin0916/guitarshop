@@ -2,9 +2,9 @@ package com.project.guitarShop.entity.member;
 
 import com.project.guitarShop.entity.BaseEntity;
 import com.project.guitarShop.entity.address.Address;
-import com.project.guitarShop.entity.board.Board;
+import com.project.guitarShop.entity.post.Post;
 import com.project.guitarShop.entity.cart.Cart;
-import com.project.guitarShop.entity.comment.Comment;
+import com.project.guitarShop.entity.reply.Reply;
 import com.project.guitarShop.entity.order.Order;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -28,12 +28,16 @@ public class Member extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String loginEmail;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String phone;
 
+    @Column(nullable = false)
     private String role;
 
     @Embedded
@@ -46,10 +50,10 @@ public class Member extends BaseEntity {
     private List<Cart> carts = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = ALL)
-    private List<Board> boards = new ArrayList<>();
+    private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = ALL)
-    private List<Comment> comments = new ArrayList<>();
+    private List<Reply> replies = new ArrayList<>();
 
     @Builder
     public Member(String loginEmail, String password, String name, String phone, String role, Address address) {
