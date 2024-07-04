@@ -28,7 +28,7 @@ public class RedisRepository {
         return key.toString();
     }
 
-    public long increasesViewCount(Long key) {
+    public Long increasesViewCount(Long key) {
         String redisKey = String.valueOf(key);
         return redisTemplate.opsForValue().increment(redisKey);
     }
