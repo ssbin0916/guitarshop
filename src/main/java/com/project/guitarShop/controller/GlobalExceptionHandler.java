@@ -1,11 +1,10 @@
 package com.project.guitarShop.controller;
 
-import com.project.guitarShop.exception.board.NotFoundBoardException;
+import com.project.guitarShop.exception.post.NotFoundPostException;
 import com.project.guitarShop.exception.cart.NotFoundCartException;
-import com.project.guitarShop.exception.comment.NotFoundCommentException;
+import com.project.guitarShop.exception.reply.NotFoundReplyException;
 import com.project.guitarShop.exception.item.NotFoundItemException;
 import com.project.guitarShop.exception.member.ExistMemberException;
-import com.project.guitarShop.exception.member.MemberUpdateFailException;
 import com.project.guitarShop.exception.member.NotFoundMemberException;
 import com.project.guitarShop.exception.member.ValidatePasswordException;
 import com.project.guitarShop.exception.order.NotFoundOrderException;
@@ -38,13 +37,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
-    @ExceptionHandler(NotFoundBoardException.class)
-    public ResponseEntity<String> handleNotFoundBoardException(NotFoundBoardException e) {
+    @ExceptionHandler(NotFoundPostException.class)
+    public ResponseEntity<String> handleNotFoundPostException(NotFoundPostException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
-    @ExceptionHandler(NotFoundCommentException.class)
-    public ResponseEntity<String> handleNotFoundCommentException(NotFoundCommentException e) {
+    @ExceptionHandler(NotFoundReplyException.class)
+    public ResponseEntity<String> handleNotFoundReplyException(NotFoundReplyException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
@@ -55,11 +54,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ValidatePasswordException.class)
     public ResponseEntity<String> handleValidatePasswordException(ValidatePasswordException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    }
-
-    @ExceptionHandler(MemberUpdateFailException.class)
-    public ResponseEntity<String> handleMemberUpdateFailException(MemberUpdateFailException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
