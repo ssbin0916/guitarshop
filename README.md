@@ -32,5 +32,3 @@ http://43.201.107.128:8080/
 ## ERD
 
 ![GUITARSHOP](https://github.com/ssbin0916/GUITAR-SHOP/assets/151374753/71c2fe20-120b-4f61-b93e-c5075ffe56e6)
-
-[포트폴리오](https://luxuriant-robe-07a.notion.site/6e6e19bf408c4ed5815e7c69592efdf2)
