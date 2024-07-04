@@ -6,7 +6,6 @@ import com.project.guitarShop.entity.delivery.DeliveryStatus;
 import com.project.guitarShop.entity.member.Member;
 import com.project.guitarShop.entity.orderItem.OrderItem;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +20,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @Table(name = "orders")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Order extends BaseEntity {
 
     @Id

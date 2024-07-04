@@ -29,12 +29,14 @@ public class OrderItem {
 
     private String name;
     private Integer price;
+    private Integer quantity;
 
     @Builder
-    public OrderItem(Item item, String name, Integer price) {
+    public OrderItem(Item item, String name, Integer price, Integer quantity) {
         this.item = item;
         this.name = name;
         this.price = price;
+        this.quantity = quantity;
     }
 
     public void addOrder(Order order) {
