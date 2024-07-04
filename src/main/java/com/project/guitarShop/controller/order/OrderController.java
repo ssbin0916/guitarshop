@@ -1,6 +1,8 @@
 package com.project.guitarShop.controller.order;
 
-import com.project.guitarShop.facade.LettuceLockFacade;
+import com.project.guitarShop.dto.order.OrderResponse.*;
+import com.project.guitarShop.service.order.OrderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,28 +12,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
+@RequestMapping("/order")
 public class OrderController {
 
-    private final LettuceLockFacade lettuceLockFacade;
+    private final OrderService orderService;
 
     @PostMapping("/{memberId}/{itemId}/order")
-    public ResponseEntity<Long> order(@PathVariable Long memberId, @PathVariable Long itemId) throws InterruptedException {
-        Long orderId = lettuceLockFacade.order(memberId, itemId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderId);
+    public ResponseEntity<CreateOrderResponse> order(@Valid @PathVariable Long memberId, @Valid @PathVariable Long itemId) throws InterruptedException {
+        CreateOrderResponse order = orderService.order(memberId, itemId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 
-    @PostMapping("/{orderId}/cancel")
-    public ResponseEntity<String> cancel(@PathVariable Long orderId) throws InterruptedException {
-        lettuceLockFacade.cancelOrder(orderId);
+    @PostMapping("/cancel/{id}")
+    public ResponseEntity<String> cancel(@Valid @PathVariable Long id) throws InterruptedException {
         return ResponseEntity.ok("주문이 취소되었습니다.");
     }
 
-    @PostMapping("/{cartId}/orderFromCart")
-    public ResponseEntity<Long> orderFromCart(@PathVariable Long cartId) throws InterruptedException {
-        Long orderId = lettuceLockFacade.orderFromCart(cartId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderId);
+    @PostMapping("/orderFromCart/{cartId}")
+    public ResponseEntity<CreateOrderFromCartResponse> orderFromCart(@Valid @PathVariable Long cartId) throws InterruptedException {
+        CreateOrderFromCartResponse order = orderService.orderFromCart(cartId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 
 }
