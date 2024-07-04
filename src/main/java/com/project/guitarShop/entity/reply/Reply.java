@@ -37,4 +37,8 @@ public class Reply extends BaseEntity {
         this.post = post;
         this.member = member;
     }
+
+    public void updateReply(String reply) {
+        this.reply = reply;
+    }
 }
