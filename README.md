@@ -27,7 +27,7 @@ http://43.201.107.128:8080/
 
 ## 사용 기술
 
-* JAVA 17, Spring Sequrity, Spring Data JPA, Querydsl, Redis, AWS EC2
+* JAVA 17, Spring Sequrity, JPA, Querydsl, Redis, AWS EC2
 
 ## ERD
 
