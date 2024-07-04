@@ -58,4 +58,13 @@ public class ReplyServiceImpl implements ReplyService {
 
         return new ReplyUpdateResponse(save);
     }
+
+    @Transactional
+    @Override
+    public void delete(Long id) {
+
+        Reply reply = replyRepository.findById(id)
+                .orElseThrow(() -> new NotFoundReplyException("해당 댓글을 찾을 수 없습니다."));
+        replyRepository.delete(reply);
+    }
 }

@@ -8,4 +8,6 @@ public interface ReplyService {
     ReplyWriteResponse reply(ReplyWriteRequest request);
 
     ReplyUpdateResponse update(Long id, ReplyUpdateRequest request);
+
+    void delete(Long id);
 }

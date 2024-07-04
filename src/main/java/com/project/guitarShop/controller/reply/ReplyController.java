@@ -27,4 +27,9 @@ public class ReplyController {
         return ResponseEntity.ok(replyService.update(id, request));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@Valid @PathVariable Long id) {
+        return ResponseEntity.ok("댓글 삭제 완료");
+    }
+
 }
