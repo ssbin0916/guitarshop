@@ -43,24 +43,29 @@ public class OrderItem {
         this.order = order;
     }
 
-    public static OrderItem createOrderItem(Item item, String name, Integer price) {
+    public static OrderItem createOrderItem(Item item, String name, Integer price, Integer quantity) {
         OrderItem orderItem = new OrderItem();
         orderItem.item = item;
         orderItem.name = name;
         orderItem.price = price;
+        orderItem.quantity = quantity;
 
-        item.removeStock(1);
+        item.removeStock(quantity);
         return orderItem;
     }
 
     public void cancel() {
         if (this.item != null) {
-            getItem().addStock(1);
+            getItem().addStock(getQuantity());
         }
     }
 
     public Integer getTotalPrice() {
-        return getPrice();
+        return getPrice() * getQuantity();
+    }
+
+    public void update(Integer quantity) {
+        this.quantity = quantity;
     }
 
 }
