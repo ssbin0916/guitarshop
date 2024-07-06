@@ -48,12 +48,6 @@ public class MemberResponse {
             );
         }
     }
-
-    public record UpdatePasswordResponse(
-            boolean success,
-            String message
-    ) {
-    }
 }
 
 
