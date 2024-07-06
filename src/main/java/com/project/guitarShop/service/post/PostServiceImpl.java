@@ -58,7 +58,7 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new NotFoundPostException("해당 게시글을 찾을 수 없습니다."));
 
-        long increasesViewCount = redisRepository.increasesViewCount(postId);
+        long increasesViewCount = redisRepository.incrementViewCount(postId);
         post.addViewCount((int) increasesViewCount);
         postRepository.save(post);
         return new PostReadResponse(post);
