@@ -11,6 +11,7 @@ import com.project.guitarShop.entity.order.Order;
 import com.project.guitarShop.entity.order.OrderStatus;
 import com.project.guitarShop.entity.orderItem.OrderItem;
 import com.project.guitarShop.exception.cart.NotFoundCartException;
+import com.project.guitarShop.exception.item.NotEnoughStockException;
 import com.project.guitarShop.exception.item.NotFoundItemException;
 import com.project.guitarShop.exception.member.NotFoundMemberException;
 import com.project.guitarShop.exception.order.NotFoundOrderException;
@@ -39,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     private final RedisRepository redisRepository;
 
     @Override
-    public CreateOrderResponse order(Long memberId, Long itemId) throws InterruptedException {
+    public CreateOrderResponse order(Long memberId, Long itemId, Integer quantity) throws InterruptedException {
 
         while (!redisRepository.lock(itemId)) {
             Thread.sleep(100);
@@ -51,6 +52,10 @@ public class OrderServiceImpl implements OrderService {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundItemException("해당 상품을 찾을 수 없습니다."));
 
+        if (item.getQuantity() < quantity) {
+            throw new NotEnoughStockException("재고가 부족합니다.");
+        }
+
         Delivery delivery = Delivery.builder()
                 .address(member.getAddress())
                 .deliveryStatus(DeliveryStatus.READY)
@@ -59,7 +64,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
 
         try {
-            OrderItem orderItem = OrderItem.createOrderItem(item, item.getName(), item.getPrice());
+            OrderItem orderItem = OrderItem.createOrderItem(item, item.getName(), item.getPrice(), quantity);
             Order.createOrder(member, delivery, orderItem);
             orderRepository.save(order);
         } finally {
@@ -96,7 +101,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public CreateOrderFromCartResponse orderFromCart(Long cartId) throws InterruptedException {
+    public CreateOrderFromCartResponse orderFromCart(Long cartId, Integer quantity) throws InterruptedException {
 
         while (!redisRepository.unlock(cartId)) {
             Thread.sleep(100);
@@ -118,7 +123,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItem> orderItems = new ArrayList<>();
 
         for (CartItem cartItem : cartItems) {
-            OrderItem orderItem = OrderItem.createOrderItem(cartItem.getItem(), cartItem.getName(), cartItem.getPrice());
+            OrderItem orderItem = OrderItem.createOrderItem(cartItem.getItem(), cartItem.getName(), cartItem.getPrice(), quantity);
             orderItems.add(orderItem);
         }
 
