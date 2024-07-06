@@ -1,11 +1,7 @@
 package com.project.guitarShop.controller.member;
 
-import com.project.guitarShop.dto.member.MemberRequest.JoinRequest;
-import com.project.guitarShop.dto.member.MemberRequest.UpdateInfoRequest;
-import com.project.guitarShop.dto.member.MemberRequest.UpdatePasswordRequest;
-import com.project.guitarShop.dto.member.MemberResponse.JoinResponse;
-import com.project.guitarShop.dto.member.MemberResponse.UpdateInfoResponse;
-import com.project.guitarShop.dto.member.MemberResponse.UpdatePasswordResponse;
+import com.project.guitarShop.dto.member.MemberRequest.*;
+import com.project.guitarShop.dto.member.MemberResponse.*;
 import com.project.guitarShop.service.member.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/member")
 public class MemberController {
 
     private final MemberService memberService;
@@ -26,16 +22,16 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{id}/updateInfo")
+    @PutMapping("/updateInfo/{id}")
     public ResponseEntity<?> updateInfo(@PathVariable Long id, @Valid @RequestBody UpdateInfoRequest request) {
         UpdateInfoResponse response = memberService.updateInfo(id, request);
         return ResponseEntity.ok().body(response);
     }
 
-    @PutMapping("/{id}/updatePassword")
-    public ResponseEntity<?> updatePassword(@PathVariable Long id, @Valid @RequestBody UpdatePasswordRequest request) {
-        UpdatePasswordResponse response = memberService.updatePassword(id, request);
-        return ResponseEntity.ok().body(response);
+    @PutMapping("/updatePassword/{id}")
+    public ResponseEntity<String> updatePassword(@PathVariable Long id, @Valid @RequestBody UpdatePasswordRequest request) {
+        memberService.updatePassword(id, request);
+        return ResponseEntity.ok("비밀번호 변경 완료");
     }
 
 }
