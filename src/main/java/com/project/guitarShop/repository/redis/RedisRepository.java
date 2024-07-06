@@ -12,6 +12,11 @@ public class RedisRepository {
 
     private final RedisTemplate<String, String> redisTemplate;
 
+    public Long incrementViewCount(Long key) {
+        String redisKey = String.valueOf(key);
+        return redisTemplate.opsForValue().increment(redisKey);
+    }
+
     public Boolean lock(Long key) {
         return redisTemplate
                 .opsForValue()
