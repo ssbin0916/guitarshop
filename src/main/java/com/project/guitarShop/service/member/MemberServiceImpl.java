@@ -1,12 +1,7 @@
 package com.project.guitarShop.service.member;
 
-import com.project.guitarShop.dto.member.MemberRequest.JoinRequest;
-import com.project.guitarShop.dto.member.MemberRequest.UpdateInfoRequest;
-import com.project.guitarShop.dto.member.MemberRequest.UpdatePasswordRequest;
-import com.project.guitarShop.dto.member.MemberResponse.JoinResponse;
-import com.project.guitarShop.dto.member.MemberResponse.LoginResponse;
-import com.project.guitarShop.dto.member.MemberResponse.UpdateInfoResponse;
-import com.project.guitarShop.dto.member.MemberResponse.UpdatePasswordResponse;
+import com.project.guitarShop.dto.member.MemberRequest.*;
+import com.project.guitarShop.dto.member.MemberResponse.*;
 import com.project.guitarShop.entity.member.Member;
 import com.project.guitarShop.exception.member.ExistMemberException;
 import com.project.guitarShop.exception.member.NotFoundMemberException;
@@ -32,20 +27,18 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public JoinResponse join(JoinRequest request) {
         validateExistLoginId(request);
-        validateConfirmPassword(request.getPassword(), request.getConfirmPassword());
+        validateConfirmPassword(request.password(), request.confirmPassword());
 
         Member member = Member.builder()
-                .loginEmail(request.getLoginEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .name(request.getName())
-                .phone(request.getPhone())
-                .address(request.getAddress())
+                .loginEmail(request.loginEmail())
+                .password(passwordEncoder.encode(request.password()))
+                .name(request.name())
+                .phone(request.phone())
+                .address(request.address())
                 .role("USER")
                 .build();
 
         memberRepository.save(member);
-
-        member.prePersist();
 
         return new JoinResponse(member);
     }
@@ -60,13 +53,13 @@ public class MemberServiceImpl implements MemberService {
         boolean isUpdated = false;
         StringBuilder errorMessages = new StringBuilder();
 
-        if (request.getPhone() != null && !request.getPhone().isEmpty()) {
-            member.updatePhone(request.getPhone());
+        if (request.phone() != null && !request.phone().isEmpty()) {
+            member.updatePhone(request.phone());
             isUpdated = true;
         }
 
-        if (request.getAddress() != null) {
-            member.updateAddress(request.getAddress());
+        if (request.address() != null) {
+            member.updateAddress(request.address());
             isUpdated = true;
         }
 
@@ -83,25 +76,24 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public UpdatePasswordResponse updatePassword(Long id, UpdatePasswordRequest request) {
+    public void updatePassword(Long id, UpdatePasswordRequest request) {
 
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
-        if (!passwordEncoder.matches(request.getCurrentPassword(), member.getPassword())) {
+        if (!passwordEncoder.matches(request.currentPassword(), member.getPassword())) {
             throw new ValidatePasswordException("현재 비밀번호가 일치하지 않습니다.");
         }
 
-        if (!request.getNewPassword().equals(request.getConfirmPassword())) {
+        if (!request.newPassword().equals(request.confirmPassword())) {
             throw new ValidatePasswordException("새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
         }
 
-        String encodePassword = passwordEncoder.encode(request.getNewPassword());
+        String encodePassword = passwordEncoder.encode(request.newPassword());
         member.updatePassword(encodePassword);
 
-        Member save = memberRepository.save(member);
+        memberRepository.save(member);
 
-        return new UpdatePasswordResponse(save);
     }
 
     @Transactional
@@ -131,7 +123,7 @@ public class MemberServiceImpl implements MemberService {
 
     private void validateExistLoginId(JoinRequest request) {
 
-        Optional<Member> findMembers = memberRepository.findByLoginEmail(request.getLoginEmail());
+        Optional<Member> findMembers = memberRepository.findByLoginEmail(request.loginEmail());
         if (findMembers.isPresent()) {
             throw new ExistMemberException("이미 존재하는 아이디입니다.");
         }

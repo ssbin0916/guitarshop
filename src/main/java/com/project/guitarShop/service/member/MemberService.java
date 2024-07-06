@@ -9,7 +9,7 @@ public interface MemberService {
 
     UpdateInfoResponse updateInfo(Long id, UpdateInfoRequest request);
 
-    UpdatePasswordResponse updatePassword(Long id, UpdatePasswordRequest request);
+    void updatePassword(Long id, UpdatePasswordRequest request);
 
     LoginResponse login(String loginEmail, String password);
 
