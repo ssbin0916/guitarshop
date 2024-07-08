@@ -25,7 +25,7 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    @PostMapping("/addItem")
+    @PostMapping
     public ResponseEntity<?> save(@RequestBody List<AddItemRequest> requests) {
         List<AddItemResponse> responses = itemService.save(requests);
         return ResponseEntity.status(HttpStatus.CREATED).body(responses);
