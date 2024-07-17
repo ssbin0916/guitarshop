@@ -24,7 +24,7 @@ public class Reply extends BaseEntity {
     private String reply;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "board_id")
+    @JoinColumn(name = "post_id")
     private Post post;
 
     @ManyToOne(fetch = LAZY)
