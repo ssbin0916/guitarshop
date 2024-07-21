@@ -23,13 +23,13 @@ public class MemberController {
     }
 
     @PutMapping("/updateInfo/{id}")
-    public ResponseEntity<?> updateInfo(@PathVariable Long id, @Valid @RequestBody UpdateInfoRequest request) {
+    public ResponseEntity<?> updateInfo(@Valid @PathVariable Long id, @Valid @RequestBody UpdateInfoRequest request) {
         UpdateInfoResponse response = memberService.updateInfo(id, request);
         return ResponseEntity.ok().body(response);
     }
 
     @PutMapping("/updatePassword/{id}")
-    public ResponseEntity<String> updatePassword(@PathVariable Long id, @Valid @RequestBody UpdatePasswordRequest request) {
+    public ResponseEntity<String> updatePassword(@Valid @PathVariable Long id, @Valid @RequestBody UpdatePasswordRequest request) {
         memberService.updatePassword(id, request);
         return ResponseEntity.ok("비밀번호 변경 완료");
     }
