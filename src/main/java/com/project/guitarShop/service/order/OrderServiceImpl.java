@@ -10,6 +10,7 @@ import com.project.guitarShop.entity.member.Member;
 import com.project.guitarShop.entity.order.Order;
 import com.project.guitarShop.entity.order.OrderStatus;
 import com.project.guitarShop.entity.orderItem.OrderItem;
+import com.project.guitarShop.exception.RedissonLockFailedException;
 import com.project.guitarShop.exception.cart.NotFoundCartException;
 import com.project.guitarShop.exception.item.NotEnoughStockException;
 import com.project.guitarShop.exception.item.NotFoundItemException;
@@ -22,11 +23,14 @@ import com.project.guitarShop.repository.member.MemberRepository;
 import com.project.guitarShop.repository.order.OrderRepository;
 import com.project.guitarShop.repository.redis.RedisRepository;
 import lombok.RequiredArgsConstructor;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -37,14 +41,13 @@ public class OrderServiceImpl implements OrderService {
     private final ItemRepository itemRepository;
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
-    private final RedisRepository redisRepository;
+    private final RedissonClient redissonClient;
 
     @Override
+    @Transactional
     public CreateOrderResponse order(Long memberId, Long itemId, Integer quantity) throws InterruptedException {
 
-        while (!redisRepository.lock(itemId)) {
-            Thread.sleep(100);
-        }
+        RLock lock = redissonClient.getLock(itemId.toString());
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
@@ -64,22 +67,25 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
 
         try {
+            boolean available = lock.tryLock(10, 1, TimeUnit.SECONDS);
+
+            if (!available) {
+                throw new RedissonLockFailedException("lock 획득 실패");
+            }
             OrderItem orderItem = OrderItem.createOrderItem(item, item.getName(), item.getPrice(), quantity);
             Order.createOrder(member, delivery, orderItem);
             orderRepository.save(order);
         } finally {
-            redisRepository.unlock(itemId);
+            lock.unlock();
         }
-
         return new CreateOrderResponse(order);
     }
 
     @Override
+    @Transactional
     public void cancel(Long id) throws InterruptedException {
 
-        while (!redisRepository.unlock(id)) {
-            Thread.sleep(100);
-        }
+        RLock lock = redissonClient.getLock(id.toString());
 
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new NotFoundOrderException("해당 주문을 찾을 수 없습니다."));
@@ -93,19 +99,23 @@ public class OrderServiceImpl implements OrderService {
         }
 
         try {
+            boolean available = lock.tryLock(10, 1, TimeUnit.SECONDS);
+
+            if (!available) {
+                throw new RedissonLockFailedException("lock 획득 실패");
+            }
             order.cancel();
             orderRepository.save(order);
         } finally {
-            redisRepository.unlock(id);
+            lock.unlock();
         }
     }
 
     @Override
+    @Transactional
     public CreateOrderFromCartResponse orderFromCart(Long cartId, Integer quantity) throws InterruptedException {
 
-        while (!redisRepository.unlock(cartId)) {
-            Thread.sleep(100);
-        }
+        RLock lock = redissonClient.getLock(cartId.toString());
 
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new NotFoundCartException("장바구니를 찾을 수 없습니다."));
@@ -130,10 +140,16 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
 
         try {
+            boolean available = lock.tryLock(10, 1, TimeUnit.SECONDS);
+
+            if (!available) {
+                throw new RedissonLockFailedException("lock 획득 실패");
+            }
+
             Order.createOrder(member, delivery, orderItems.toArray(new OrderItem[0]));
             orderRepository.save(order);
         } finally {
-            redisRepository.unlock(cartId);
+            lock.unlock();
         }
         return new CreateOrderFromCartResponse(order);
     }
