@@ -1,11 +1,10 @@
-package com.project.guitarShop.service.item;
+package com.project.guitarshop.service.item;
 
-import com.project.guitarShop.entity.item.Brand;
-import com.project.guitarShop.entity.item.Category;
-import com.project.guitarShop.dto.item.ItemRequest.AddItemRequest;
-import com.project.guitarShop.dto.item.ItemRequest.FindItemRequest;
-import com.project.guitarShop.dto.item.ItemResponse.AddItemResponse;
-import com.project.guitarShop.dto.item.ItemResponse.FindItemResponse;
+import com.project.guitarshop.entity.item.Brand;
+import com.project.guitarshop.dto.item.ItemRequest.AddItemRequest;
+import com.project.guitarshop.dto.item.ItemRequest.FindItemRequest;
+import com.project.guitarshop.dto.item.ItemResponse.AddItemResponse;
+import com.project.guitarshop.dto.item.ItemResponse.FindItemResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.project.guitarShop.entity.item.Brand.*;
-import static com.project.guitarShop.entity.item.Category.ELECTRIC_GUITAR;
+import static com.project.guitarshop.entity.item.Brand.*;
+import static com.project.guitarshop.entity.item.Category.ELECTRIC_GUITAR;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest

@@ -39,16 +39,16 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                         item.brand))
                 .from(item);
 
-        if (request.getName() != null) {
-            query.where(item.name.containsIgnoreCase(request.getName()));
+        if (request.name() != null) {
+            query.where(item.name.containsIgnoreCase(request.name()));
         }
 
-        if (request.getCategory() != null) {
-            query.where(item.category.eq(request.getCategory()));
+        if (request.category() != null) {
+            query.where(item.category.eq(request.category()));
         }
 
-        if (request.getBrand() != null) {
-            query.where(item.brand.eq(request.getBrand()));
+        if (request.brand() != null) {
+            query.where(item.brand.eq(request.brand()));
         }
 
         if (pageable.getSort().isSorted()) {

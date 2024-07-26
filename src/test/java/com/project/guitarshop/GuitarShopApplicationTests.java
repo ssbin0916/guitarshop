@@ -1,4 +1,4 @@
-package com.project.guitarShop;
+package com.project.guitarshop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
