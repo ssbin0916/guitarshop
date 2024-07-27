@@ -29,12 +29,12 @@ JAVA17, Spring Boot, Spring Security JWT, MySQL, JPA, Querydsl, Redis
  
  <br>
 
-### [Redis의 Sorted Set을 활용한 선착순 쿠폰 이벤트 처리](https://velog.io/@ssbin0916/Redis%EC%9D%98-Sorted-Set%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EC%84%A0%EC%B0%A9%EC%88%9C-%EC%BF%A0%ED%8F%B0-%EC%9D%B4%EB%B2%A4%ED%8A%B8)
+### [Redis Sorted Set을 활용한 선착순 쿠폰 이벤트 처리](https://velog.io/@ssbin0916/Redis%EC%9D%98-Sorted-Set%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EC%84%A0%EC%B0%A9%EC%88%9C-%EC%BF%A0%ED%8F%B0-%EC%9D%B4%EB%B2%A4%ED%8A%B8)
 
 - **문제**
     - 선착순 **30명**에게 쿠폰을 발급할 때, 사용자들이 과도하게 몰려 서버가 처리하지 못할 상황이 발생할 수 있습니다. 이 문제를 예방하기 위해, **JUnit** 테스트에서 **100개**의 스레드를 생성하여 서버 부하를 줄이기 위한 방안으로 **10명**씩 나눠서 쿠폰을 발급하는 시나리오를 테스트했습니다.
 - **해결**
-    - **Redis Sorted Set**을 활용한 대기큐 개념을 도입하여 **번호표 발급**, **대기열 생성**, **대기 순번 고지** 등의 기능을 구현했습니다.
+    - **Redis의 Sorted Set**을 활용한 대기큐 개념을 도입하여 **번호표 발급**, **대기열 생성**, **대기 순번 고지** 등의 기능을 구현했습니다.
     - **ZADD**를 사용하여 사용자들을 참여한 순서대로 정렬합니다.
     - **ZRANK**를 활용하여 대기 중인 사용자의 현재 대기 순번을 제공합니다.
     - **ZRANGE**를 통해 일정 수 만큼의 리스트를 조회합니다.
