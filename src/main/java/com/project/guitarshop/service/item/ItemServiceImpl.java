@@ -26,7 +26,26 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     @Override
     public List<AddItemResponse> save(List<AddItemRequest> requests) {
-        List<Item> items = new ArrayList<>();
+
+        validateRequests(requests);
+
+        List<Item> items = requests.stream()
+                .map(this::createItemFromRequest)
+                .collect(Collectors.toList());
+
+        itemRepository.saveAll(items);
+
+        return items.stream()
+                .map(AddItemResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<FindItemResponse> search(FindItemRequest request, Pageable pageable) {
+        return itemRepository.search(request, pageable);
+    }
+
+    private void validateRequests(List<AddItemRequest> requests) {
         for (AddItemRequest request : requests) {
             if (request.name() == null || request.name().trim().isEmpty()) {
                 throw new IllegalArgumentException("아이템 이름은 필수입니다.");
@@ -37,26 +56,17 @@ public class ItemServiceImpl implements ItemService {
             if (request.brand() == null) {
                 throw new IllegalArgumentException("아이템 브랜드는 필수입니다.");
             }
-
-            Item item = Item.builder()
-                    .name(request.name())
-                    .price(request.price())
-                    .quantity(request.quantity())
-                    .category(request.category())
-                    .brand(request.brand())
-                    .build();
-            items.add(item);
         }
-
-        itemRepository.saveAll(items);
-        return items.stream()
-                .map(AddItemResponse::new)
-                .collect(Collectors.toList());
     }
 
-    @Override
-    public Page<FindItemResponse> search(FindItemRequest request, Pageable pageable) {
-        return itemRepository.search(request, pageable);
+    private Item createItemFromRequest(AddItemRequest request) {
+        return Item.builder()
+                .name(request.name())
+                .price(request.price())
+                .quantity(request.quantity())
+                .category(request.category())
+                .brand(request.brand())
+                .build();
     }
 
 }
