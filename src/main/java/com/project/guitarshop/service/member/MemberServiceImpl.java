@@ -51,7 +51,6 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
         boolean isUpdated = false;
-        StringBuilder errorMessages = new StringBuilder();
 
         if (request.phone() != null && !request.phone().isEmpty()) {
             member.updatePhone(request.phone());
@@ -66,8 +65,7 @@ public class MemberServiceImpl implements MemberService {
         if (isUpdated) {
             memberRepository.save(member);
         } else {
-            errorMessages.append("변경할 정보가 유효하지 않습니다.");
-            throw new IllegalArgumentException("회원 정보 업데이트에 실패하였습니다");
+            throw new IllegalArgumentException("변경할 정보가 없습니다.");
         }
 
         return new UpdateInfoResponse(member);
