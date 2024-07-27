@@ -13,9 +13,9 @@ http://43.201.107.128:8080/
 
 JAVA17, Spring Boot, Spring Security JWT, MySQL, JPA, Querydsl, Redis
 
-
-
 <br>
+
+## 주요 기능
 
 ### [Redis 분산 락을 활용한 재고 감소 동시성 이슈 해결](https://velog.io/@ssbin0916/Redis-%EB%B6%84%EC%82%B0-%EB%9D%BD%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-%EC%9E%AC%EA%B3%A0-%EA%B0%90%EC%86%8C-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%9D%B4%EC%8A%88-%ED%95%B4%EA%B2%B0)
 
@@ -54,7 +54,7 @@ JAVA17, Spring Boot, Spring Security JWT, MySQL, JPA, Querydsl, Redis
 
 <br>
 
-### 스프링 시큐리티와 JWT를 활용한 보안 강화
+### [스프링 시큐리티와 JWT를 활용한 보안 강화](https://velog.io/@ssbin0916/Spring-Security%EC%99%80-JWT)
 
 - **문제**
     - 회원 서비스나 주문 서비스와 같이 권한이 필요한 요청이 발생할 때, 클라이언트와 서버 간의 요청 횟수가 증가하면 토큰이 탈취될 가능성이 높아질 수 있습니다.
