@@ -32,8 +32,6 @@ JAVA17, Spring Boot, Spring Security JWT, MySQL, JPA, Querydsl, Redis
 - **결과**
     - Redisson을 사용하여 분산 락을 적용한 결과, 100개의 스레드가 동시에 재고 감소 로직을 실행했을 때 재고가 100개 모두 제대로 감소하는 결과를 얻을 수 있었습니다.
 
-<br>
-
 ### [Redis의 Sorted Set을 활용한 선착순 쿠폰 이벤트 처리](https://velog.io/@ssbin0916/Redis%EC%9D%98-Sorted-Set%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EC%84%A0%EC%B0%A9%EC%88%9C-%EC%BF%A0%ED%8F%B0-%EC%9D%B4%EB%B2%A4%ED%8A%B8)
 
 - **문제**
@@ -45,8 +43,6 @@ JAVA17, Spring Boot, Spring Security JWT, MySQL, JPA, Querydsl, Redis
     - **ZRANGE**를 통해 일정 수 만큼의 리스트를 조회합니다.
 - **결과**
     - **JUnit** 테스트 결과, 100명의 사용자가 **대기열에 등록**되었고, 등록된 **순서대로** 처음에 미리 설정해 둔 **10개씩** 쿠폰이 발급되었습니다. 그 이후에는 **순차적**으로 다음 사용자들에게 자신의 **대기 순번**이 부여되었음을 확인했습니다.
-
-<br>
 
 ### [스프링 캐시를 활용한 게시글 조회 대용량 트래픽 처리 속도 향상](https://velog.io/@ssbin0916/Redis-%EC%BA%90%EC%8B%B1%EC%9D%84-%ED%86%B5%ED%95%9C-%EB%8C%80%EC%9A%A9%EB%9F%89-%ED%8A%B8%EB%9E%98%ED%94%BD-%EC%B2%98%EB%A6%AC)
 
