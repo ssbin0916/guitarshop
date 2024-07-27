@@ -36,3 +36,5 @@ http://43.201.107.128:8080/
 ## ERD
 
 ![GUITARSHOP](https://github.com/ssbin0916/GUITAR-SHOP/assets/151374753/71c2fe20-120b-4f61-b93e-c5075ffe56e6)
+![GUITARSHOP](https://github.com/ssbin0916/GUITAR-SHOP/assets/151374753/71c2fe20-120b-4f61-b93e-c5075ffe56e6)
+<img width="982" alt="스크린샷 2024-07-27 오후 7 05 13" src="https://github.com/user-attachments/assets/a87f633c-3397-489b-ba28-41c26d2b9e01">
