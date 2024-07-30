@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS board;
+DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS cart;
 DROP TABLE IF EXISTS cart_item;
-DROP TABLE IF EXISTS comment;
+DROP TABLE IF EXISTS reply;
 DROP TABLE IF EXISTS delivery;
 DROP TABLE IF EXISTS item;
 DROP TABLE IF EXISTS member;
@@ -23,7 +23,7 @@ CREATE TABLE member (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE board (
+CREATE TABLE post (
     id BIGINT AUTO_INCREMENT,
     view INT,
     create_date TIMESTAMP,
@@ -64,15 +64,15 @@ CREATE TABLE cart_item (
     FOREIGN KEY (item_id) REFERENCES item(id)
 );
 
-CREATE TABLE comment (
+CREATE TABLE reply (
     id BIGINT AUTO_INCREMENT,
     board_id BIGINT,
     create_date TIMESTAMP,
     update_date TIMESTAMP,
     member_id BIGINT,
-    comment VARCHAR(255),
+    reply VARCHAR(255),
     PRIMARY KEY (id),
-    FOREIGN KEY (board_id) REFERENCES board(id),
+    FOREIGN KEY (board_id) REFERENCES post(id),
     FOREIGN KEY (member_id) REFERENCES member(id)
 );
 
@@ -107,7 +107,7 @@ CREATE TABLE order_item (
     FOREIGN KEY (order_id) REFERENCES orders(id)
 );
 
-ALTER TABLE board
+ALTER TABLE post
     ADD CONSTRAINT FKsds8ox89wwf6aihinar49rmfy
     FOREIGN KEY (member_id) REFERENCES member(id);
 
@@ -123,11 +123,11 @@ ALTER TABLE cart_item
     ADD CONSTRAINT FKdljf497fwm1f8eb1h8t6n50u9
     FOREIGN KEY (item_id) REFERENCES item(id);
 
-ALTER TABLE comment
+ALTER TABLE reply
     ADD CONSTRAINT FKlij9oor1nav89jeat35s6kbp1
-    FOREIGN KEY (board_id) REFERENCES board(id);
+    FOREIGN KEY (board_id) REFERENCES post(id);
 
-ALTER TABLE comment
+ALTER TABLE reply
     ADD CONSTRAINT FKmrrrpi513ssu63i2783jyiv9m
     FOREIGN KEY (member_id) REFERENCES member(id);
 
