@@ -22,7 +22,6 @@ public class JWTFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
 
     @Override
-
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String accessToken = request.getHeader("access");
@@ -52,13 +51,14 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        String username = jwtUtil.getUsername(accessToken);
+        String loginEmail = jwtUtil.getLoginEmail(accessToken);
         String role = jwtUtil.getRole(accessToken);
 
         Member member = Member.builder()
-                .name(username)
+                .name(loginEmail)
                 .role(role)
                 .build();
+
         CustomUserDetails customUserDetails = new CustomUserDetails(member);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());

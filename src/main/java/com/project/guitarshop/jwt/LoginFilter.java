@@ -46,10 +46,10 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             throw new RuntimeException(e);
         }
 
-        String loginId = loginRequest.loginEmail();
+        String loginEmail = loginRequest.loginEmail();
         String password = loginRequest.password();
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginId, password);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginEmail, password);
         return authenticationManager.authenticate(token);
     }
 
