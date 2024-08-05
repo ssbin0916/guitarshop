@@ -21,7 +21,6 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
@@ -36,7 +35,7 @@ public class MemberServiceImpl implements MemberService {
                 .name(request.name())
                 .phone(request.phone())
                 .address(request.address())
-                .role("USER")
+                .role("ROLE_USER")
                 .build();
 
         memberRepository.save(member);
@@ -70,7 +69,6 @@ public class MemberServiceImpl implements MemberService {
         } else {
             throw new IllegalArgumentException("변경할 정보가 없습니다.");
         }
-
         return new UpdateInfoResponse(member);
     }
 
@@ -101,26 +99,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public LoginResponse login(String loginEmail, String password) {
-
-        Member member = memberRepository.findByLoginEmail(loginEmail)
-                .orElseThrow(() -> new NotFoundMemberException("해당 아이디를 찾을 수 없습니다."));
-
-        if (!member.getLoginEmail().equals(loginEmail)) {
-            throw new ValidatePasswordException("아이디가 일치하지 않습니다.");
-        }
-
-        if (!passwordEncoder.matches(password, member.getPassword())) {
-            throw new ValidatePasswordException("비밀번호가 일치하지 않습니다.");
-        }
-
-        return new LoginResponse(member);
-    }
-
-    @Transactional
-    @Override
     public void delete() {
-        Long memberId = SecurityUtils.getCurrentUserId(); // 현재 로그인한 사용자의 ID 가져오기
+
+        Long memberId = SecurityUtils.getCurrentUserId();
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));

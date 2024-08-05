@@ -11,7 +11,5 @@ public interface MemberService {
 
     void updatePassword(UpdatePasswordRequest request);
 
-    LoginResponse login(String loginEmail, String password);
-
     void delete();
 }

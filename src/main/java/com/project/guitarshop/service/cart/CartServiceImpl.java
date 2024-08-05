@@ -10,6 +10,7 @@ import com.project.guitarshop.exception.member.NotFoundMemberException;
 import com.project.guitarshop.repository.cart.CartRepository;
 import com.project.guitarshop.repository.item.ItemRepository;
 import com.project.guitarshop.repository.member.MemberRepository;
+import com.project.guitarshop.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,9 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public Long addCart(Long memberId, Long itemId) {
+    public Long addCart(Long itemId) {
+
+        Long memberId = SecurityUtils.getCurrentUserId();
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));

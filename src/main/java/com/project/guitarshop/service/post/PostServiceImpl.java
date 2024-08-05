@@ -9,6 +9,7 @@ import com.project.guitarshop.exception.member.NotFoundMemberException;
 import com.project.guitarshop.repository.post.PostRepository;
 import com.project.guitarshop.repository.member.MemberRepository;
 import com.project.guitarshop.repository.redis.RedisRepository;
+import com.project.guitarshop.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -29,7 +30,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostWriteResponse write(PostWriteRequest request) {
 
-        Member member = memberRepository.findById(request.memberId())
+        Long memberId = SecurityUtils.getCurrentUserId();
+
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
         Post post = Post.builder()
@@ -78,8 +81,8 @@ public class PostServiceImpl implements PostService {
 
     @Transactional
     @Override
-    public void delete(Long id) {
-        Post post = postRepository.findById(id)
+    public void delete(Long postId) {
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new NotFoundPostException("해당 게시글을 찾을 수 없습니다."));
         postRepository.delete(post);
     }

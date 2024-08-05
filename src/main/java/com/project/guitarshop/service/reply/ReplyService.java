@@ -5,9 +5,9 @@ import com.project.guitarshop.dto.reply.ReplyResponse.*;
 
 public interface ReplyService {
 
-    ReplyWriteResponse reply(ReplyWriteRequest request);
+    ReplyWriteResponse reply(Long postId, ReplyWriteRequest request);
 
-    ReplyUpdateResponse update(Long id, ReplyUpdateRequest request);
+    ReplyUpdateResponse update(Long replyId, ReplyUpdateRequest request);
 
-    void delete(Long id);
+    void delete(Long replyId);
 }

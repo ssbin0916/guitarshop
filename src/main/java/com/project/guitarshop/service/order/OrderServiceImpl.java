@@ -1,6 +1,5 @@
 package com.project.guitarshop.service.order;
 
-import com.project.guitarshop.dto.member.CustomUserDetails;
 import com.project.guitarshop.dto.order.OrderResponse.CreateOrderFromCartResponse;
 import com.project.guitarshop.dto.order.OrderResponse.CreateOrderResponse;
 import com.project.guitarshop.entity.cart.Cart;
@@ -27,8 +26,6 @@ import com.project.guitarshop.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,11 +86,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void cancel(Long id) throws InterruptedException {
+    public void cancel(Long orderId) throws InterruptedException {
 
-        RLock lock = redissonClient.getLock(id.toString());
+        RLock lock = redissonClient.getLock(orderId.toString());
 
-        Order order = orderRepository.findById(id)
+        Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new NotFoundOrderException("해당 주문을 찾을 수 없습니다."));
 
         if (order.getOrderStatus() == OrderStatus.CANCEL) {
