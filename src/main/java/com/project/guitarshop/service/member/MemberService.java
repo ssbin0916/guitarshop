@@ -7,11 +7,11 @@ public interface MemberService {
 
     JoinResponse join(JoinRequest request);
 
-    UpdateInfoResponse updateInfo(Long id, UpdateInfoRequest request);
+    UpdateInfoResponse updateInfo(UpdateInfoRequest request);
 
-    void updatePassword(Long id, UpdatePasswordRequest request);
+    void updatePassword(UpdatePasswordRequest request);
 
     LoginResponse login(String loginEmail, String password);
 
-    void delete(Long id);
+    void delete();
 }

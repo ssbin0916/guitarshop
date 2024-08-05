@@ -7,6 +7,7 @@ import com.project.guitarshop.exception.member.ExistMemberException;
 import com.project.guitarshop.exception.member.NotFoundMemberException;
 import com.project.guitarshop.exception.member.ValidatePasswordException;
 import com.project.guitarshop.repository.member.MemberRepository;
+import com.project.guitarshop.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,9 +46,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public UpdateInfoResponse updateInfo(Long id, UpdateInfoRequest request) {
+    public UpdateInfoResponse updateInfo(UpdateInfoRequest request) {
 
-        Member member = memberRepository.findById(id)
+        Long memberId = SecurityUtils.getCurrentUserId();
+
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
         boolean isUpdated = false;
@@ -74,9 +77,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public void updatePassword(Long id, UpdatePasswordRequest request) {
+    public void updatePassword(UpdatePasswordRequest request) {
 
-        Member member = memberRepository.findById(id)
+        Long memberId = SecurityUtils.getCurrentUserId();
+
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
 
         if (!passwordEncoder.matches(request.currentPassword(), member.getPassword())) {
@@ -114,10 +119,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public void delete(Long id) {
-        memberRepository.deleteById(id);
-    }
+    public void delete() {
+        Long memberId = SecurityUtils.getCurrentUserId(); // 현재 로그인한 사용자의 ID 가져오기
 
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
+
+        memberRepository.delete(member);
+    }
 
     private void validateExistLoginId(JoinRequest request) {
 
