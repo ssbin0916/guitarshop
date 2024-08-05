@@ -1,4 +1,4 @@
-package com.project.guitarshop.controller;
+package com.project.guitarshop.controller.reissue;
 
 import com.project.guitarshop.entity.RefreshEntity;
 import com.project.guitarshop.jwt.JWTUtil;
