@@ -23,6 +23,7 @@ import com.project.guitarshop.repository.cart.CartRepository;
 import com.project.guitarshop.repository.item.ItemRepository;
 import com.project.guitarshop.repository.member.MemberRepository;
 import com.project.guitarshop.repository.order.OrderRepository;
+import com.project.guitarshop.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -52,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
 
         RLock lock = redissonClient.getLock(itemId.toString());
 
-        Long memberId = getCurrentUserId();
+        Long memberId = SecurityUtils.getCurrentUserId();
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
@@ -125,7 +126,7 @@ public class OrderServiceImpl implements OrderService {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new NotFoundCartException("장바구니를 찾을 수 없습니다."));
 
-        Long memberId = getCurrentUserId();
+        Long memberId = SecurityUtils.getCurrentUserId();
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundMemberException("해당 회원을 찾을 수 없습니다."));
@@ -159,13 +160,5 @@ public class OrderServiceImpl implements OrderService {
             lock.unlock();
         }
         return new CreateOrderFromCartResponse(order);
-    }
-
-    private Long getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
-            return ((CustomUserDetails) authentication.getPrincipal()).getId();
-        }
-        throw new IllegalStateException("사용자가 인증되지 않았습니다.");
     }
 }
