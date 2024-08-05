@@ -1,6 +1,6 @@
 package com.project.guitarshop.repository.refresh;
 
-import com.project.guitarshop.entity.RefreshEntity;
+import com.project.guitarshop.entity.refresh.RefreshEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 

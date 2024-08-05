@@ -2,7 +2,7 @@ package com.project.guitarshop.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.guitarshop.dto.member.MemberRequest.LoginRequest;
-import com.project.guitarshop.entity.RefreshEntity;
+import com.project.guitarshop.entity.refresh.RefreshEntity;
 import com.project.guitarshop.repository.refresh.RefreshRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletInputStream;

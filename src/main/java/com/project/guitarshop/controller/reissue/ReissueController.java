@@ -1,6 +1,6 @@
 package com.project.guitarshop.controller.reissue;
 
-import com.project.guitarshop.entity.RefreshEntity;
+import com.project.guitarshop.entity.refresh.RefreshEntity;
 import com.project.guitarshop.jwt.JWTUtil;
 import com.project.guitarshop.repository.refresh.RefreshRepository;
 import io.jsonwebtoken.ExpiredJwtException;

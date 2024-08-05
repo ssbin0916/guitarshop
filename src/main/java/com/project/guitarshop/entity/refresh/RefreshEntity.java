@@ -1,4 +1,4 @@
-package com.project.guitarshop.entity;
+package com.project.guitarshop.entity.refresh;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
