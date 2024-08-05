@@ -1,4 +1,4 @@
-package com.project.guitarshop.exception;
+package com.project.guitarshop.exception.redis;
 
 public class RedissonLockFailedException extends RuntimeException {
 
