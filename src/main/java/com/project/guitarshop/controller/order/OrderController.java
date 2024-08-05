@@ -16,15 +16,16 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping("/order/{itemId}")
+    @PostMapping("/{itemId}")
     public ResponseEntity<CreateOrderResponse> order(@PathVariable Long itemId, @Valid @RequestBody CreateOrderRequest request) throws InterruptedException {
         CreateOrderResponse orderResponse = orderService.order(itemId, request.quantity());
         return ResponseEntity.status(HttpStatus.CREATED).body(orderResponse);
     }
 
     @PostMapping("/cancel/{orderId}")
-    public ResponseEntity<String> cancel(@PathVariable Long orderId) throws InterruptedException {
-        return ResponseEntity.ok("주문이 취소되었습니다.");
+    public ResponseEntity<Void> cancel(@PathVariable Long orderId) throws InterruptedException {
+        orderService.cancel(orderId);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/orderFromCart/{cartId}")

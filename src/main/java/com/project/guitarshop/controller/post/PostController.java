@@ -29,19 +29,20 @@ public class PostController {
         return ResponseEntity.ok(postService.list(pageable));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PostReadResponse> read(@Valid @PathVariable Long id) {
-        return ResponseEntity.ok(postService.read(id));
+    @GetMapping("/{postId}")
+    public ResponseEntity<PostReadResponse> read(@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.read(postId));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PostUpdateResponse> update(@Valid @PathVariable Long id, @Valid @RequestBody PostUpdateRequest request) {
-        return ResponseEntity.ok(postService.update(id, request));
+    @PutMapping("/{postId}")
+    public ResponseEntity<PostUpdateResponse> update(@PathVariable Long postId, @Valid @RequestBody PostUpdateRequest request) {
+        return ResponseEntity.ok(postService.update(postId, request));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@Valid @PathVariable Long id) {
-        return ResponseEntity.ok("게시글 삭제 완료");
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Void> delete(@PathVariable Long postId) {
+        postService.delete(postId);
+        return ResponseEntity.noContent().build();
     }
 
 }
