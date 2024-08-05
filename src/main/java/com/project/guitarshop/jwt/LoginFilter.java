@@ -56,17 +56,17 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
 
-        String username = authentication.getName();
+        String loginEmail = authentication.getName();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority authority = iterator.next();
         String role = authority.getAuthority();
 
-        String access = jwtUtil.createJwt("access", username, role, 600_000L);
-        String refresh = jwtUtil.createJwt("refresh", username, role, 86_400_000L);
+        String access = jwtUtil.createJwt("access", loginEmail, role, 600_000L);
+        String refresh = jwtUtil.createJwt("refresh", loginEmail, role, 86_400_000L);
 
-        addRefreshEntity(username, refresh, 86_400_000L);
+        addRefreshEntity(loginEmail, refresh, 86_400_000L);
 
         response.setHeader("access", access);
         response.addCookie(createCookie("refresh", refresh));
@@ -78,12 +78,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         response.setStatus(401);
     }
 
-    private void addRefreshEntity(String username, String refresh, Long expiredMs) {
+    private void addRefreshEntity(String loginEmail, String refresh, Long expiredMs) {
 
         Date date = new Date(System.currentTimeMillis() + expiredMs);
 
         RefreshEntity refreshEntity = new RefreshEntity();
-        refreshEntity.setUsername(username);
+        refreshEntity.setUsername(loginEmail);
         refreshEntity.setRefresh(refresh);
         refreshEntity.setExpiration(date.toString());
 

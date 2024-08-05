@@ -50,9 +50,9 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Transactional
     @Override
-    public ReplyUpdateResponse update(Long id, ReplyUpdateRequest request) {
+    public ReplyUpdateResponse update(Long replyId, ReplyUpdateRequest request) {
 
-        Reply reply = replyRepository.findById(id)
+        Reply reply = replyRepository.findById(replyId)
                 .orElseThrow(() -> new NotFoundReplyException("해당 댓글을 찾을 수 없습니다."));
 
         reply.updateReply(request.reply());
@@ -64,9 +64,9 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Transactional
     @Override
-    public void delete(Long id) {
+    public void delete(Long replyId) {
 
-        Reply reply = replyRepository.findById(id)
+        Reply reply = replyRepository.findById(replyId)
                 .orElseThrow(() -> new NotFoundReplyException("해당 댓글을 찾을 수 없습니다."));
         replyRepository.delete(reply);
     }

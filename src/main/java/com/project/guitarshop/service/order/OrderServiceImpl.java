@@ -11,7 +11,7 @@ import com.project.guitarshop.entity.member.Member;
 import com.project.guitarshop.entity.order.Order;
 import com.project.guitarshop.entity.order.OrderStatus;
 import com.project.guitarshop.entity.orderItem.OrderItem;
-import com.project.guitarshop.exception.RedissonLockFailedException;
+import com.project.guitarshop.exception.redis.RedissonLockFailedException;
 import com.project.guitarshop.exception.cart.NotFoundCartException;
 import com.project.guitarshop.exception.item.NotEnoughStockException;
 import com.project.guitarshop.exception.item.NotFoundItemException;
