@@ -4,11 +4,20 @@ import com.project.guitarshop.dto.item.ItemRequest.AddItemRequest;
 import com.project.guitarshop.dto.item.ItemRequest.FindItemRequest;
 import com.project.guitarshop.dto.item.ItemResponse.AddItemResponse;
 import com.project.guitarshop.dto.item.ItemResponse.FindItemResponse;
+import com.project.guitarshop.dto.item.QItemResponse_FindItemResponse;
 import com.project.guitarshop.entity.item.Item;
 import com.project.guitarshop.repository.item.ItemRepository;
+import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,12 +25,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.project.guitarshop.entity.item.QItem.item;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
+    private final JPAQueryFactory jpaQueryFactory;
 
     @Transactional
     @Override
@@ -42,7 +54,44 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Page<FindItemResponse> search(FindItemRequest request, Pageable pageable) {
-        return itemRepository.search(request, pageable);
+        JPAQuery<FindItemResponse> query = jpaQueryFactory
+                .select(new QItemResponse_FindItemResponse(
+                        item.name,
+                        item.price,
+                        item.category,
+                        item.brand))
+                .from(item);
+
+        if (request.name() != null) {
+            query.where(item.name.containsIgnoreCase(request.name()));
+        }
+
+        if (request.category() != null) {
+            query.where(item.category.eq(request.category()));
+        }
+
+        if (request.brand() != null) {
+            query.where(item.brand.eq(request.brand()));
+        }
+
+        if (pageable.getSort().isSorted()) {
+            for (Sort.Order o : pageable.getSort()) {
+                PathBuilder pathBuilder = new PathBuilder(item.getType(), item.getMetadata());
+
+                query.orderBy(new OrderSpecifier<>(o.isAscending() ? Order.ASC :
+                        Order.DESC, pathBuilder.get(o.getProperty())));
+            }
+        }
+
+        QueryResults<FindItemResponse> results = query
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        List<FindItemResponse> content = results.getResults();
+        long total = results.getTotal();
+
+        return new PageImpl<>(content, pageable, total);
     }
 
     private void validateRequests(List<AddItemRequest> requests) {

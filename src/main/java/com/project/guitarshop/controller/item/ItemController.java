@@ -4,6 +4,8 @@ import com.project.guitarshop.dto.item.ItemRequest.AddItemRequest;
 import com.project.guitarshop.dto.item.ItemRequest.FindItemRequest;
 import com.project.guitarshop.dto.item.ItemResponse.AddItemResponse;
 import com.project.guitarshop.dto.item.ItemResponse.FindItemResponse;
+import com.project.guitarshop.entity.item.Brand;
+import com.project.guitarshop.entity.item.Category;
 import com.project.guitarshop.service.item.ItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +31,14 @@ public class ItemController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<FindItemResponse>> search(@Valid @RequestBody FindItemRequest request, Pageable pageable) {
+    public ResponseEntity<Page<FindItemResponse>> search(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Category category,
+            @RequestParam(required = false) Brand brand,
+            Pageable pageable) {
+
+        FindItemRequest request = new FindItemRequest(name, category, brand, null);
+
         Page<FindItemResponse> response = itemService.search(request, pageable);
         return ResponseEntity.ok().body(response);
     }
