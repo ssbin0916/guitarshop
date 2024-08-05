@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/item")
 @RequiredArgsConstructor
 public class ItemController {
 
@@ -28,7 +28,7 @@ public class ItemController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responses);
     }
 
-    @GetMapping("/search")
+    @GetMapping
     public ResponseEntity<Page<FindItemResponse>> search(@Valid @RequestBody FindItemRequest request, Pageable pageable) {
         Page<FindItemResponse> response = itemService.search(request, pageable);
         return ResponseEntity.ok().body(response);
