@@ -19,18 +19,18 @@ public class EventCount {
     private Long id;
 
     private Event event;
-    private int limit;
+    private int limitCount;
 
-    public EventCount(Event event, int limit) {
+    public EventCount(Event event, int limitCount) {
         this.event = event;
-        this.limit = limit;
+        this.limitCount = limitCount;
     }
 
     public synchronized void decrease() {
-        this.limit--;
+        this.limitCount--;
     }
 
     public boolean end() {
-        return this.limit == END;
+        return this.limitCount == END;
     }
 }
