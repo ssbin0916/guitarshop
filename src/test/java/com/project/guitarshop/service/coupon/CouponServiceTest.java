@@ -1,6 +1,7 @@
 package com.project.guitarshop.service.coupon;
 
-import com.project.guitarshop.entity.event.Event;
+import com.project.guitarshop.event.entity.Event;
+import com.project.guitarshop.event.service.CouponService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

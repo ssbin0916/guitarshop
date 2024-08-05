@@ -2,6 +2,7 @@ spring:
   config:
     activate:
       on-profile: prod
+
   datasource:
     url: jdbc:mysql://43.201.107.128:3306/guitar
     username: guitar
@@ -9,11 +10,14 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 40
+
   redis:
     host: localhost
     port: 6379
+
   cache:
     type: redis
+
   jpa:
     hibernate:
       ddl-auto: validate
@@ -30,3 +34,9 @@ logging.level:
 server:
   port: 8080
   address: 0.0.0.0
+
+autocomplete:
+  limit: 10
+  suffix: "_suffix"
+  key: "autocomplete"
+  score-key: "autocomplete:score"

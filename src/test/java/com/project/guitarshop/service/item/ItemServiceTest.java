@@ -1,10 +1,10 @@
 //package com.project.guitarshop.service.item;
 //
-//import com.project.guitarshop.entity.item.Brand;
-//import com.project.guitarshop.dto.item.ItemRequest.AddItemRequest;
-//import com.project.guitarshop.dto.item.ItemRequest.FindItemRequest;
-//import com.project.guitarshop.dto.item.ItemResponse.AddItemResponse;
-//import com.project.guitarshop.dto.item.ItemResponse.FindItemResponse;
+//import com.project.guitarshop.item.entity.Brand;
+//import com.project.guitarshop.item.dto.ItemRequest.AddItemRequest;
+//import com.project.guitarshop.item.dto.ItemRequest.FindItemRequest;
+//import com.project.guitarshop.item.dto.ItemResponse.AddItemResponse;
+//import com.project.guitarshop.item.dto.ItemResponse.FindItemResponse;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
@@ -15,8 +15,8 @@
 //import java.util.ArrayList;
 //import java.util.List;
 //
-//import static com.project.guitarshop.entity.item.Brand.*;
-//import static com.project.guitarshop.entity.item.Category.ELECTRIC_GUITAR;
+//import static com.project.guitarshop.item.entity.Brand.*;
+//import static com.project.guitarshop.item.entity.Category.ELECTRIC_GUITAR;
 //import static org.junit.jupiter.api.Assertions.assertEquals;
 //
 //@SpringBootTest

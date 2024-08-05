@@ -41,3 +41,8 @@ server:
   port: 8080
   address: 0.0.0.0
 
+autocomplete:
+  limit: 10
+  suffix: "_suffix"
+  key: "autocomplete"
+  score-key: "autocomplete:score"

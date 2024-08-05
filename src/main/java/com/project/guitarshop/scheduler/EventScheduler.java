@@ -1,7 +1,7 @@
 package com.project.guitarshop.scheduler;
 
-import com.project.guitarshop.entity.event.Event;
-import com.project.guitarshop.service.coupon.CouponService;
+import com.project.guitarshop.event.entity.Event;
+import com.project.guitarshop.event.service.CouponService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
