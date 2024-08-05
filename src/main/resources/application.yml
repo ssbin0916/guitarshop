@@ -1,42 +1,8 @@
 spring:
-  datasource:
-#    url: jdbc:h2:tcp://localhost/./guitarShop
-#    url: jdbc:h2:mem:guitarShop
-    url: jdbc:mysql://43.201.107.128:3306/guitar
-    username: guitar
-    password: guitar
-#    driver-class-name: org.h2.Driver
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      maximum-pool-size: 40
-
-#  h2:
-#    console:
-#      enable: true
-#      path: /h2.console
-
-  redis:
-    host: localhost
-    port: 6379
-
-  cache:
-    type: redis
+  profiles:
+    default: dev
 
   jpa:
-    hibernate:
-      ddl-auto: validate
     properties:
       hibernate:
-        #        show_sql: true
-        format_sql: true
-
-logging.level:
-  org.hibernate.SQL: debug
-#  org.hibernate.type: trace
-
-server:
-  port: 8080
-  address: 0.0.0.0
-
-  jwt:
-    secret: 295713f06b7aac58d9a5aa67cab86532c4a9a29afd1565491ad2242e1f950a12
+        dialect: org.hibernate.dialect.PostgreSQLDialect

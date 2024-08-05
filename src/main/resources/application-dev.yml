@@ -1,0 +1,43 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:h2:mem:test;
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+    hikari:
+      maximum-pool-size: 40
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  redis:
+    host: localhost
+    port: 6379
+
+  cache:
+    type: redis
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+  jwt:
+    secret: 295713f06b7aac58d9a5aa67cab86532c4a9a29afd1565491ad2242e1f950a12
+
+logging.level:
+  org.hibernate.SQL: debug
+
+server:
+  port: 8080
+  address: 0.0.0.0
+
