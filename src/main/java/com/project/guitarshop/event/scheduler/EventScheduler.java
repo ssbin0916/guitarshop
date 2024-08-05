@@ -1,4 +1,4 @@
-package com.project.guitarshop.scheduler;
+package com.project.guitarshop.event.scheduler;
 
 import com.project.guitarshop.event.entity.Event;
 import com.project.guitarshop.event.service.CouponService;
