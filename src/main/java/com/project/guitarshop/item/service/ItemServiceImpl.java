@@ -1,5 +1,6 @@
 package com.project.guitarshop.item.service;
 
+import com.project.guitarshop.autocomplete.service.AutocompleteService;
 import com.project.guitarshop.item.dto.ItemRequest.AddItemRequest;
 import com.project.guitarshop.item.dto.ItemRequest.FindItemRequest;
 import com.project.guitarshop.item.dto.ItemResponse.AddItemResponse;
@@ -32,6 +33,7 @@ import static com.project.guitarshop.entity.item.QItem.item;
 public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
+    private final AutocompleteService autocompleteService;
     private final JPAQueryFactory jpaQueryFactory;
 
     @Transactional
@@ -108,6 +110,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private Item createItemFromRequest(AddItemRequest request) {
+        autocompleteService.addAutocomplete(request.name());
         return Item.builder()
                 .name(request.name())
                 .price(request.price())
@@ -116,7 +119,6 @@ public class ItemServiceImpl implements ItemService {
                 .brand(request.brand())
                 .build();
     }
-
 }
 
 
