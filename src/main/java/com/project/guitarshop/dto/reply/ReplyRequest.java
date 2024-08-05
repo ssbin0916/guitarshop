@@ -4,7 +4,6 @@ public class ReplyRequest {
 
     public record ReplyWriteRequest(
             Long boardId,
-            Long memberId,
             String reply
     ) {
     }
