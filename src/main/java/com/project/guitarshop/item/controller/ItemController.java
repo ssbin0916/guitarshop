@@ -37,7 +37,7 @@ public class ItemController {
             @RequestParam(required = false) Brand brand,
             Pageable pageable) {
 
-        FindItemRequest request = new FindItemRequest(name, category, brand, null);
+        FindItemRequest request = new FindItemRequest(name, null, category, brand, null);
 
         Page<FindItemResponse> response = itemService.search(request, pageable);
         return ResponseEntity.ok().body(response);

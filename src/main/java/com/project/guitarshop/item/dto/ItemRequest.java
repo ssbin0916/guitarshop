@@ -3,6 +3,8 @@ package com.project.guitarshop.item.dto;
 import com.project.guitarshop.item.entity.Brand;
 import com.project.guitarshop.item.entity.Category;
 
+import java.util.List;
+
 public class ItemRequest {
 
     public record AddItemRequest(
@@ -16,6 +18,7 @@ public class ItemRequest {
 
     public record FindItemRequest(
             String name,
+            List<String> autoCompleteNames,
             Category category,
             Brand brand,
             Boolean sort

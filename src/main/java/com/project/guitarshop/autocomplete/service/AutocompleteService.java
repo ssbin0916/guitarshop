@@ -1,6 +1,5 @@
 package com.project.guitarshop.autocomplete.service;
 
-
 import com.project.guitarshop.autocomplete.dto.AutocompleteResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;

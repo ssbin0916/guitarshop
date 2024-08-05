@@ -1,5 +1,6 @@
 package com.project.guitarshop.item.service;
 
+import com.project.guitarshop.autocomplete.dto.AutocompleteResponse;
 import com.project.guitarshop.autocomplete.service.AutocompleteService;
 import com.project.guitarshop.item.dto.ItemRequest.AddItemRequest;
 import com.project.guitarshop.item.dto.ItemRequest.FindItemRequest;
@@ -53,8 +54,17 @@ public class ItemServiceImpl implements ItemService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public Page<FindItemResponse> search(FindItemRequest request, Pageable pageable) {
+        List<String> autoCompleteNames = request.autoCompleteNames();
+        if (request.name() != null && (autoCompleteNames == null || autoCompleteNames.isEmpty())) {
+            AutocompleteResponse autocompleteResponse = autocompleteService.getAutocomplete(request.name());
+            autocompleteResponse.getList().stream()
+                    .map(AutocompleteResponse.Data::getValue)
+                    .collect(Collectors.toList());
+        }
+
         JPAQuery<FindItemResponse> query = jpaQueryFactory
                 .select(new QItemResponse_FindItemResponse(
                         item.name,
@@ -120,6 +130,3 @@ public class ItemServiceImpl implements ItemService {
                 .build();
     }
 }
-
-
-
