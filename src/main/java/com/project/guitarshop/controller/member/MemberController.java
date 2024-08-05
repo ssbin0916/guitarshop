@@ -22,16 +22,21 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/updateInfo/{id}")
-    public ResponseEntity<?> updateInfo(@Valid @PathVariable Long id, @Valid @RequestBody UpdateInfoRequest request) {
-        UpdateInfoResponse response = memberService.updateInfo(id, request);
+    @PutMapping("/updateInfo")
+    public ResponseEntity<?> updateInfo(@Valid @RequestBody UpdateInfoRequest request) {
+        UpdateInfoResponse response = memberService.updateInfo(request);
         return ResponseEntity.ok().body(response);
     }
 
-    @PutMapping("/updatePassword/{id}")
-    public ResponseEntity<String> updatePassword(@Valid @PathVariable Long id, @Valid @RequestBody UpdatePasswordRequest request) {
-        memberService.updatePassword(id, request);
-        return ResponseEntity.ok("비밀번호 변경 완료");
+    @PutMapping("/updatePassword")
+    public ResponseEntity<Void> updatePassword(@Valid @RequestBody UpdatePasswordRequest request) {
+        memberService.updatePassword(request);
+        return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteMember() {
+        memberService.delete();
+        return ResponseEntity.noContent().build();
+    }
 }
