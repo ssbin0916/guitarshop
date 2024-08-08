@@ -1,7 +1,7 @@
 package com.project.guitarshop.member.service;
 
-import com.project.guitarshop.dto.member.MemberRequest.*;
-import com.project.guitarshop.dto.member.MemberResponse.*;
+import com.project.guitarshop.member.dto.MemberRequest.*;
+import com.project.guitarshop.member.dto.MemberResponse.*;
 import com.project.guitarshop.member.entity.Member;
 import com.project.guitarshop.member.exception.ExistMemberException;
 import com.project.guitarshop.member.exception.NotFoundMemberException;
