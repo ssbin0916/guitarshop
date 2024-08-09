@@ -76,7 +76,7 @@ public class PostServiceImpl implements PostService {
 
         post.updateBoard(request.title(), request.content());
 
-        return new PostUpdateResponse(postRepository.save(post));
+        return new PostUpdateResponse(post);
     }
 
     @Transactional
