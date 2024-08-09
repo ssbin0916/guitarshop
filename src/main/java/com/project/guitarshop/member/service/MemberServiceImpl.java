@@ -64,11 +64,10 @@ public class MemberServiceImpl implements MemberService {
             isUpdated = true;
         }
 
-        if (isUpdated) {
-            memberRepository.save(member);
-        } else {
+        if (!isUpdated) {
             throw new IllegalArgumentException("변경할 정보가 없습니다.");
         }
+
         return new UpdateInfoResponse(member);
     }
 
@@ -92,9 +91,6 @@ public class MemberServiceImpl implements MemberService {
 
         String encodePassword = passwordEncoder.encode(request.newPassword());
         member.updatePassword(encodePassword);
-
-        memberRepository.save(member);
-
     }
 
     @Transactional
