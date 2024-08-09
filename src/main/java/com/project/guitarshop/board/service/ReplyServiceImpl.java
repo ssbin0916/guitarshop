@@ -57,9 +57,7 @@ public class ReplyServiceImpl implements ReplyService {
 
         reply.updateReply(request.reply());
 
-        Reply save = replyRepository.save(reply);
-
-        return new ReplyUpdateResponse(save);
+        return new ReplyUpdateResponse(reply);
     }
 
     @Transactional
