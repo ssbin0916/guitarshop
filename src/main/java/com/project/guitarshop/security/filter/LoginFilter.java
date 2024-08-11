@@ -1,7 +1,7 @@
 package com.project.guitarshop.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.guitarshop.dto.member.MemberRequest.LoginRequest;
+import com.project.guitarshop.member.dto.MemberRequest.LoginRequest;
 import com.project.guitarshop.security.refreshtoken.RefreshToken;
 import com.project.guitarshop.util.JWTUtil;
 import com.project.guitarshop.security.refreshtoken.RefreshRepository;
@@ -83,11 +83,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         Date date = new Date(System.currentTimeMillis() + expiredMs);
 
-        RefreshToken refreshToken = new RefreshToken();
-        refreshToken.setUsername(loginEmail);
-        refreshToken.setRefresh(refresh);
-        refreshToken.setExpiration(date.toString());
-
+        RefreshToken refreshToken = RefreshToken.builder()
+                .username(loginEmail)
+                .refresh(refresh)
+                .expiration(date.toString())
+                .build();
         refreshRepository.save(refreshToken);
     }
 

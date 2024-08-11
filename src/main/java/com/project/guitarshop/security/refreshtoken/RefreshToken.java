@@ -1,12 +1,13 @@
 package com.project.guitarshop.security.refreshtoken;
 
 import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.RedisHash;
 
 @Getter
-@Setter
+@NoArgsConstructor
 @RedisHash(value = "refreshToken", timeToLive = 86400)
 public class RefreshToken {
 
@@ -16,4 +17,11 @@ public class RefreshToken {
     private String username;
     private String refresh;
     private String expiration;
+
+    @Builder
+    public RefreshToken(String username, String refresh, String expiration) {
+        this.username = username;
+        this.refresh = refresh;
+        this.expiration = expiration;
+    }
 }
