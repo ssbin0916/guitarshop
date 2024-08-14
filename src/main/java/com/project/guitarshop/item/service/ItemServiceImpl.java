@@ -6,7 +6,7 @@ import com.project.guitarshop.item.dto.ItemRequest.AddItemRequest;
 import com.project.guitarshop.item.dto.ItemRequest.FindItemRequest;
 import com.project.guitarshop.item.dto.ItemResponse.AddItemResponse;
 import com.project.guitarshop.item.dto.ItemResponse.FindItemResponse;
-import com.project.guitarshop.dto.item.QItemResponse_FindItemResponse;
+import com.project.guitarshop.item.dto.QItemResponse_FindItemResponse;
 import com.project.guitarshop.item.entity.Item;
 import com.project.guitarshop.item.repository.ItemRepository;
 import com.querydsl.core.QueryResults;
@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.project.guitarshop.entity.item.QItem.item;
+import static com.project.guitarshop.item.entity.QItem.item;
 
 @Service
 @Transactional(readOnly = true)

@@ -1,6 +1,6 @@
 package com.project.guitarshop.security.filter;
 
-import com.project.guitarshop.dto.member.CustomUserDetails;
+import com.project.guitarshop.member.dto.CustomUserDetails;
 import com.project.guitarshop.member.entity.Member;
 import com.project.guitarshop.util.JWTUtil;
 import io.jsonwebtoken.ExpiredJwtException;
