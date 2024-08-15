@@ -117,7 +117,7 @@ public class MemberServiceImpl implements MemberService {
     private void validateConfirmPassword(String password, String confirmPassword) {
 
         if (password == null || !password.equals(confirmPassword)) {
-            throw new ValidatePasswordException("비밀번호와 비밀번호 번호이 일치하지 않습니다.");
+            throw new ValidatePasswordException("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
         }
     }
 
