@@ -1,7 +1,10 @@
 package com.project.guitarshop.member.controller;
 
-import com.project.guitarshop.member.dto.MemberRequest.*;
-import com.project.guitarshop.member.dto.MemberResponse.*;
+import com.project.guitarshop.member.dto.MemberRequest.JoinRequest;
+import com.project.guitarshop.member.dto.MemberRequest.UpdateInfoRequest;
+import com.project.guitarshop.member.dto.MemberRequest.UpdatePasswordRequest;
+import com.project.guitarshop.member.dto.MemberResponse.JoinResponse;
+import com.project.guitarshop.member.dto.MemberResponse.UpdateInfoResponse;
 import com.project.guitarshop.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +19,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/join")
+    @PostMapping
     public ResponseEntity<?> join(@Valid @RequestBody JoinRequest request) {
         JoinResponse response = memberService.join(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
