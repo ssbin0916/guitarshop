@@ -40,7 +40,7 @@ logging.level:
 
 server:
   port: 8081
-#  address: 0.0.0.0
+  address: 13.125.0.54
 
 autocomplete:
   limit: 10
