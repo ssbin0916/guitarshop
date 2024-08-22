@@ -4,7 +4,7 @@ spring:
       on-profile: prod
 
   datasource:
-    url: jdbc:mysql://43.201.107.128:3306/guitar
+    url: jdbc:mysql://13.125.0.54:3306/guitar
     username: guitar
     password: guitar
     driver-class-name: com.mysql.cj.jdbc.Driver
