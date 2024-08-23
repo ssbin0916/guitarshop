@@ -18,6 +18,17 @@ JAVA17, Spring Boot, Spring Security JWT, MySQL, JPA, Querydsl, Redis
 
 ## 주요 기능
 
+### [AWS EC2에서 Docker와 Jenkins를 활용한 CI/CD 파이프라인 구축](https://velog.io/@ssbin0916/EC2-%ED%99%98%EA%B2%BD%EC%97%90%EC%84%9C-Docker%EC%99%80-Jenkins%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-CICD-%ED%8C%8C%EC%9D%B4%ED%94%84%EB%9D%BC%EC%9D%B8-%EA%B5%AC%EC%B6%95)
+
+- **문제**
+    - 기존 EC2 환경에서 수동 배포로 인해 인적 오류와 시간 지연이 빈번히 발생했습니다. 이를 해결하기 위해 CI/CD 파이프라인 구축이 필요했습니다.
+- **해결**
+    - AWS EC2에 Docker와 Jenkins를 설치해 CI/CD 파이프라인을 구축했습니다. Docker로 애플리케이션을 컨테이너화하고, Jenkins를 통해 코드 변경 시 자동으로 빌드, 테스트, 배포가 이루어지도록 설정했습니다.
+- **결과**
+    - 배포 시간이 크게 단축되었고, 수동 배포로 인한 오류가 사라졌으며, 개발의 생산성이 향상되었습니다.
+
+<br>
+ 
 ### [Redis 분산 락을 활용한 재고 감소 동시성 이슈 해결](https://velog.io/@ssbin0916/Redis-%EB%B6%84%EC%82%B0-%EB%9D%BD%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-%EC%9E%AC%EA%B3%A0-%EA%B0%90%EC%86%8C-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%9D%B4%EC%8A%88-%ED%95%B4%EA%B2%B0)
 
 - **문제**
