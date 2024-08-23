@@ -4,8 +4,8 @@ spring:
       on-profile: dev
 
   datasource:
-    url: jdbc:h2:tcp://localhost/./guitarshop
-#    url: jdbc:h2:mem:test;
+#    url: jdbc:h2:tcp://localhost/./guitarshop
+    url: jdbc:h2:mem:test;
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -27,7 +27,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
@@ -39,7 +39,7 @@ logging.level:
   org.hibernate.SQL: debug
 
 server:
-  port: 8081
+  port: 8080
 
 autocomplete:
   limit: 10
