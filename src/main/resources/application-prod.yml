@@ -20,7 +20,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
@@ -32,7 +32,7 @@ logging.level:
   org.hibernate.SQL: debug
 
 server:
-  port: 8081
+  port: 8080
 #  address: 0.0.0.0
 
 autocomplete:
