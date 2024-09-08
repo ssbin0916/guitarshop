@@ -12,7 +12,7 @@
 
 ## 사용 기술
 
-JAVA17, Spring Boot, Spring Security JWT, MySQL, JPA, Querydsl, Redis
+Java17, Spring Boot, Spring Security JWT, MySQL, JPA, QueryDSL, Redis
 
 <br>
 
